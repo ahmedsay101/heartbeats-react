@@ -1,0 +1,104 @@
+.menu {
+    width: 240px;
+    background-color: #212121;
+    height: calc(100vh - 60px);
+    position: fixed;
+    top: 60px;
+    padding: 10px 0px 95px 0px;
+    overflow-y: auto;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-self: flex-start
+}
+.menuItem {
+    width: 100%;
+    height: 50px;
+    min-height: 50px;
+    padding: 0px 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+}
+.menuItem:hover {
+    background-color: #313131;
+}
+.menuText {
+    color: #eee;
+    font-size: 15px;
+    font-weight: 500;
+}
+.menuIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 25px;
+}
+.menu::-webkit-scrollbar {
+    width: 7px;
+}
+.menu::-webkit-scrollbar-track {
+    background: #212121;
+}
+.menu::-webkit-scrollbar-thumb {
+    background: #313131;
+    border-radius: 5px;
+}
+.menu::-webkit-scrollbar-thumb:hover {
+    background: #313131;
+}
+.menu .active {
+    background-color: blueviolet;
+}
+.footer {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    color: #8e8e8e;
+    font-size: 13px;
+    font-weight: 400;
+    border-top: 1px solid #444;
+    margin-top: 15px;
+}
+.footerLink {
+    margin: 0px 5px;
+    text-decoration: none;
+    color: #8e8e8e;
+    font-size: 13px;
+    font-weight: 400;
+}
+.footerLink:hover {
+    text-decoration: underline;
+    color: #8e8e8e;
+}
+.footerLink:active {
+    text-decoration: underline;
+    color: #8e8e8e;
+}
+.userSec {
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+.img {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.name {
+    font-size: 20px;
+    color: #eee;
+    font-weight: 700;
+    cursor: context-menu;
+    user-select: none;
+    padding: 5px;
+}

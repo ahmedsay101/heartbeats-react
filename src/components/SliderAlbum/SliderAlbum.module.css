@@ -1,0 +1,80 @@
+.container {
+    height: 110px;
+    padding: 5px;
+}
+.inside {
+    width: 100%;
+    height: 100%;
+    background-color: #414141;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+}
+.albumImg {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    user-select: none;
+}
+.albumImg * {
+    user-select: none;
+}
+.albumImg:hover .modal {
+    opacity: 1;
+}
+.imgHolder {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border-radius: 3px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.modal {
+    background-color: rgba(41, 41, 41, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+    cursor: pointer;
+}
+.play {
+    width: 17px;
+    height: 17px;
+    pointer-events: none;
+}
+.data {
+    flex: 1;
+    padding: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.name {
+    font-size: 15px;
+    color: #eee;
+    padding: 5px 3px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.secondary {
+    font-size: 11px;
+    color: rgb(150, 150, 150);
+    padding: 3px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.secondary:hover {
+    text-decoration: underline;
+}
+.playing {
+    color: #ff8080;
+    font-weight: 700;
+}

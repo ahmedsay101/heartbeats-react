@@ -1,0 +1,45 @@
+.volumeBarContainer {
+    width: 50px;
+    height: 150px;
+    border-radius: 4px;
+    background: #444;
+    border: 1px solid #cccccc;
+    display: none;
+    position: fixed;
+    z-index: 1004;
+}
+.insideVolumeBar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.volumeBar {
+    width: 7px;
+    height: 80%;
+    border-radius: 4px;
+    background: #777;
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+}
+.volumeBarProgress {
+    width: 100%;
+    height: 100px;
+    border-radius: 4px;
+    background-color: #ff8080;
+    position: relative;
+}
+.volumeBarBall {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #eee;
+    position: absolute;
+    top: 0;
+    transform: translate(-29%,-50%);
+}
+.hide {
+    display: none;
+}

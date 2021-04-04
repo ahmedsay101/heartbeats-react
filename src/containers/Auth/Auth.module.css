@@ -1,0 +1,63 @@
+.mainContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.authContainer {
+    position: relative;
+    width: 350px;
+    height: auto;
+    background-color: #dadada;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.btnContainer {
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.mainText {
+    color: #181818;
+    font-weight: 700;
+    font-size: 22px;
+}
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.switchText {
+    font-size: 12px;
+    font-weight: 500;
+    color: #181818;
+    margin-top: 10px;
+}
+.form {
+    width: 100%;
+    display: flex; 
+    flex-direction: column;
+}
+.link {
+    margin-top: 10px;
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}

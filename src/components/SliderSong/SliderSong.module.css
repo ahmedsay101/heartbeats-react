@@ -1,0 +1,63 @@
+.container {
+    height: 200px;
+    padding: 5px;
+    user-select: none;
+}
+.SliderSong {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+}
+.SliderSongModal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 61, 61, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 500ms ease-out;
+    user-select: none;
+}
+.SliderSong:hover .SliderSongModal {
+    opacity: 1;
+}
+.SliderSongModal * {
+    user-select: none;
+    pointer-events: none;
+}
+.playIcon {
+    width: 15px; 
+    height: 15px;
+}
+.songData {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+}
+.songName {
+    color: #eee;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 3px 0px;
+}
+.artistName {
+    color: #dadada;
+    font-size: 11px;
+    font-weight: 500;
+}

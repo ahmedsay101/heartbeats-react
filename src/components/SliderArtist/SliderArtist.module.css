@@ -1,0 +1,31 @@
+.artistContainer {
+    height: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+.artistContainer * {
+    user-select: none;
+    pointer-events: none;
+}
+.artistImg {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.artistName {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    color: #eee;
+    font-size: 18px;
+    font-weight: 500;
+}

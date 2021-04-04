@@ -1,0 +1,96 @@
+.button1 {
+    width: 150px;
+    height: 40px;
+    background-color: #ff8080;
+    color: #eee;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.search {
+    width: 60px;
+    height: 30px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #dadada;
+    border-left: 1px solid #bbb;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.search:focus {
+    border-left: 1px solid #bbb;
+}
+.shuffle {
+    margin: 0px 15px 0px 20px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.repeat {
+    margin: 0px 20px 0px  15px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.next-prev {
+    margin: 0px 15px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.play {
+    width: 35px;
+    height: 35px;
+    margin: 0px 15px;
+    border-radius: 50%;
+    background: #ff8080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.audioOptions {
+    background-color: transparent;
+    margin: 0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+.queueOptions {
+    background-color: transparent;
+    margin: 0px 7px;
+    width: auto;
+    height: auto;
+}
+.sliderButton {
+    width: 35px;
+    height: 35px;
+    background: #dadada;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1000;
+    top: 60%;
+    transform: translate(0, -50%);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.sliderButton:hover {
+    background: #bdbdbd;
+}
+.sliderButton:active {
+    width: 30px;
+    height: 30px;
+}

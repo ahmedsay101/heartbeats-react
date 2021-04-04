@@ -1,0 +1,40 @@
+.songData {
+    width: 300px;
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+.flexStart {
+    justify-content: flex-start;
+}
+.centerFlex {
+    justify-content: center;
+}
+.imgHolder {
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.flexColumn {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.AudioPlayerSongName {
+    font-size: 14px;
+    font-weight: 400;
+    color: #eee;
+    margin-bottom: 3px;
+}
+.AudioPlayerArtistName {
+    font-size: 11px;
+    font-weight: 400;
+    color: #acacac;
+}

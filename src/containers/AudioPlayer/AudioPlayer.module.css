@@ -1,0 +1,28 @@
+.audioContainer {
+    width: 90%;
+    height: 70px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #383838;
+    position: fixed;
+    z-index: 1003;
+    bottom: 15px;
+    left: 5%;
+    display: flex;
+    user-select: none;
+}
+.audioContainer * {
+    user-select: none;
+}
+.audioControls {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.hidden {
+    display: none;
+}
+

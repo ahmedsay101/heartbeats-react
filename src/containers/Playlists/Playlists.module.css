@@ -1,0 +1,55 @@
+.playlists {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    width: 100%;
+    height: auto;
+    padding: 5px 0px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mainText {
+    font-size: 28px;
+    color: #eee;
+    font-weight: 700;
+    margin-right: 20px;
+}
+.icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+}
+.button {
+    width: 160px;
+    height: 50px;
+    color: #eee;
+    font-size: 15px;
+    font-weight: 500;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    border: 2px solid #eee;
+    cursor: pointer;
+}
+.content {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.noPlaylists {
+    color: #aaa;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 100px 10px;
+}
