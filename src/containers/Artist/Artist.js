@@ -24,6 +24,24 @@ class Artist extends Component {
 
     componentDidMount() {
         this.init(this.props.match.params.id);
+        window.addEventListener('like', this.onLikeHandler);
+    }
+
+    onLikeHandler = e => {
+        if(this.state.songsArray.map(song => song.id).includes(e.detail.id)) {
+            const newSongs = this.state.songsArray.map(song => {
+                if(song.id == e.detail.id) {
+                    return {
+                        ...song,
+                        isLiked: e.detail.like
+                    }
+                }
+                else {
+                    return song;
+                }
+            });
+            this.setState({songsArray: newSongs});
+        }
     }
 
     componentWillReceiveProps(prevProps) {
@@ -60,7 +78,12 @@ class Artist extends Component {
 
     play = () => {
         if(!this.state.songIds.includes(this.props.currentSong.id)) {
-            this.props.setTrack(this.state.songIds[0], this.state.songIds, true);
+            this.props.setTrack({
+                id: this.state.songIds[0],
+                playlist: this.state.songIds,
+                play: true,
+                uploads: false
+            });
         }
         else {
             this.props.setPlay(!this.props.play);
@@ -110,7 +133,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        setTrack: (id, playlist, play) => dispatch(setNewSong(id, playlist, play)),
+        setTrack: (data) => dispatch(setNewSong(data)),
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play})
 
     }

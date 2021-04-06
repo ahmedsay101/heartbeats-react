@@ -12,8 +12,8 @@ function UploadedSong(props) {
     const current = props.currentSong.id === props.data.id && props.playingFromUploads;
 
     const play = e => {
+        console.log(props.data.playlist);
         if(e.target.id !== 'notClickable') {
-            console.log("clicked");
             props.setTrack({
                 id: props.data.id,
                 playlist: props.data.playlist,

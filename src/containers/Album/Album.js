@@ -24,6 +24,24 @@ class Album extends Component {
 
     componentDidMount() {
         this.init(this.props.match.params.id);
+        window.addEventListener('like', this.onLikeHandler);
+    }
+
+    onLikeHandler = e => {
+        if(this.state.songs.map(song => song.id).includes(e.detail.id)) {
+            const newSongs = this.state.songs.map(song => {
+                if(song.id == e.detail.id) {
+                    return {
+                        ...song,
+                        isLiked: e.detail.like
+                    }
+                }
+                else {
+                    return song;
+                }
+            });
+            this.setState({songs: newSongs});
+        }
     }
 
     componentWillReceiveProps(prevProps) {

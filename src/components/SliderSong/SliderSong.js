@@ -15,11 +15,16 @@ function SliderSong(props) {
     }
     const playSong = e => {
         if(mousePosition !== e.clientX) return;
-        if(props.currentSong.id == props.data.id) {
+        if(props.currentSong.id == props.data.id && !props.playingFromUploads) {
             props.setPlay(!props.play);
         }
         else {
-            props.setTrack(props.data.id, props.playlist, true);
+            props.setTrack({
+                id: props.data.id,
+                playlist: props.playlist,
+                play: true,
+                uploads: false
+            });
         }
     }
     return (
@@ -52,12 +57,13 @@ const mapStateToProps = state => {
     return {
         play: state.audioPlaying,
         currentSong: state.currentSong,
+        playingFromUploads: state.playingFromUploads,
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play}),
-        setTrack: (id, playlist, play) => dispatch(setNewSong(id, playlist, play))
+        setTrack: (data) => dispatch(setNewSong(data))
     }
 }
 

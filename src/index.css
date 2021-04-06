@@ -14,8 +14,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 body {
   background-color: #111111;
@@ -27,6 +26,8 @@ button, input {
 }
 button {
   cursor:pointer;
+  border: none;
+  outline: none;
 }
 button:focus {
   border: none;
@@ -35,8 +36,6 @@ button:focus {
 a {
   text-decoration: none;
   display: block;
-  margin: 0;
-  padding: 0;
 }
 a:active {
   text-decoration: none;
@@ -110,4 +109,8 @@ a:active {
 .upIc {
   width: 17px;
   height: 17px;
+}
+.fontPlaying {
+  color: #ff8080;
+  font-weight: 700;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Playlist.module.css';
 import PlaylistSong from '../../components/PlaylistSong/PlaylistSong';
 
@@ -8,15 +8,15 @@ function Playlist(props) {
     let songs = null;
 
     if(props.songsArray) {
-        const playlist = props.songsArray.map(song => {
-            return song.id;
-        });
+        const playlist = props.songsArray.map(song => song.id);
+        
         songs = props.songsArray.map(song => {
             return (
                 <PlaylistSong key={Math.random()*11} data={song} playlist={playlist} />
             );
         });
     }
+    
     const loadingTemp = Array.apply(null, { length: 5 }).map((e, i) => (
         <React.Fragment key={i}>
             <div className={styles.loadingTemp}>

@@ -42,6 +42,7 @@ class AudioPlayer extends Component {
         mute: (parseFloat(localStorage.getItem("volume")) === 0 ? true : false),
         started: false,
         currentSong: {},
+        isLiked: null,
         playing: null,
         currentIndex: 0,
         queueShown: false,
@@ -178,18 +179,26 @@ class AudioPlayer extends Component {
                 $("body").css({ "user-select" : "auto" });
             }
         });
+
+        window.addEventListener('like', e => {
+            if(e.detail.id == this.state.currentSong.id) {
+                this.setState({isLiked: e.detail.like});
+            }
+        });
 }
 
     componentWillReceiveProps(props) {
         if(props.currentSong !== this.state.currentSong || props.currentIndex !== this.state.currentIndex) {
             this.setState({
                 currentSong: props.currentSong,
-                currentIndex: props.currentIndex
+                currentIndex: props.currentIndex,
+                isLiked: props.currentSong.isLiked
             });
             if(this.audio && this.audio.current) {
                 this.audio.current.src = props.currentSong.url;
             }
         }
+    
         if(props.play !== this.state.playing) {
             console.log("play "+props.play)
             this.setState({playing: props.play});
@@ -327,7 +336,6 @@ class AudioPlayer extends Component {
     }
 
     setNew = (data) => {
-        console.log(this.state.playingFromUploads);
         if(this.state.currentSong.id == data.id && data.uploads === this.state.playingFromUploads) return;
         this.setState({started: false});
         this.props.setTrack(data);
@@ -335,10 +343,7 @@ class AudioPlayer extends Component {
 
     likeHandler = async () => {
         if(this.state.playingFromUploads) return;
-        const likePromise = await changeLike(this.props.currentSong.id, this.props.currentSong.isLiked);
-        if(!likePromise.error && likePromise.change) {
-            this.props.changeLike(likePromise.like);
-        }
+        const likePromise = await changeLike(this.state.currentSong.id, this.state.isLiked);
     }
 
     nextSong = () => {
@@ -527,7 +532,7 @@ class AudioPlayer extends Component {
                 onVolume={this.onVolumeButtonClick}
                 volume={this.state.volume}
                 mute={this.state.mute}
-                isLiked={this.state.currentSong.isLiked}
+                isLiked={this.state.isLiked}
                 queueButtonRef={this.queueButton}
                 volumeButtonRef={this.volumeButton}
                 />

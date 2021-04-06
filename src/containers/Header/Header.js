@@ -29,6 +29,31 @@ class Header extends Component {
                 }
             }
         });
+        window.addEventListener('like', this.onLikeHandler);
+    }
+
+    onLikeHandler = e => {
+        if(this.state.searchResults.length < 1) return;
+        const songs = this.state.searchResults.filter(item => item.type.toLowerCase() === 'song').map(song => song.id);
+        if(songs.includes(e.detail.id)) {
+            const newResults = this.state.searchResults.map(result => {
+                if(result.type.toLowerCase() === 'song') {
+                    if(result.id == e.detail.id) {
+                        return {
+                            ...result,
+                            isLiked: e.detail.like
+                        }
+                    }
+                    else {
+                        return result;
+                    }
+                }
+                else {
+                    return result;
+                }
+            });
+            this.setState({searchResults: newResults});
+        }
     }
 
     onSearch = (e) => {

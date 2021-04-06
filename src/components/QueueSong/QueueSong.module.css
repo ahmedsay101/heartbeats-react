@@ -1,0 +1,67 @@
+.song {
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    margin: 5px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.song:hover {
+    background: #555;
+}
+.songData {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.songImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.songName {
+    flex: 1;
+    color: #eee;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0px 5px;
+}
+.artist {
+    width: 30%;
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.artist:hover {
+    text-decoration: underline;
+}
+.options {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.icon {
+    width: 15px;
+    height: 15px;
+}
+.playing {
+    color: #ff8080;
+    font-weight: 700;
+}
+.uploadIcon {
+    width: 17px;
+    height: 17px;
+}

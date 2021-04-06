@@ -6,7 +6,6 @@ import Spinner from '../Spinner/Spinner';
 import upload from '../../assets/upload.svg';
 
 function SongData(props) {
-    console.log(props.uploads);
     let artist, img;
     if(props.uploads) {
         artist = <span className={styles.AudioPlayerArtistName}>From Uploads</span>;

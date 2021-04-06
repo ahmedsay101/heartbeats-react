@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styles from './SearchSong.module.css';
 import { Link } from 'react-router-dom';
 
@@ -17,25 +17,10 @@ import Button from '../Button/Button';
 
 
 function SearchSong(props) {
-    const current = props.currentSong.id === props.songData.id;
-    const [isLiked, setLike] = useState(props.songData.isLiked);
-
-    useEffect(() => {
-        if(current) {
-            if(props.currentSong.isLiked !== isLiked) {
-                setLike(props.currentSong.isLiked);
-            }
-        }
-
-    }, [props.currentSong]);
-
-    const likeHandler = (songId, isLiked) => {
-        changeLike(songId, isLiked).then(res => {
-            let liked = res.config.method.toLowerCase() === "post" ? true : false;
-            setLike(liked);
-            if(current) props.changeLike(liked);
-        });
-
+    const current = props.currentSong.id === props.songData.id && !props.playingFromUploads;
+    
+    const likeHandler = async (songId, isLiked) => {
+        const likePromise = await changeLike(songId, isLiked);
     }
 
     const playSong = () => {
@@ -43,7 +28,7 @@ function SearchSong(props) {
             props.setPlay(!props.play);
         }
         else {
-            props.setTrack(props.songData.id, props.currentPlaylist, true);
+            props.setTrack({id: props.songData.id, playlist: props.currentPlaylist, play: true, uploads: false});
         }
     }
 
@@ -58,8 +43,8 @@ function SearchSong(props) {
                 <Button shape="queueOptions" click={playSong}>
                     {(props.play && current ? <img src={pause} className={styles.optionsImg} /> : <img src={play} className={styles.optionsImg} />)}
                 </Button>
-                <Button shape="queueOptions" click={(id, like) => likeHandler(props.songData.id, isLiked)}>
-                    {(isLiked ? <img src={liked} className={styles.optionsImg} /> : <img src={like} className={styles.optionsImg} />)}
+                <Button shape="queueOptions" click={(id, like) => likeHandler(props.songData.id, props.songData.isLiked)}>
+                    {(props.songData.isLiked ? <img src={liked} className={styles.optionsImg} /> : <img src={like} className={styles.optionsImg} />)}
                 </Button>     
                 <Button shape="queueOptions">
                     <img src={options} className={styles.optionsImg} />
@@ -74,7 +59,8 @@ const mapStateToProps = state => {
         play: state.audioPlaying,
         currentSong: state.currentSong,
         currentPlaylist: state.currentPlaylist,
-        currentIndex: state.currentIndex
+        currentIndex: state.currentIndex,
+        playingFromUploads: state.playingFromUploads
     }
 }
 const mapDispatchToProps = dispatch => {
