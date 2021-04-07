@@ -114,3 +114,24 @@ a:active {
   color: #ff8080;
   font-weight: 700;
 }
+.sec_title {
+  font-size: 25px;
+  padding: 20px 5px;
+  color:#eee;
+  font-weight: 500;
+}
+.pageMainTitle {
+  font-size: 30px;
+  padding: 5px;
+  color:#eee;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.details {
+  font-size: 14px;
+  padding: 3px 5px;
+  color:#aaa;
+  font-weight: 400;
+}

@@ -1,0 +1,55 @@
+.header {
+    width: 100%;
+    height: auto;
+    padding: 15px 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid #6666;
+}
+.img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 50px;
+    cursor: pointer;
+}
+.data {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.basicData {
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.play {
+    width: 16px;
+    height: 16px;
+    margin: 0px 20px;
+    cursor: pointer;
+}
+.followBtn {
+    width: 130px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 20px 5px 5px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #ff8080;
+    margin-right: 10px;
+    cursor: pointer;
+}

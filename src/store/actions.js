@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const setNewSong = (play) => {
+    console.log(play.shuffle);
     return (dispatch, getState) => {
         if(getState().currentSong.id === play.id && getState.playingFromUploads === play.uploads) return;
         dispatch(setFetchingSong(true));
@@ -14,7 +15,8 @@ export const setNewSong = (play) => {
                 songData: songData,
                 playlist: play.playlist,
                 play: play.play,
-                uploads: play.uploads
+                uploads: play.hasOwnProperty('uploads') ? play.uploads : false,
+                shuffle: play.hasOwnProperty('shuffle') ? play.shuffle : false
             }));
         })
         .catch(err => {
@@ -37,7 +39,8 @@ export const setTrack = (play) => {
         playlist: play.playlist, 
         play: play.play, 
         index: play.playlist.indexOf(play.songData.id),
-        playingFromUploads: play.uploads
+        playingFromUploads: play.uploads,
+        shuffle: play.shuffle
     }
 }
 

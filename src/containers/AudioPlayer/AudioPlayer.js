@@ -198,6 +198,12 @@ class AudioPlayer extends Component {
                 this.audio.current.src = props.currentSong.url;
             }
         }
+
+        console.log(props);
+
+        if(props.shuffle !== this.state.shuffle) {
+            this.setState({shuffle: props.shuffle});
+        }
     
         if(props.play !== this.state.playing) {
             console.log("play "+props.play)
@@ -372,7 +378,7 @@ class AudioPlayer extends Component {
             id: this.props.currentPlaylist[index], 
             playlist: this.props.currentPlaylist, 
             play: true,
-            uploads: this.state.playingFromUploads
+            shuffle: this.state.shuffle
         });
     }
     
@@ -410,7 +416,7 @@ class AudioPlayer extends Component {
             id: this.props.currentPlaylist[index], 
             playlist: this.props.currentPlaylist, 
             play: true,
-            uploads: this.state.uploads
+            shuffle: this.state.shuffle
         });
     }
 
@@ -556,7 +562,8 @@ const mapStateToProps = state => {
         currentIndex: state.currentIndex,
         queue: state.showQueue,
         fetchingSong: state.fetchingSong,
-        playingFromUploads: state.playingFromUploads
+        playingFromUploads: state.playingFromUploads,
+        shuffle: state.shuffle
     }
 }
 const mapDispatchToProps = dispatch => {

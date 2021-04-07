@@ -7,7 +7,8 @@ const iniState = {
     showQueue: false,
     fetchingSong: true,
     userShouldUpdate: false,
-    playingFromUploads: false
+    playingFromUploads: false,
+    shuffle: false
 }
 
 const reducer = (state = iniState, action) => {
@@ -30,7 +31,8 @@ const reducer = (state = iniState, action) => {
                 audioPlaying: action.play,
                 currentIndex: action.index,
                 fetchingSong: action.fetchingSong,
-                playingFromUploads: action.playingFromUploads
+                playingFromUploads: action.playingFromUploads,
+                shuffle: action.shuffle
             }
         case "SET_FETCHING_SONG": 
             return {

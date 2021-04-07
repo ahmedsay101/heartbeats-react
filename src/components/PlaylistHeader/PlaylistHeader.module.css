@@ -1,0 +1,118 @@
+.header {
+    width: 100%;
+    height: auto;
+    padding: 15px 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;    
+    border-bottom: 1px solid #6666;
+}
+.main {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.options {
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.placeholder {
+    width: 150px;
+    height: 150px;
+    background: #666;
+    border: 5px solid #aaa;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+.img {
+    width: 150px;
+    height: 150px;
+    border-radius: 7px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.data {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.basicData {
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.play {
+    width: 15px;
+    height: 15px;
+    margin: 0px 20px;
+    cursor: pointer;
+}
+.options {
+    width: 100%;
+    height: 50px;
+    padding: 15px 5px 5px 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.shuffleBtn {
+    width: 130px;
+    height: 100%;
+    display: flex;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #ff8080;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.shuffleBtn:hover {
+    background-color: #e27171;
+}
+.cantShuffle {
+    background-color: #c96363;
+    cursor: context-menu;
+}
+.cantShuffle:hover {
+    background-color: #c96363;
+    cursor: context-menu;
+}
+.optionsBtn {
+    width: 25px;
+    height: 100%;
+    border-radius: 3px;
+    background-color: #dadada;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.optionsIcon {
+    width: 17px;
+    height: 17px;
+}
+.playlistIcon {
+    width: 15px;
+    height: 15px;
+}

@@ -4,7 +4,7 @@ import PlaylistSong from '../../components/PlaylistSong/PlaylistSong';
 
 
 function Playlist(props) {
-    let title = (props.title ? <div className={styles.header}><span className={styles.title}>{props.title}</span></div> : null);
+    let title = (props.title ? <div className={styles.header}><span className='sec_title'>{props.title}</span></div> : null);
     let songs = null;
 
     if(props.songsArray) {

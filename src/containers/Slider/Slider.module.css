@@ -7,12 +7,6 @@
     align-items: flex-start;
     position: relative;
 }
-.mainText {
-    font-size: 25px;
-    padding: 20px 5px;
-    color:#eee;
-    font-weight: 700;
-}
 .sliderContainer {
     width: 100%;
     position: relative;

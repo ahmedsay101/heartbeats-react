@@ -11,6 +11,7 @@ import {setNewSong} from '../../store/actions';
 
 import play from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
+import ArtistHeader from '../../components/ArtistHeader/ArtistHeader';
 
 class Artist extends Component {
     state = {
@@ -76,20 +77,6 @@ class Artist extends Component {
         });
     }
 
-    play = () => {
-        if(!this.state.songIds.includes(this.props.currentSong.id)) {
-            this.props.setTrack({
-                id: this.state.songIds[0],
-                playlist: this.state.songIds,
-                play: true,
-                uploads: false
-            });
-        }
-        else {
-            this.props.setPlay(!this.props.play);
-        }
-    }
-
     render() {
         let content;
         if(this.state.loading) {
@@ -97,21 +84,9 @@ class Artist extends Component {
         }
         else {
             content = <React.Fragment>
-            <div className={styles.artistData}>
-                <div className={styles.img} style={{backgroundImage: "url("+this.state.artistData.imgUrl+")"}}></div>
-                <div className={styles.data}>
-                    <div className={styles.basicData}>
-                        <span className={styles.name}>
-                            {this.state.artistData.name}
-                            {(this.state.songIds.includes(this.props.currentSong.id) && this.props.play ? <img src={pause} className={styles.play} onClick={this.play} /> : <img src={play} className={styles.play}  onClick={this.play}/>)}
-                        </span>
-                        <span className={styles.sec}>{`${this.state.songsArray.length} Songs, ${this.state.albums.length} Albums`}</span>
-                        <span className={styles.sec}>{`${this.state.artistData.plays} Plays`}</span>
-                    </div>
-                </div>
-            </div>
-            <Slider itemLength="3" itemType="album" title="Albums" items={this.state.albums} /> 
-            <Playlist title="Popular Songs" songsArray={this.state.songsArray} />
+                <ArtistHeader artistData={this.state.artistData} songIds={this.state.songIds} albumsLength={this.state.albums.length} />
+                <Slider itemLength="3" itemType="album" title="Albums" items={this.state.albums} /> 
+                <Playlist title="Popular Songs" songsArray={this.state.songsArray} />
             </React.Fragment>;        
         }
 

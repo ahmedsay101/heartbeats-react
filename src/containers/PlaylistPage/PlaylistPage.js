@@ -14,6 +14,7 @@ import options from '../../assets/options.svg';
 import play from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import playlist from '../../assets/playlist.svg';
+import PlaylistHeader from '../../components/PlaylistHeader/PlaylistHeader';
 
 
 class PlaylistPage extends Component {
@@ -22,7 +23,7 @@ class PlaylistPage extends Component {
         playlistData: {},
         songs: [],
         artists: [],
-        artistImg: null,
+        img: null,
         userData: null,
         id: null,
         noSongs: null
@@ -63,8 +64,7 @@ class PlaylistPage extends Component {
             axios({method: "GET", url: "playlists/"+id+"/songs"}),
         ];
         Promise.all(promises).then( response => {
-            console.log(response);
-            let playlistData, songs, noSongs, artistImg, artists;
+            let playlistData, songs, noSongs, img, artists;
 
             if(response[0].status === 404) {
                 this.props.history.push('/notFound');
@@ -81,7 +81,7 @@ class PlaylistPage extends Component {
                 else {
                     noSongs = false;
                     songs = response[1].data.data.songs;
-                    artistImg = response[1].data.data.songs[0].artistImg;
+                    img = response[1].data.data.songs[0].imgUrl;
                 }
             }
 
@@ -100,7 +100,7 @@ class PlaylistPage extends Component {
                 playlistData: playlistData,
                 songs: songs,
                 artists: artists,
-                artistImg: artistImg,
+                img: img,
                 noSongs: noSongs,
                 loading: false
             });
@@ -117,49 +117,24 @@ class PlaylistPage extends Component {
         });
     }
 
-    play = () => {
-        if(this.state.playlistData.songIds === null) return;
-        if(!this.state.playlistData.songIds.includes(this.props.currentSong.id)) {
-            this.props.setTrack(this.state.playlistData.songIds[0], this.state.playlistData.songIds, true);
-        }
-        else {
-            this.props.setPlay(!this.props.play);
-        }
-    }
-
     render() {
         let content;
         if(this.state.loading) {
             content = <Spinner shape="buttonSpinner" />;
         }
         else if(!this.state.loading){
-            let songs, img;
+            let songs;
             if(this.state.noSongs) {
                 songs = <span className={styles.noSongs}>This Playlist Has No Songs</span>;
-                img =  <div className={styles.placeholder}><img src={playlist} style={{width: '17px', height: '17px'}} /></div>;
             }
             else {
                 songs = <React.Fragment>
                             <Playlist songsArray={this.state.songs} />
                             <Slider itemLength="4" itemType="artist" title="Artists In This Playlist" items={this.state.artists} /> 
                         </React.Fragment>;
-                img = <div className={styles.img} style={{backgroundImage: `url(${this.state.artistImg})`}}></div>
             }
             content = <React.Fragment>
-            <div className={styles.playlistData}>
-                {img}
-                <div className={styles.data}>
-                    <div className={styles.basicData}>
-                        <span className={styles.name}>
-                            {this.state.playlistData.name}
-                            {(this.state.playlistData.songIds !== null && this.state.playlistData.songIds.includes(this.props.currentSong.id) && this.props.play ? <img src={pause} className={styles.play} onClick={this.play} /> : <img src={play} className={styles.play}  onClick={this.play}/>)}
-                        </span>
-                        <span className={styles.sec}>{`${this.state.playlistData.songIds !== null && this.state.playlistData.songIds.length > 0 ? this.state.playlistData.songIds.length : 'No'} Songs`}</span>
-                        <span className={styles.sec}>{`Created at ${this.state.playlistData.date}`}</span>
-                    </div>
-                    <div className={styles.options}><Button shape="queueOptions"><img src={options} className={styles.optionsIcon}/></Button></div>
-                </div>
-            </div>
+            <PlaylistHeader playlistData={this.state.playlistData} noSongs={this.state.noSongs} img={this.state.img} />
             <div className={styles.playlistContent}>
                 {songs}
             </div>

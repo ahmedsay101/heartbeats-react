@@ -222,7 +222,7 @@ class Slider extends Component {
 
         return (
             <div className={styles.mainRow}>
-                <h2 className={styles.mainText}>{this.props.title}</h2>
+                <span className='sec_title'>{this.props.title}</span>
                 <Button shape="sliderButton" otherClasses="next" forwardedRef={this.nextButton} click={this.moveLeft} customStyle={{"display": (!this.state.isSlider ? "none" : "flex"), "top": (this.props.itemType === "album" ? "65%" : "60%")}}><img src={rightArrow} className={styles.sliderArrow}/></Button>
                 <Button shape="sliderButton" otherClasses="back" forwardedRef={this.backButton} click={this.moveRight} customStyle={{"display": (!this.state.isSlider ? "none" : "flex"), "top": (this.props.itemType === "album" ? "65%" : "60%")}}><img src={leftArrow} className={styles.sliderArrow}/></Button>
                 <div className={styles.sliderContainer} ref={this.container} style={{"height": this.state.itemHeight + "px"}}>
