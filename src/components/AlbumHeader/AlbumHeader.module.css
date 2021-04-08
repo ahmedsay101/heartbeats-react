@@ -23,17 +23,6 @@
     justify-content: flex-start;
     align-items: center;
 }
-.placeholder {
-    width: 150px;
-    height: 150px;
-    background: #666;
-    border-radius: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 30px;
-    cursor: pointer;
-}
 .img {
     width: 150px;
     height: 150px;
@@ -114,4 +103,14 @@
 .playlistIcon {
     width: 15px;
     height: 15px;
+}
+.artistLink {
+    text-decoration: none;
+    font-size: 14px;
+    color:#aaa;
+    font-weight: 400;
+    padding: 0px 5px;
+}
+.artistLink:hover {
+    text-decoration: underline;
 }

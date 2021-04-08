@@ -47,9 +47,17 @@
     justify-content: center;
     align-items: center;
     color: #eee;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     background-color: #ff8080;
     margin-right: 10px;
     cursor: pointer;
+}
+.followBtn:hover {
+    background-color: #e27171;
+}
+.checked {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
 }

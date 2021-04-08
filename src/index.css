@@ -130,8 +130,10 @@ a:active {
   align-items: center;
 }
 .details {
+  display: flex;
   font-size: 14px;
   padding: 3px 5px;
   color:#aaa;
   font-weight: 400;
+  user-select: none;
 }

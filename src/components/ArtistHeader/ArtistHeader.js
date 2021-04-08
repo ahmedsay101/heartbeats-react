@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import styles from './ArtistHeader.module.css';
 
-import more from '../../assets/more.svg';
+import checked from '../../assets/checked.svg';
 import playIcon from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import {setNewSong} from '../../store/actions';
 
 const ArtistHeader = props => {
+    const [following, setFollowing] = useState(null);
+
+    useEffect(() => {
+        axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`}).then(res => {
+            console.log(res);
+            if(res.data.data.map(artist => artist.id).includes(props.artistData.id)) {
+                setFollowing(true);
+            }
+            else {
+                setFollowing(false);
+            }
+        }).catch(err => console.log(err));
+    }, []);
 
     const play = () => {
         if(!props.songIds.includes(props.currentSong.id)) {
@@ -19,7 +33,34 @@ const ArtistHeader = props => {
             });
         }
         else {
-            props.setPlay(!props.play);
+            props.setPlay(!props.playing);
+        }
+    }
+
+    const follow = () => {
+        if(!following) {
+            axios({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST', 
+                url: `users/${localStorage.getItem('userId')}/artists`,
+                data: JSON.stringify({artistId: props.artistData.id})
+            }).then(res => {
+                console.log(res);
+                if(res.status === 201) {
+                    setFollowing(true);
+                }
+            }).catch(err => console.log(err));
+        }
+        else if(following) {
+            axios({method: 'DELETE', url: `users/${localStorage.getItem('userId')}/artists/${props.artistData.id}`}).then(res => {
+                console.log(res)
+                if(res.status === 200) {
+                    setFollowing(false);
+                }
+            }).catch(err => console.log(err.response));
         }
     }
 
@@ -30,10 +71,10 @@ const ArtistHeader = props => {
                 <div className={styles.basicData}>
                     <span className='pageMainTitle'>
                         {props.artistData.name}
-                        {(props.songIds.includes(props.currentSong.id) && props.play ? <img src={pause} className={styles.play} onClick={play} /> : <img src={playIcon} className={styles.play}  onClick={play}/>)}
+                        {(props.songIds.includes(props.currentSong.id) && props.playing ? <img src={pause} className={styles.play} onClick={play} /> : <img src={playIcon} className={styles.play}  onClick={play}/>)}
                     </span>
                     <span className='details'>{`${props.songIds.length} Songs | ${props.albumsLength} Albums | ${props.artistData.plays} Plays`}</span>
-                    <button className={styles.followBtn}>Follow</button>
+                    <button className={styles.followBtn} onClick={follow}>{(following ? <React.Fragment><img src={checked} className={styles.checked} /><span>Following</span></React.Fragment> : 'Follow')}</button>
                 </div>
             </div>
         </div>
@@ -43,7 +84,7 @@ const ArtistHeader = props => {
 
 const mapStateToProps = state => {
     return {
-        isPlaying: state.audioPlaying,
+        playing: state.audioPlaying,
         currentSong: state.currentSong,
         currentIndex: state.currentIndex,
         currentPlaylist: state.currentPlaylist,

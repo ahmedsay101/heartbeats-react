@@ -18,7 +18,7 @@ const PlaylistHeader = props => {
             props.setTrack({id: props.playlistData.songIds[0], playlist: props.playlistData.songIds, play: true});
         }
         else {
-            props.setPlay(!props.play);
+            props.setPlay(!props.playing);
         }
     }
 
@@ -35,7 +35,7 @@ const PlaylistHeader = props => {
     return (
         <div className={styles.header}>
             <div className={styles.main}>
-                {(props.noSongs ? <div className={styles.placeholder}><img src={playlist} style={{width: '17px', height: '17px'}} /></div> : <div className={styles.img} style={{backgroundImage: `url(${props.img})`}}></div>)}
+                {(props.noSongs ? <div className={styles.placeholder}><img src={playlist} style={{width: '20px', height: '20px'}} /></div> : <div className={styles.img} style={{backgroundImage: `url(${props.img})`}}></div>)}
                 <div className={styles.data}>
                     <div className={styles.basicData}>
                         <span className='pageMainTitle'>

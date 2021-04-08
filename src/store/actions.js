@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 export const setNewSong = (play) => {
-    console.log(play.shuffle);
     return (dispatch, getState) => {
         if(getState().currentSong.id === play.id && getState.playingFromUploads === play.uploads) return;
+
+        let differentPlaylist = getState().currentPlaylist !== play.playlist;
         dispatch(setFetchingSong(true));
         axios({
             method: "GET",
@@ -18,6 +19,32 @@ export const setNewSong = (play) => {
                 uploads: play.hasOwnProperty('uploads') ? play.uploads : false,
                 shuffle: play.hasOwnProperty('shuffle') ? play.shuffle : false
             }));
+
+            axios({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST', 
+                url: `users/${localStorage.getItem('userId')}/plays`,
+                data: JSON.stringify({id: play.id, uploads: play.hasOwnProperty('uploads') ? play.uploads : false})
+            }).then(res => {
+                console.log(res);
+            }).catch(err => console.log(err));
+        
+            if(differentPlaylist) {
+                axios({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PATCH', 
+                    url: `users/${localStorage.getItem('userId')}`,
+                    data: JSON.stringify({lastPlaylist: play.playlist})
+                }).then(res => {
+                    console.log(res);
+                }).catch(err => console.log(err));
+            }
         })
         .catch(err => {
             console.log(err.response);

@@ -18,7 +18,7 @@ function SliderAlbum(props) {
     const playSong = e => {
         if(mousePosition !== e.clientX) return;
         if(!props.data.songIds.includes(props.currentSong.id)) {
-            props.setTrack(props.data.songIds[0], props.data.songIds, true);
+            props.setTrack({id: props.data.songIds[0], playlist: props.data.songIds, play: true});
         }
         else {
             props.setPlay(!props.play);
@@ -59,7 +59,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play}),
-        setTrack: (id, playlist, play) => dispatch(setNewSong(id, playlist, play))
+        setTrack: (data) => dispatch(setNewSong(data))
 
     }
 }

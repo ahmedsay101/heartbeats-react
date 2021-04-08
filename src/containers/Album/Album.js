@@ -11,6 +11,7 @@ import {setNewSong} from '../../store/actions';
 
 import play from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
+import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
 
 
 class Album extends Component {
@@ -98,22 +99,9 @@ class Album extends Component {
         }
         else {
             content = <React.Fragment>
-            <div className={styles.albumData}>
-                <div className={styles.img} style={{backgroundImage: "url("+this.state.albumData.imgUrl+")"}}></div>
-                <div className={styles.data}>
-                    <div className={styles.basicData}>
-                        <span className={styles.name}>
-                            {this.state.albumData.name}
-                            {(this.state.albumData.songIds.includes(this.props.currentSong.id) && this.props.play ? <img src={pause} className={styles.play} onClick={this.play} /> : <img src={play} className={styles.play}  onClick={this.play}/>)}
-                        </span>
-                        <Link to={`/artist/${this.state.albumData.artistId}`}><span className={styles.sec}>{`Artist: ${this.state.albumData.artistName}`}</span></Link>
-                        <span className={styles.sec}>{`${this.state.albumData.songIds.length} Songs`}</span>
-                        <span className={styles.sec}>{`${this.state.albumData.plays} Plays`}</span>
-                    </div>
-                </div>
-            </div>
-            <Playlist songsArray={this.state.songs} />
-            <Slider itemLength="3" itemType="album" title={`Other Albums By ${this.state.albumData.artistName}`} items={this.state.otherAlbums} /> 
+                <AlbumHeader albumData={this.state.albumData} />
+                <Playlist songsArray={this.state.songs} />
+                <Slider itemLength="3" itemType="album" title={`Other Albums By ${this.state.albumData.artistName}`} items={this.state.otherAlbums} /> 
             </React.Fragment>;        
         }
 

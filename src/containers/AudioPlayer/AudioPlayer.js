@@ -78,6 +78,7 @@ class AudioPlayer extends Component {
                     remaining: this.formatTime(this.getDuration() - this.getCurrentTime()),
                 });
             });
+
             this.audio.current.addEventListener("waiting", () => {
                 this.setState({loading: true});
             });
@@ -100,6 +101,27 @@ class AudioPlayer extends Component {
             });
 
             this.audio.current.addEventListener("ended", () => {
+                const incPlaysPromises = [
+                    axios({                
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST', 
+                    url: 'artists/plays',
+                    data: JSON.stringify({artistId: this.state.currentSong.artistId})
+                    }),
+                    axios({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }, 
+                    method: 'POST', 
+                    url: 'albums/plays',
+                    data: JSON.stringify({albumId: this.state.currentSong.albumId})
+                })]
+                Promise.all(incPlaysPromises).then(res => console.log(res)).catch(err => console.log(err.response)); 
+                
                 if(this.state.repeat) {
                     this.setTime(0);
                     this.play();
@@ -182,6 +204,7 @@ class AudioPlayer extends Component {
 
         window.addEventListener('like', e => {
             if(e.detail.id == this.state.currentSong.id) {
+                console.log("yes");
                 this.setState({isLiked: e.detail.like});
             }
         });
@@ -199,7 +222,6 @@ class AudioPlayer extends Component {
             }
         }
 
-        console.log(props);
 
         if(props.shuffle !== this.state.shuffle) {
             this.setState({shuffle: props.shuffle});

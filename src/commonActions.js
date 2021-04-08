@@ -24,7 +24,7 @@ export const changeLike = (songId, isLiked) => {
 				data: requestBody
 			})
 			.then(res => {
-				if(res.status === 200) {
+				if(res.status === 200 || res.status === 201) {
 					const likeEvent = new CustomEvent('like', {
 						detail: {
 							id: songId,
@@ -89,15 +89,21 @@ export const isAuthenticated = async () => {
 				console.log(res.data.data + " ** " + localStorage.getItem('userId'));
 				if(res.status === 200 && res.data.data == localStorage.getItem('userId')) { 
 					resolve(true);
+					const updateEvent = new CustomEvent('userShouldUpdate');
+					window.dispatchEvent(updateEvent);
 				}
 				else {
 					authFailed();
+					const updateEvent = new CustomEvent('userShouldUpdate');
+					window.dispatchEvent(updateEvent);
 					resolve(true);
 				}
 			})
 			.catch(err => {
 				console.log(err);
 				authFailed();
+				const updateEvent = new CustomEvent('userShouldUpdate');
+				window.dispatchEvent(updateEvent);
 				resolve(false);
 			});
 		}
@@ -111,6 +117,8 @@ export const isAuthenticated = async () => {
 export const authStorageExist = () => {
 	if (localStorage.getItem("sessId") === null || localStorage.getItem("accessToken") === null || localStorage.getItem("userId") === null) {
 		clearAuthStorage();
+		const updateEvent = new CustomEvent('userShouldUpdate');
+		window.dispatchEvent(updateEvent);
 		return false;
 	}
 	else {
