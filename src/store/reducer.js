@@ -8,7 +8,7 @@ const iniState = {
     fetchingSong: true,
     userShouldUpdate: false,
     playingFromUploads: false,
-    shuffle: false
+    shuffle: false,
 }
 
 const reducer = (state = iniState, action) => {
@@ -52,11 +52,6 @@ const reducer = (state = iniState, action) => {
                 ...state,
                 volume: action.volume,
                 mute: (action.volume === 0 ? true : false)
-            }
-        case "SET_USER_UPDATE": 
-            return {
-                ...state,
-                userShouldUpdate: action.update
             }
         default: 
             return state;

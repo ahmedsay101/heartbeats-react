@@ -86,7 +86,10 @@ class Artist extends Component {
             content = <React.Fragment>
                 <ArtistHeader artistData={this.state.artistData} songIds={this.state.songIds} albumsLength={this.state.albums.length} />
                 <Slider itemLength="3" itemType="album" title="Albums" items={this.state.albums} /> 
-                <Playlist title="Popular Songs" songsArray={this.state.songsArray} />
+                <Playlist title="Popular Songs" songsArray={this.state.songsArray} options={[{
+                    text: 'Add to playlist',
+                    todo: 'ADD_TO_PLAYLIST'
+                }]}/>
             </React.Fragment>;        
         }
 

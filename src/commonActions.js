@@ -1,4 +1,5 @@
 import axios from 'axios';
+import $ from 'jquery';
 
 export const randomNum = (min, max) => {
 	min = Math.ceil(min);
@@ -114,11 +115,10 @@ export const isAuthenticated = async () => {
 	});
 
 }
+
 export const authStorageExist = () => {
 	if (localStorage.getItem("sessId") === null || localStorage.getItem("accessToken") === null || localStorage.getItem("userId") === null) {
 		clearAuthStorage();
-		const updateEvent = new CustomEvent('userShouldUpdate');
-		window.dispatchEvent(updateEvent);
 		return false;
 	}
 	else {
@@ -130,9 +130,13 @@ export const logout = async () => {
 	return new Promise(resolve => {
 		axios({method: 'DELETE', url: `sessions/${localStorage.getItem('sessId')}`}).then(res => {
 			authFailed();
+			const updateEvent = new CustomEvent('userShouldUpdate');
+			window.dispatchEvent(updateEvent);
 			resolve();
 		}).catch(err => {
 			authFailed();
+			const updateEvent = new CustomEvent('userShouldUpdate');
+			window.dispatchEvent(updateEvent);
 			resolve();
 		});
 	});
@@ -188,5 +192,27 @@ export const checkValidity = (value, rules) => {
 	return {
 		isValid: isValid,
 		msg: msg
+	}
+}
+export const calculateOptionsPosition = (emitter, numOfOptions, fixed = null) => {
+	const optionHeight = 40;
+	const optionWidth = 150;
+	const optionsHeight = numOfOptions * optionHeight;
+	const scrolled = $(window).scrollTop();
+	let top = $(emitter).offset().top + $(emitter).height();
+	const left = $(emitter).offset().left - optionWidth;
+	const fromWindowTop = (top - scrolled);
+	const windowHeight = $(window).height();
+	const shouldAppearAbove = windowHeight - fromWindowTop < (optionsHeight);
+
+	if(shouldAppearAbove) top = top - optionsHeight;
+
+	if(fixed) {
+		top = top - scrolled;
+	}
+
+	return {
+		top: top,
+		left: left
 	}
 }

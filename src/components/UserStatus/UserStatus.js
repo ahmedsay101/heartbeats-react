@@ -1,15 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './UserStatus.module.css';
 import avatar from '../../assets/default-user.svg';
+import arrowDown from '../../assets/arrowDown.svg';
 import Spinner from '../Spinner/Spinner';
-import {authFailed, authStorageExist} from '../../commonActions';
+import {authFailed, authStorageExist, calculateOptionsPosition, logout} from '../../commonActions';
+import Options from '../Options/Options';
 
 function UserStatus(props) {
-
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const [showOptions, setShowOptions] = useState(false);
+    const [optionsPosition, setOptionsPosition] = useState(null);
+    const optionsBtn = useRef(null);
 
     const failed = () => {
         authFailed();
@@ -41,18 +46,37 @@ function UserStatus(props) {
         window.addEventListener("userShouldUpdate", authenticate);
     }, []);
 
+    const userOptions = [{
+        text: 'Logout', 
+        todo: logout
+    }];
+
+    const optionsClickHandler = () => {
+        setOptionsPosition(calculateOptionsPosition(optionsBtn.current, userOptions.length, true));
+        setShowOptions(!showOptions);
+    }
+
     let userStatus;
     if(loading) {
         userStatus = <Spinner shape="buttonSpinner"/>;
     }
     else if(!loading && userData !== null) {
-        userStatus = <Link to="/profile" className="link"><div className={styles.justFlex}>
+        userStatus = <React.Fragment>
+            {(showOptions ? <Options position={optionsPosition} show={setShowOptions} options={userOptions} /> : null)}
+        <div className={styles.justFlex}>
+            <Link to="/profile" className={`${styles.justFlex} link`}>
             <img src={userData.imgUrl} className={styles.userImg}/>
             <span className={styles.userText}>{userData.firstName +" "+ userData.lastName}</span>
-        </div></Link>;
+            </Link>
+            <button className={styles.imgHolder} ref={optionsBtn} onClick={optionsClickHandler}><img src={arrowDown} className={styles.arrow} /></button>
+        </div>
+        </React.Fragment>;
     }
     else if(!loading && userData === null) {  
-        userStatus = <Link to="/auth" className="link"><div className={styles.justFlex}>
+        userStatus = <Link className="link" to={{ 
+            pathname: '/auth', 
+            state: { comingFrom: window.location.pathname } 
+          }}><div className={styles.justFlex}>
             <img src={avatar} className={styles.userImg}/>
             <span className={styles.userText}>Log in</span>
         </div></Link>;

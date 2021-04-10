@@ -51,6 +51,10 @@ class Login extends Component {
 
     }
 
+    componentDidMount() {
+        console.log(this.props);
+    }
+
     checkValidity(value, rules) {
         let isValid = true;
         let msg = "";
@@ -144,7 +148,7 @@ class Login extends Component {
                 localStorage.setItem('userId', response.data.data.session.userId);
                 localStorage.setItem('accessToken', response.data.data.session.accessToken);
                 console.log(this.props);
-                this.props.history.push("/");
+                this.props.history.push(this.props.location.state.comingFrom);
             }
         })
         .catch(err => {

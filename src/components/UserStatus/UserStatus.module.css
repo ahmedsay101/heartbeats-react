@@ -30,3 +30,15 @@
 .userText:hover {
     text-decoration: underline;
 }
+.imgHolder {
+    width: auto;
+    height: auto;
+    padding: 0px 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.arrow {
+    width: 10px;
+    height: 10px;
+}

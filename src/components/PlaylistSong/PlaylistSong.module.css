@@ -6,6 +6,7 @@
     cursor: pointer;
     border-bottom: 1px solid #333;
     user-select: none;
+    position: relative;
 }
 .song:hover {
     background: #333;

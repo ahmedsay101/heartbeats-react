@@ -8,7 +8,10 @@ import playIcon from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import {setNewSong} from '../../store/actions';
 
+import {isAuthenticated} from '../../commonActions';
+
 const ArtistHeader = props => {
+    const [authenticated, setAuthenticated] = useState(null);
     const [following, setFollowing] = useState(null);
 
     useEffect(() => {
@@ -21,6 +24,7 @@ const ArtistHeader = props => {
                 setFollowing(false);
             }
         }).catch(err => console.log(err));
+        auth();
     }, []);
 
     const play = () => {
@@ -64,6 +68,11 @@ const ArtistHeader = props => {
         }
     }
 
+    const auth = async () => {
+        const isAuth = await isAuthenticated();
+        setAuthenticated(isAuth);
+    }
+
     return (
         <div className={styles.header}>
             <div className={styles.img} style={{backgroundImage: "url("+props.artistData.imgUrl+")"}}></div>
@@ -74,7 +83,7 @@ const ArtistHeader = props => {
                         {(props.songIds.includes(props.currentSong.id) && props.playing ? <img src={pause} className={styles.play} onClick={play} /> : <img src={playIcon} className={styles.play}  onClick={play}/>)}
                     </span>
                     <span className='details'>{`${props.songIds.length} Songs | ${props.albumsLength} Albums | ${props.artistData.plays} Plays`}</span>
-                    <button className={styles.followBtn} onClick={follow}>{(following ? <React.Fragment><img src={checked} className={styles.checked} /><span>Following</span></React.Fragment> : 'Follow')}</button>
+                    {( authenticated ? <button className={styles.followBtn} onClick={follow}>{(following ? <React.Fragment><img src={checked} className={styles.checked} /><span>Following</span></React.Fragment> : 'Follow')}</button> : null)}
                 </div>
             </div>
         </div>
