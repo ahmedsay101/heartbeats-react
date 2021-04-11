@@ -20,7 +20,6 @@ const UserPlaylist = props => {
 
     useEffect(() => {
         if(props.data.songIds !== null && props.data.songIds.length > 0) {
-            console.log("getting Image " + props.data.name);
             axios({
                 method: 'GET',
                 url: `songs/${props.data.songIds[0]}`

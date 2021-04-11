@@ -1,0 +1,51 @@
+.flash {
+    width: auto;
+    height: auto;
+    background-color: #ff8080;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    max-width: 80%;
+    position: absolute;
+    z-index: 99999999;
+    top: -100px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+.appear {
+    -webkit-animation: appear 0.5s forwards; 
+    animation: appear 0.5s forwards;
+}
+.disAppear {
+    -webkit-animation: disAppear 0.7s forwards; 
+    animation: disAppear 0.7s forwards;
+}
+.msg {
+    color: #eee;
+    font-weight: 400;
+    font-size: 20px;
+    user-select: none;
+}
+
+@keyframes appear {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+    to {
+        top: 120px;
+        opacity: 1;
+    }
+}
+@keyframes disAppear {
+    from {
+        top: 120px;
+        opacity: 1;
+    }
+    to {
+        top: -100px;
+        opacity: 0;
+    }
+}

@@ -8,6 +8,7 @@ import Playlist from '../Playlist/Playlist'
 import Spinner from '../../components/Spinner/Spinner';
 
 import {setNewSong} from '../../store/actions';
+import {isAuthenticated} from '../../commonActions';
 
 import play from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';

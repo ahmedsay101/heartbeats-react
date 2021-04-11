@@ -11,9 +11,13 @@ import optionsIcon from '../../assets/options.svg';
 import {setNewSong} from '../../store/actions';
 import { changeLike, calculateOptionsPosition } from '../../commonActions';
 import Options from '../Options/Options';
+import Floating from '../../containers/Floating/Floating';
+import AddToPlaylist from '../../components/AddToPlaylist/AddToPlaylist';
+
 
 function PlaylistSong(props) {
     const current = props.currentSong.id === props.data.id && !props.playingFromUploads;
+    const [addToPlaylist, setAddToPlaylist] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const [optionsPosition, setOptionsPosition] = useState(null);
     const optionsBtn = useRef(null);
@@ -38,12 +42,12 @@ function PlaylistSong(props) {
         }
     }
 
-    const addToPlaylist = () => {
-        console.log(`add to playlist`);
+    const openAddToPlaylist = (todo) => {
+        setAddToPlaylist(todo);
     }
 
     const optionsFunctions = {
-        'ADD_TO_PLAYLIST': addToPlaylist
+        'ADD_TO_PLAYLIST': (open) => openAddToPlaylist(!addToPlaylist)
     }
 
     let generatedOptions = null;
@@ -59,6 +63,7 @@ function PlaylistSong(props) {
 
     return (
         <React.Fragment>
+            {(addToPlaylist ? <Floating open={addToPlaylist} close={openAddToPlaylist}><AddToPlaylist close={openAddToPlaylist} songId={props.data.id}></AddToPlaylist></Floating>: null)}
             {(showOptions && props.options ? <Options position={optionsPosition} show={setShowOptions} options={generatedOptions} /> : null)}
             <div className={styles.song} onClick={play} >
                 <div className={styles.songData}>

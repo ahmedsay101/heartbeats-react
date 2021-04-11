@@ -9,6 +9,7 @@ const iniState = {
     userShouldUpdate: false,
     playingFromUploads: false,
     shuffle: false,
+    flashMessage: null,
 }
 
 const reducer = (state = iniState, action) => {
@@ -52,6 +53,11 @@ const reducer = (state = iniState, action) => {
                 ...state,
                 volume: action.volume,
                 mute: (action.volume === 0 ? true : false)
+            }
+        case "SET_FLASH": 
+            return {
+                ...state,
+                flashMessage: action.msg
             }
         default: 
             return state;

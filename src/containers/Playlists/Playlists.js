@@ -63,7 +63,7 @@ const Playlists = props => {
     else if(!loading && playlists){
         content = playlists.map(playlist => {
             return (
-                <UserPlaylist key={Math.random()*11} data={playlist} />
+                <UserPlaylist key={playlist.id} data={playlist} />
             );
         });
     }
