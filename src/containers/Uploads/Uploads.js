@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import {Route, Link} from 'react-router-dom';
+
 import styles from './Uploads.module.css';
 
 import UploadedSong from '../../components/UploadedSong/UploadedSong';
 
-import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
-
+import Flash from '../../components/Flash/Flash';
 import add from '../../assets/add.svg';
 
 const Uploads = props => {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
+    const [flashMsg, setFlash] = useState(null);
 
     const [songs, setSongs] = useState(null);
 
@@ -58,6 +57,20 @@ const Uploads = props => {
 
     const onSelectFile = (event) => uploadSong(event.target.files[0]);
 
+    const onDeleteSong = (id) => {
+        axios({
+            method: 'DELETE',
+            url: `users/${localStorage.getItem('userId')}/uploads/${id}`
+        }).then(res => {
+            console.log(res);
+            if(res.status === 200) {
+                setFlash("Done!");
+                const newSongs = songs.filter(song => song.id != id);
+                setSongs(newSongs);
+            }
+        }).catch(err => console.log(err.response));
+    }
+
     let content;
     if(!loading && songs === null) {
         content = <span className={styles.noUploads}>You don't have uploads, Click browse files to upload a song</span>
@@ -65,12 +78,14 @@ const Uploads = props => {
     else if(!loading && songs){
         content = songs.map(song => {
             return (
-                <UploadedSong key={Math.random()*11} data={song} />
+                <UploadedSong key={Math.random()*11} data={song} onDelete={onDeleteSong}/>
             );
         });
     }
 
     return (
+        <React.Fragment>
+        {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlash} /> : null)}
         <div className={styles.uploads}>
             <div className={styles.header}>
                 <span className={styles.mainText}>Your Uploads</span>
@@ -89,6 +104,7 @@ const Uploads = props => {
                 {content}
             </div>
         </div>
+        </React.Fragment>
     );
 }
 export default Uploads;

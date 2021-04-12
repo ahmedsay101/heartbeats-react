@@ -1,18 +1,16 @@
 .flash {
-    width: auto;
+    width: 100%;
     height: auto;
-    background-color: #ff8080;
+    background-color: #00ce67;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px 20px;
-    max-width: 80%;
-    position: absolute;
+    position: fixed;
     z-index: 99999999;
-    top: -100px;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    top: -100%;
+    left: 0;
 }
 .appear {
     -webkit-animation: appear 0.5s forwards; 
@@ -31,21 +29,21 @@
 
 @keyframes appear {
     from {
-        top: -100px;
+        top: -100%;
         opacity: 0;
     }
     to {
-        top: 120px;
+        top: 0;
         opacity: 1;
     }
 }
 @keyframes disAppear {
     from {
-        top: 120px;
+        top: 0;
         opacity: 1;
     }
     to {
-        top: -100px;
+        top: -100%;
         opacity: 0;
     }
 }

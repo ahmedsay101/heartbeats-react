@@ -26,6 +26,7 @@ class Queue extends Component {
                 currentSong: props.currentSong,
                 currentIndex: props.currentIndex,
             });
+            this.populate(props);
         }
         this.populate(props);
     }
@@ -33,7 +34,7 @@ class Queue extends Component {
     populate = props => {
         if(props.currentPlaylistSongs.length < 1) {
             if(props.currentPlaylist.length > 0) {
-                if(props.currentPlaylist !== this.state.currentPlaylist) {                
+                if(props.currentPlaylist !== this.state.currentPlaylist) {        
                     const promises = [];
                     const songsArray = [];
                     props.currentPlaylist.forEach(id => {

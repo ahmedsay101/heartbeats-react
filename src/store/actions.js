@@ -71,6 +71,19 @@ export const setTrack = (play) => {
     }
 }
 
+export const playNext = (id) => {
+    return (dispatch, getState) => {
+        if(getState().currentPlaylist[getState().currentIndex + 1] == id) return;
+        const playlist = [...getState().currentPlaylist];
+        playlist.splice(getState().currentIndex + 1, 0, id);
+
+        dispatch({
+            type: "SET_CURRENT_PLAYLIST",
+            playlist: playlist
+        });
+    }
+}
+
 
 
 

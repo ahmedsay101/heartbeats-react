@@ -12,7 +12,7 @@ function Playlist(props) {
         
         songs = props.songsArray.map(song => {
             return (
-                <PlaylistSong key={Math.random()*11} data={song} playlist={playlist} options={props.options}/>
+                <PlaylistSong key={Math.random()*11} data={song} playlist={playlist} deleteFromPlaylist={(props.deleteFromPlaylist ? props.deleteFromPlaylist : null)} options={props.options}/>
             );
         });
     }

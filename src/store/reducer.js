@@ -35,6 +35,11 @@ const reducer = (state = iniState, action) => {
                 playingFromUploads: action.playingFromUploads,
                 shuffle: action.shuffle
             }
+        case "SET_CURRENT_PLAYLIST": 
+            return {
+                ...state,
+                currentPlaylist: action.playlist     
+            }
         case "SET_FETCHING_SONG": 
             return {
                 ...state,

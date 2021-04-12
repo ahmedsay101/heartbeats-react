@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import {Route, Link} from 'react-router-dom';
+
 import styles from './Playlists.module.css';
 
-import Button from '../../components/Button/Button';
 import Floating from '../Floating/Floating';
 import UserPlaylist from '../../components/UserPlaylist/UserPlaylist';
 import CreatePlaylist from '../../components/CreatePlaylist/CreatePlaylist';
+import Flash from '../../components/Flash/Flash';
+
+import {deletePlaylist} from '../../commonActions';
 
 const Playlists = props => {
 
     const [loading, setLoading] = useState(true);
     const [playlists, setPlaylists] = useState(null);
+    const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/playlists`}).then(response => {
@@ -55,21 +57,36 @@ const Playlists = props => {
             }
         }).catch(err => console.log(err.response));
     }
+
+    const deletePlaylistHandler = async(id) => {
+        const deletePromise = await deletePlaylist(id);
+        if(deletePromise) {
+            const newPlaylists = playlists.filter( playlist => playlist.id != id );
+            setPlaylists(newPlaylists);
+            setFlash('Your playlist is gone');
+        }
+    }
+
+    const playlistOptions = [{
+        text: 'Delete',
+        todo: 'DELETE_PLAYLIST'
+    }];
  
     let content;
     if(!loading && playlists === null) {
-        content = <span className={styles.noUploads}>You don't have uploads, Click Create Playlist</span>
+        content = <span className={styles.noUploads}>You don't have playlists, Click Create Playlist</span>
     }
     else if(!loading && playlists){
         content = playlists.map(playlist => {
             return (
-                <UserPlaylist key={playlist.id} data={playlist} />
+                <UserPlaylist key={playlist.id} data={playlist} playlistOptions={playlistOptions} onDelete={deletePlaylistHandler} />
             );
         });
     }
 
     return (
         <React.Fragment>
+            {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlash} /> : null)}
             {( open ? <Floating open={open} close={openCreate}><CreatePlaylist submit={submit} loading={loading}/></Floating> : null)}
             <div className={styles.playlists}>
                 <div className={styles.header}>

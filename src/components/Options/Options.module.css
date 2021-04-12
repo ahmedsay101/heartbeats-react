@@ -1,7 +1,6 @@
 .options {
-    width: 150px;
+    width: 170px;
     height: auto;
-    min-width: 150px;
     background-color: #eee;
     padding: 5px;
     border-radius: 5px;
@@ -14,7 +13,7 @@
     width: 100%;
     height: auto;
     padding: 7px;
-    border-bottom: 1px solid #777;
+    border-bottom: 1px solid #aaa;
     color: #333;
     font-size: 15px;
     font-weight: 400;

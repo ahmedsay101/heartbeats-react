@@ -15,6 +15,7 @@ import play from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import playlist from '../../assets/playlist.svg';
 import PlaylistHeader from '../../components/PlaylistHeader/PlaylistHeader';
+import Flash from '../../components/Flash/Flash';
 
 
 class PlaylistPage extends Component {
@@ -26,7 +27,8 @@ class PlaylistPage extends Component {
         img: null,
         userData: null,
         id: null,
-        noSongs: null
+        noSongs: null,
+        flashMsg: null
     }
 
     componentDidMount() {
@@ -117,6 +119,28 @@ class PlaylistPage extends Component {
         });
     }
 
+    deleteSong = (id) => {
+        const songIds = this.state.songs.map(song => song.id);
+        const newSongIds = songIds.filter(song => song.id != id);
+        const data = JSON.stringify({ songIds: newSongIds });
+        axios({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'PATCH', 
+            url: `playlists/${this.state.playlistData.id}`,
+            data: data
+        }).then(res => {
+            console.log(res);
+            if(res.status === 200) {
+                this.setState({flashMsg: "A Song is deleted from the playlist!"});
+                const newSongs = this.state.songs.filter(item => item.id != id);
+                this.setState({songs: newSongs});       
+            }
+        }).catch(err => console.log(err.response));
+    }
+
     render() {
         let content;
         if(this.state.loading) {
@@ -129,7 +153,18 @@ class PlaylistPage extends Component {
             }
             else {
                 songs = <React.Fragment>
-                            <Playlist songsArray={this.state.songs} />
+                            <Playlist songsArray={this.state.songs} deleteFromPlaylist={this.deleteSong} options={[{
+                    text: 'Add to playlist',
+                    todo: 'ADD_TO_PLAYLIST'
+                },
+                {
+                    text: 'Play next',
+                    todo: 'PLAY_NEXT'
+                },
+                {
+                    text: 'Delete From Playlist',
+                    todo: 'DELETE_FROM_PLAYLIST'
+                }]}/>
                             <Slider itemLength="4" itemType="artist" title="Artists In This Playlist" items={this.state.artists} /> 
                         </React.Fragment>;
             }
@@ -142,11 +177,14 @@ class PlaylistPage extends Component {
         }
 
         return (
-            <div className={"mainContentContainer"}>
-                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                    {content}
+            <React.Fragment>
+                {(this.state.flashMsg !== null ? <Flash msg={this.state.flashMsg} setMsg={(msg) => this.setState({flashMsg: msg})} /> : null )}
+                <div className={"mainContentContainer"}>
+                    <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                        {content}
+                    </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

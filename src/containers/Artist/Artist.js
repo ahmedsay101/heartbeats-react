@@ -90,6 +90,10 @@ class Artist extends Component {
                 <Playlist title="Popular Songs" songsArray={this.state.songsArray} options={[{
                     text: 'Add to playlist',
                     todo: 'ADD_TO_PLAYLIST'
+                },
+                {
+                    text: 'Play next',
+                    todo: 'PLAY_NEXT'
                 }]}/>
             </React.Fragment>;        
         }

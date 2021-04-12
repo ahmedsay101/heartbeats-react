@@ -1,19 +1,14 @@
-import React, {useEffect, useState, useRef} from 'react';
-import { connect} from 'react-redux';
+import React, {useEffect, useState} from 'react';
 import styles from './Flash.module.css';
-
-import like from '../../assets/like.svg';
 
 function Flash(props) {
 
     const [shouldShow, setShow] = useState(true);
-    const [msg, setMsg] = useState(null);
-
 
     useEffect(() => {
         setTimeout(() => {
             setShow(false);
-            props.setMsg(null); 
+            setTimeout(() => {props.setMsg(null)}, 700); 
         }, 2000);
     }, []);
     

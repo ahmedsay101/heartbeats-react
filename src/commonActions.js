@@ -216,3 +216,17 @@ export const calculateOptionsPosition = (emitter, numOfOptions, fixed = null) =>
 		left: left
 	}
 }
+
+export const deletePlaylist = async(id) => {
+	return new Promise(resolve => {
+		axios({method: 'DELETE', url: `playlists/${id}`}).then(res => {
+			console.log(res);
+			if(res.status === 200) {
+				resolve(true);
+			}
+		}).catch(err => {
+			console.log(err.response)
+			resolve(false);
+		});
+	});
+}

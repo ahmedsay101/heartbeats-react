@@ -1,18 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import { connect } from 'react-redux';
 import styles from './UploadedSong.module.css';
 
 import Button from '../Button/Button';
-import options from '../../assets/options.svg';
+import optionsIcon from '../../assets/options.svg';
 import upload from '../../assets/upload.svg';
 
 import {setNewSong} from '../../store/actions';
+import {calculateOptionsPosition} from '../../commonActions';
+
+import Options from '../Options/Options';
 
 function UploadedSong(props) {
     const current = props.currentSong.id === props.data.id && props.playingFromUploads;
+    const [showOptions, setShowOptions] = useState(false);
+    const [optionsPosition, setOptionsPosition] = useState(null);
+    const optionsBtn = useRef(null);
 
     const play = e => {
-        console.log(props.data.playlist);
+        console.log(props.data.id);
         if(e.target.id !== 'notClickable') {
             props.setTrack({
                 id: props.data.id,
@@ -25,19 +31,32 @@ function UploadedSong(props) {
             return;
         }
     }
+
+    const uploadedOptions = [{
+        text: 'Delete',
+        todo: () => props.onDelete(props.data.id)
+    }];
+
+    const optionsClickHandler = () => {
+        setOptionsPosition(calculateOptionsPosition(optionsBtn.current, uploadedOptions.length));
+        setShowOptions(!showOptions);
+    }
     
     return (
-        <div className={styles.song} onClick={play}>
-            <div className={styles.songData}>
-                <div className={styles.songImg}><img src={upload} className={styles.up} /></div>
-                <span className={styles.songName+" "+(current ? styles.playing : "")}>{props.data.name}</span>
+        <React.Fragment>
+            {(showOptions ? <Options position={optionsPosition} show={setShowOptions} options={uploadedOptions} /> : null)}
+            <div className={styles.song} onClick={play}>
+                <div className={styles.songData}>
+                    <div className={styles.songImg}><img src={upload} className={styles.up} /></div>
+                    <span className={styles.songName+" "+(current ? styles.playing : "")}>{props.data.name}</span>
+                </div>
+                <div className={styles.options}>
+                    <Button id='notClickable' shape="queueOptions" click={optionsClickHandler} forwardedRef={optionsBtn}>
+                        <img id='notClickable' src={optionsIcon} className={styles.icon} />
+                    </Button>
+                </div>
             </div>
-            <div className={styles.options}>
-                <Button shape="queueOptions" id='notClickable'>
-                    <img src={options} className={styles.icon} />
-                </Button>
-            </div>
-        </div>
+        </React.Fragment>
     );
 }
 

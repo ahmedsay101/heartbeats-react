@@ -45,6 +45,7 @@ const AddToPlaylist = props => {
     }
 
     const add = playlist => {
+        let empty = playlist.songIds === null;
         if(playlist.songIds !== null) {
             if(playlist.songIds.includes(props.songId)) {
                 alert("This playlist already has this song");
@@ -61,15 +62,15 @@ const AddToPlaylist = props => {
             url: `playlists/${playlist.id}`,
             data: JSON.stringify({songIds: newPlaylist})
         }).then(res => {
+            console.log(res);
             if(res.status === 200) {
                 setFlashMsg("Done!");
                 const newPlaylists = playlists.map(item => {
-                    console.log(item.id);
-                    console.log(playlist.id);
                     if(item.id == playlist.id) {
                         return {
                             ...item, 
-                            songIds: newPlaylist
+                            songIds: newPlaylist,
+                            imgUrl: res.data.data.imgUrl
                         }
                     }
                     else {
@@ -78,7 +79,7 @@ const AddToPlaylist = props => {
                 });
                 setPlaylists(newPlaylists);        
             }
-        }).catch(err => console.log(err));
+        }).catch(err => console.log(err.response));
     }
 
     let content;
@@ -89,7 +90,7 @@ const AddToPlaylist = props => {
         content = playlists.map(playlist => {
             return (
                 <div key={playlist.id} className={styles.playlist} onClick={() => add(playlist)}>
-                    <div className={styles.img} style={{backgroundImage: `url(${playlist.imgUrl})`}} />
+                    <div className={`${styles.img} ${playlist.songIds === null ? styles.noSongsImg : ''}`} style={{backgroundImage: `url(${playlist.imgUrl})`}} />
                     <div className={styles.data}>
                         <span className={styles.name}>{playlist.name}</span>
                         <span className={styles.details}>{`${playlist.songIds === null ? '0' : playlist.songIds.length} Songs`}</span>
@@ -123,7 +124,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        setMsg: (msg) => dispatch({type: "SET_FLASH", msg: msg})
+        setPlay: (play) => dispatch({type: "SET_PLAY", play: play})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddToPlaylist);
