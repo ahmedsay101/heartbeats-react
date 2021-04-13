@@ -108,7 +108,7 @@ const AddToPlaylist = props => {
 
     return (
         <React.Fragment>
-        {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlashMsg} /> : null)}
+        {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlashMsg(null)} /> : null)}
         <div className={`${styles.container} ${loading || !loading && !userLoggedIn ? styles.loading : ''}`}>
             <span className={styles.title}>Your Playlists</span>
             {content}

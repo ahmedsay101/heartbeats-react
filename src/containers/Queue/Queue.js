@@ -4,6 +4,7 @@ import axios from 'axios';
 import styles from './Queue.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 import QueueSong from '../../components/QueueSong/QueueSong';
+import Flash from '../../components/Flash/Flash';
 
 class Queue extends Component {
 
@@ -13,7 +14,8 @@ class Queue extends Component {
         currentPlaylist: [],
         currentSong: {},
         currentIndex: 0,
-        show: false
+        show: false,
+        flashMsg: null
     }
 
     componentDidMount() {
@@ -29,6 +31,18 @@ class Queue extends Component {
             this.populate(props);
         }
         this.populate(props);
+    }
+
+    onDeleteUploaded = id => {
+        axios({
+            method: 'DELETE',
+            url: `users/${localStorage.getItem('userId')}/uploads/${id}`
+        }).then(res => {
+            if(res.status === 200) {
+                const newSongs = this.state.songs.filter(song => song.id != id);
+                this.setState({ flashMsg: 'Done!', songs: newSongs });
+            }
+        }).catch(err => console.log(err.response));
     }
 
     populate = props => {
@@ -96,14 +110,17 @@ class Queue extends Component {
         }
         else if(this.state.songs.length > 0) {
             content = this.state.songs.map(song => (
-                <QueueSong key={Math.random() * 11} data={song} playlist={this.props.currentPlaylist} />
+                <QueueSong key={Math.random() * 11} data={song} playlist={this.props.currentPlaylist} onDeleteUploaded={this.onDeleteUploaded} parent={this.props.queueRef.current} />
             ));
         }
         return (
-            <div 
-            className={styles.queueContainer+" "+(!this.props.show ? styles.hide : "")+" "+(this.state.loading ? styles.flexCenter : styles.flexStart)} 
-            ref={this.props.queueRef}
-            >{content}</div>
+            <React.Fragment>
+                {(this.state.flashMsg !== null ? <Flash msg={this.state.flashMsg} destroy={() => this.setState({flashMsg: null})} /> : null)}
+                <div 
+                className={styles.queueContainer+" "+(!this.props.show ? styles.hide : "")+" "+(this.state.loading ? styles.flexCenter : styles.flexStart)} 
+                ref={this.props.queueRef}
+                >{content}</div>
+            </React.Fragment>
         );
     }
 }

@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import {Route, Link} from 'react-router-dom';
-import styles from './Profile.module.css';
-
 import Playlist from '../Playlist/Playlist';
 import Slider from '../Slider/Slider';
 import Spinner from '../../components/Spinner/Spinner';
@@ -60,7 +56,14 @@ const Profile = () => {
     }      
     else {
         content = <React.Fragment>
-                    <Playlist title='Recently Played' songsArray={recentlyPlayed} />
+                    <Playlist title='Recently Played' songsArray={recentlyPlayed} options={[{
+                        text: 'Add to playlist',
+                        todo: 'ADD_TO_PLAYLIST'
+                    },
+                    {
+                        text: 'Play next',
+                        todo: 'PLAY_NEXT'
+                    }]} />
                     {(artists !== null ? <Slider itemLength="4" itemType="artist" title="Artists You Followed" items={artists} /> : null)} 
                 </React.Fragment>;
     }

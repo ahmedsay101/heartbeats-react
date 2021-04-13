@@ -12,12 +12,12 @@ const Options = props => {
     useEffect(() => {
 
         window.addEventListener('scroll', () => { 
-            props.show(false);
+            props.destroy();
         });
         document.addEventListener('click', e => {
             if(container && container.current) {
                 if(!container.current.contains(e.target)) {
-                    props.show(false);
+                    props.destroy();
                 }
             }
         });

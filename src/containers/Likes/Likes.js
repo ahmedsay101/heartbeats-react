@@ -36,6 +36,13 @@ const Likes = () => {
         }
     }
      
-    return ( <Playlist title='Likes' songsArray={likes} loading={loading} /> );
+    return ( <Playlist title='Likes' songsArray={likes} loading={loading} options={[{
+        text: 'Add to playlist',
+        todo: 'ADD_TO_PLAYLIST'
+    },
+    {
+        text: 'Play next',
+        todo: 'PLAY_NEXT'
+    }]} /> );
 }
 export default Likes;

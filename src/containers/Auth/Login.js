@@ -48,11 +48,32 @@ class Login extends Component {
         },
         canSubmit: false,
         loading: false
-
     }
 
     componentDidMount() {
-        console.log(this.props);
+        if(this.props.location.state) {
+            if(this.props.location.state.guest) {
+                this.setState({
+                    form: {
+                        ...this.state.form,
+                        email: {
+                            ...this.state.form.email,
+                            attrs: {
+                                ...this.state.form.email.attrs, 
+                                value: 'ahmedsay@gmail.com'
+                            }
+                        },
+                        password: {
+                            ...this.state.form.password,
+                            attrs: {
+                                ...this.state.form.password.attrs, 
+                                value: '0100000000aA'
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 
     checkValidity(value, rules) {
@@ -142,6 +163,7 @@ class Login extends Component {
             data: jsonData
         })
         .then(response => {
+            console.log(response);
             if(response.status === 200) {
                 this.setState({loading: false});
                 localStorage.setItem('sessId', response.data.data.session.sessId);

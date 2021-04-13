@@ -49,7 +49,6 @@ const AlbumHeader = props => {
             </div>
             <div className={styles.options}>
                 <button className={styles.shuffleBtn} onClick={shuffle}>Shuffle</button>
-                <button className={styles.optionsBtn}><img src={more} className={styles.optionsIcon} /></button>
             </div>
         </div>
     );

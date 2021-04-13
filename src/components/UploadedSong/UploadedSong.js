@@ -44,7 +44,7 @@ function UploadedSong(props) {
     
     return (
         <React.Fragment>
-            {(showOptions ? <Options position={optionsPosition} show={setShowOptions} options={uploadedOptions} /> : null)}
+            {(showOptions ? <Options position={optionsPosition} options={uploadedOptions} destroy={() => setShowOptions(false)} /> : null)}
             <div className={styles.song} onClick={play}>
                 <div className={styles.songData}>
                     <div className={styles.songImg}><img src={upload} className={styles.up} /></div>

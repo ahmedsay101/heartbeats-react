@@ -121,8 +121,9 @@ class PlaylistPage extends Component {
 
     deleteSong = (id) => {
         const songIds = this.state.songs.map(song => song.id);
-        const newSongIds = songIds.filter(song => song.id != id);
+        const newSongIds = songIds.filter(songId => songId != id);
         const data = JSON.stringify({ songIds: newSongIds });
+        console.log(newSongIds);
         axios({
             headers: {
                 'Accept': 'application/json',
@@ -136,7 +137,7 @@ class PlaylistPage extends Component {
             if(res.status === 200) {
                 this.setState({flashMsg: "A Song is deleted from the playlist!"});
                 const newSongs = this.state.songs.filter(item => item.id != id);
-                this.setState({songs: newSongs});       
+                this.setState({songs: newSongs, playlistData: {...this.state.playlistData, songIds: newSongIds}});       
             }
         }).catch(err => console.log(err.response));
     }
@@ -178,7 +179,7 @@ class PlaylistPage extends Component {
 
         return (
             <React.Fragment>
-                {(this.state.flashMsg !== null ? <Flash msg={this.state.flashMsg} setMsg={(msg) => this.setState({flashMsg: msg})} /> : null )}
+                {(this.state.flashMsg !== null ? <Flash msg={this.state.flashMsg} destroy={() => this.setState({flashMsg: null})} /> : null )}
                 <div className={"mainContentContainer"}>
                     <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
                         {content}

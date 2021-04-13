@@ -17,6 +17,11 @@ const Playlists = props => {
     const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
+        if(props.location.state) {
+            if(props.location.state.comingFromDeleted) {
+                setFlash("Your Playlist Is Gone");
+            }
+        }
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/playlists`}).then(response => {
             console.log(response);
             setLoading(false);
@@ -86,7 +91,7 @@ const Playlists = props => {
 
     return (
         <React.Fragment>
-            {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlash} /> : null)}
+            {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
             {( open ? <Floating open={open} close={openCreate}><CreatePlaylist submit={submit} loading={loading}/></Floating> : null)}
             <div className={styles.playlists}>
                 <div className={styles.header}>

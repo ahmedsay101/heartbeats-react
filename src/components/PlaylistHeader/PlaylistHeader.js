@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './PlaylistHeader.module.css';
 
 import more from '../../assets/more.svg';
@@ -8,9 +9,18 @@ import pause from '../../assets/pause.svg';
 import playlistDetails from '../../assets/playlistDetails.svg';
 import playlist from '../../assets/playlist.svg';
 
-import {setNewSong} from '../../store/actions';
+import { setNewSong } from '../../store/actions';
+import { calculateOptionsPosition, deletePlaylist } from '../../commonActions';
+import Options from '../Options/Options';
+import Confirmation from '../Confirmation/Confirmation';
+import Floating from '../../containers/Floating/Floating';
 
 const PlaylistHeader = props => {
+    const history = useHistory();
+    const [showOptions, setShowOptions] = useState(false);
+    const [optionsPosition, setOptionsPosition] = useState(null);
+    const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+    const optionsBtn = useRef(null);
 
     const play = () => {
         if(props.playlistData.songIds === null) return;
@@ -32,8 +42,33 @@ const PlaylistHeader = props => {
         });
     }
 
+    const deleteHandler = async() => {
+        const deletePromise = await deletePlaylist(props.playlistData.id);
+        if(deletePromise) {
+            history.push({
+                pathname: '/playlists',
+                state: { 
+                  comingFromDeleted: true
+                }
+              }); 
+        }
+    }
+
+    const songOptions = [{
+        text: 'Delete',
+        todo: () => setDeleteConfirmation("Are You Sure You Want To Delete This Playlist ?")
+    }];
+
+    const optionsClickHandler = () => {
+        setOptionsPosition(calculateOptionsPosition(optionsBtn.current, songOptions.length, true));
+        setShowOptions(!showOptions);
+    }
+
     return (
-        <div className={styles.header}>
+        <React.Fragment>
+            {( deleteConfirmation !== null ? <Floating open={true} destroy={() => setDeleteConfirmation(null)}><Confirmation msg={deleteConfirmation} confirm={deleteHandler} destroy={() => setDeleteConfirmation(null)}/></Floating> : null)}
+            {(showOptions ? <Options position={optionsPosition} options={songOptions} destroy={() => setShowOptions(false)} /> : null)}
+            <div className={styles.header}>
             <div className={styles.main}>
                 {(props.noSongs ? <div className={styles.placeholder}><img src={playlist} style={{width: '20px', height: '20px'}} /></div> : <div className={styles.img} style={{backgroundImage: `url(${props.img})`}}></div>)}
                 <div className={styles.data}>
@@ -50,9 +85,10 @@ const PlaylistHeader = props => {
             </div>
             <div className={styles.options}>
                 <button className={`${styles.shuffleBtn} ${(props.noSongs ? styles.cantShuffle : '')}`} onClick={shuffle}>Shuffle</button>
-                <button className={styles.optionsBtn}><img src={more} className={styles.optionsIcon} /></button>
+                <button className={styles.optionsBtn}><img src={more} className={styles.optionsIcon} ref={optionsBtn} onClick={optionsClickHandler}/></button>
             </div>
         </div>
+        </React.Fragment>
     );
 
 }

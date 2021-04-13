@@ -4,7 +4,7 @@ import styles from './Floating.module.css';
 const Floating = props => {
     const close = e => {
         if(e.target.id === 'modal') {
-            props.close(false);
+            props.destroy();
         }
     }
 

@@ -9,6 +9,10 @@ const Guard = props => {
 
     const history = useHistory();
 
+    useEffect(() => {
+        authenticate();
+    }, []);
+
     const authenticate = async () => {
         const authenticated = await isAuthenticated();
         if(authenticated) {
@@ -20,10 +24,6 @@ const Guard = props => {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        authenticate();
-    }, []);
 
     let content;
     if(loading) {

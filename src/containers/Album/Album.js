@@ -100,7 +100,14 @@ class Album extends Component {
         else {
             content = <React.Fragment>
                 <AlbumHeader albumData={this.state.albumData} />
-                <Playlist songsArray={this.state.songs} />
+                <Playlist songsArray={this.state.songs} options={[{
+                    text: 'Add to playlist',
+                    todo: 'ADD_TO_PLAYLIST'
+                },
+                {
+                    text: 'Play next',
+                    todo: 'PLAY_NEXT'
+                }]}/>
                 <Slider itemLength="3" itemType="album" title={`Other Albums By ${this.state.albumData.artistName}`} items={this.state.otherAlbums} /> 
             </React.Fragment>;        
         }

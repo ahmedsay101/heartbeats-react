@@ -62,7 +62,7 @@ function UserStatus(props) {
     }
     else if(!loading && userData !== null) {
         userStatus = <React.Fragment>
-            {(showOptions ? <Options position={optionsPosition} show={setShowOptions} options={userOptions} /> : null)}
+            {(showOptions ? <Options position={optionsPosition} options={userOptions} destroy={() => setShowOptions(false)} /> : null)}
         <div className={styles.justFlex}>
             <Link to="/profile" className={`${styles.justFlex} link`}>
             <img src={userData.imgUrl} className={styles.userImg}/>

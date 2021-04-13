@@ -23,7 +23,7 @@ const Uploads = props => {
             if(res.status === 200) {
                 setSongs(res.data.data);
             }
-            else if (res.status === 404) {
+            else if (res.status === 204) {
                 setSongs(null);
             }
         }).catch(err => {
@@ -46,9 +46,14 @@ const Uploads = props => {
         }).then(response => {
             console.log(response);
             setUploading(false);
-            const newSongs = [...songs];
-            newSongs.unshift(response.data.data);
-            setSongs(newSongs);
+            if(songs === null) {
+                setSongs([response.data.data]);
+            }
+            else {
+                const newSongs = [...songs];
+                newSongs.unshift(response.data.data);
+                setSongs(newSongs);
+            }
         }).catch(err => {
             setUploading(false);
             console.log(err.response);

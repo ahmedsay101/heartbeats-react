@@ -8,7 +8,7 @@ function Flash(props) {
     useEffect(() => {
         setTimeout(() => {
             setShow(false);
-            setTimeout(() => {props.setMsg(null)}, 700); 
+            setTimeout(() => {props.destroy()}, 700); 
         }, 2000);
     }, []);
     

@@ -40,22 +40,19 @@ function PlaylistSong(props) {
 
     const optionsClickHandler = () => {
         if(props.options) {
-            setOptionsPosition(calculateOptionsPosition(optionsBtn.current, props.options.length));
+            setOptionsPosition(calculateOptionsPosition(optionsBtn.current, props.options.length, true));
             setShowOptions(!showOptions);
         }
-    }
-
-    const openAddToPlaylist = (todo) => {
-        setAddToPlaylist(todo);
     }
 
     const playNextHandler = () => {
         props.playNext(props.data.id);
         setFlash("Will Play Next");
+        setShowOptions(false);
     }
 
     const optionsFunctions = {
-        'ADD_TO_PLAYLIST': (open) => openAddToPlaylist(!addToPlaylist),
+        'ADD_TO_PLAYLIST': () => setAddToPlaylist(true),
         'PLAY_NEXT': () => playNextHandler(),
         'DELETE_FROM_PLAYLIST': () => props.deleteFromPlaylist(props.data.id)
     }
@@ -74,9 +71,9 @@ function PlaylistSong(props) {
 
     return (
         <React.Fragment>
-            {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlash} /> : null)}
-            {(addToPlaylist ? <Floating open={addToPlaylist} close={openAddToPlaylist}><AddToPlaylist close={openAddToPlaylist} songId={props.data.id}></AddToPlaylist></Floating>: null)}
-            {(showOptions && props.options ? <Options position={optionsPosition} show={setShowOptions} options={generatedOptions} /> : null)}
+            {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
+            {(addToPlaylist ? <Floating open={addToPlaylist} destroy={() => setAddToPlaylist(false)}><AddToPlaylist songId={props.data.id} destroy={() => setAddToPlaylist(false)}></AddToPlaylist></Floating>: null)}
+            {(showOptions && props.options ? <Options position={optionsPosition} options={generatedOptions} destroy={() => setShowOptions(false)} /> : null)}
             <div className={styles.song} onClick={play} >
                 <div className={styles.songData}>
                     <div className={styles.songImg} style={{backgroundImage: "url("+props.data.imgUrl+")"}}></div>

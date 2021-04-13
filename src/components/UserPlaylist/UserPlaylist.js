@@ -30,7 +30,7 @@ const UserPlaylist = props => {
 
     const optionsClickHandler = () => {
         if(props.playlistOptions) {
-            setOptionsPosition(calculateOptionsPosition(optionsBtn.current, props.playlistOptions.length));
+            setOptionsPosition(calculateOptionsPosition(optionsBtn.current, props.playlistOptions.length, true));
             setShowOptions(!showOptions);
         }
     }
@@ -52,8 +52,8 @@ const UserPlaylist = props => {
     
     return (
         <React.Fragment>
-        {(showOptions ? <Options position={optionsPosition} show={setShowOptions} options={generatedOptions} /> : null)}
-        {( deleteConfirmation !== null ? <Floating open={true} close={() => setDeleteConfirmation(null)}><Confirmation msg={deleteConfirmation} confirm={() => props.onDelete(props.data.id)} destroy={() => setDeleteConfirmation(null)}/></Floating> : null)}
+        {(showOptions ? <Options position={optionsPosition} options={generatedOptions} destroy={() => setShowOptions(false)} /> : null)}
+        {( deleteConfirmation !== null ? <Floating open={true} destroy={() => setDeleteConfirmation(null)}><Confirmation msg={deleteConfirmation} confirm={() => props.onDelete(props.data.id)} destroy={() => setDeleteConfirmation(null)}/></Floating> : null)}
         <div className={styles.playlist} onClick={nav}>
             <div className={styles.playlistData}>
                 <div className={`${styles.img} ${props.data.songIds === null ? styles.noSongsImg : ''}`} style={{backgroundImage: `url(${props.data.imgUrl})`}}></div>
