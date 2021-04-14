@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {authStorageExist} from '../commonActions';
 
 export const setNewSong = (play) => {
     return (dispatch, getState) => {
@@ -20,30 +21,28 @@ export const setNewSong = (play) => {
                 shuffle: play.hasOwnProperty('shuffle') ? play.shuffle : false
             }));
 
-            axios({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST', 
-                url: `users/${localStorage.getItem('userId')}/plays`,
-                data: JSON.stringify({id: play.id, uploads: play.hasOwnProperty('uploads') ? play.uploads : false})
-            }).then(res => {
-                console.log(res);
-            }).catch(err => console.log(err));
-        
-            if(differentPlaylist) {
+            if(authStorageExist()) {
                 axios({
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     },
-                    method: 'PATCH', 
-                    url: `users/${localStorage.getItem('userId')}`,
-                    data: JSON.stringify({lastPlaylist: play.playlist})
-                }).then(res => {
-                    console.log(res);
+                    method: 'POST', 
+                    url: `users/${localStorage.getItem('userId')}/plays`,
+                    data: JSON.stringify({id: play.id, uploads: play.hasOwnProperty('uploads') ? play.uploads : false})
                 }).catch(err => console.log(err));
+            
+                if(differentPlaylist) {
+                    axios({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'PATCH', 
+                        url: `users/${localStorage.getItem('userId')}`,
+                        data: JSON.stringify({lastPlaylist: play.playlist})
+                    }).catch(err => console.log(err));
+                }
             }
         })
         .catch(err => {

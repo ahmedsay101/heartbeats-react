@@ -1,0 +1,52 @@
+.error {
+    width: 400px;
+    height: auto;
+    background-color: #ff8080;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #eee;
+    padding: 0px 10px;
+    user-select: none;
+}
+.icon {
+    width: 20px;
+    height: 20px;
+}
+.container {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.msg {
+    font-size: 20px;
+    color: #eee;
+    font-weight: 500;
+    user-select: none;
+}
+.errorBtn {
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+    background-color: #eee;
+    font-size: 18px;
+    color: #ff8080;
+    font-weight: 700;
+    border-radius: 15px;
+}

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import styles from './Auth.module.css';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import logo from '../../assets/logo.svg';
-
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Register extends Component {
     state = {
@@ -184,7 +184,7 @@ class Register extends Component {
                 }
             })
             .catch(err => {
-                console.log(err.response);
+                this.setState({loading: false});
             });
         }
         else {
@@ -233,4 +233,4 @@ class Register extends Component {
     }
 }
 
-export default withRouter(Register);
+export default withRouter(ErrorBoundary(Register, axios));

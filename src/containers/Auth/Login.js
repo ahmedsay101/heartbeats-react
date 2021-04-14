@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router";
 import styles from './Auth.module.css';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import logo from '../../assets/logo.svg';
-
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Login extends Component {
     state = {
@@ -163,7 +163,6 @@ class Login extends Component {
             data: jsonData
         })
         .then(response => {
-            console.log(response);
             if(response.status === 200) {
                 this.setState({loading: false});
                 localStorage.setItem('sessId', response.data.data.session.sessId);
@@ -172,9 +171,8 @@ class Login extends Component {
                 console.log(this.props);
                 this.props.history.push(this.props.location.state.comingFrom);
             }
-        })
-        .catch(err => {
-            console.log(err.response);
+        }).catch(err => {
+            this.setState({loading: false});
         });
     }
 
@@ -218,4 +216,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Login);
+export default withRouter(ErrorBoundary(Login, axios));

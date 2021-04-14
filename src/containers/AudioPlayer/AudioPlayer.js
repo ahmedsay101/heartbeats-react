@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../axios';
 import styles from './AudioPlayer.module.css';
 import SongData from '../../components/SongData/SongData';
 import AudioControls from '../../components/AudioControls/AudioControls';
@@ -12,6 +12,7 @@ import Queue from '../Queue/Queue';
 
 import { randomNum, changeLike, authStorageExist } from '../../commonActions';
 import { setNewSong } from '../../store/actions';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -55,13 +56,15 @@ class AudioPlayer extends Component {
                 axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/plays`}).then(res => {
                     if(res.status === 200) {
                         this.setNew({
-                            id: res.data.data.songs[0].id, 
+                            id: res.data.data.songs[0].song.id, 
                             playlist: res.data.data.playlist, 
                             play: false,
-                            uploads: res.data.data.uploads
+                            uploads: res.data.data.songs[0].fromUploads
                         });
                     }
-                }).catch(err => this.playRandomSong());
+                }).catch(err => {
+                    this.playRandomSong();
+                });
             }
             else {
                 this.playRandomSong();
@@ -120,7 +123,7 @@ class AudioPlayer extends Component {
                     url: 'albums/plays',
                     data: JSON.stringify({albumId: this.state.currentSong.albumId})
                 })]
-                Promise.all(incPlaysPromises).then(res => console.log(res)).catch(err => console.log(err.response)); 
+                Promise.all(incPlaysPromises); 
                 
                 if(this.state.repeat) {
                     this.setTime(0);
@@ -204,11 +207,10 @@ class AudioPlayer extends Component {
 
         window.addEventListener('like', e => {
             if(e.detail.id == this.state.currentSong.id) {
-                console.log("yes");
                 this.setState({isLiked: e.detail.like});
             }
         });
-}
+    }
 
     componentWillReceiveProps(props) {
         if(props.currentSong !== this.state.currentSong || props.currentIndex !== this.state.currentIndex) {
@@ -228,7 +230,6 @@ class AudioPlayer extends Component {
         }
     
         if(props.play !== this.state.playing) {
-            console.log("play "+props.play)
             this.setState({playing: props.play});
             if(props.play) {
                 this.play();
@@ -340,9 +341,7 @@ class AudioPlayer extends Component {
         else {
             scrolled = (this.state.currentIndex * 60) + 10;
         }
-        $(this.queue.current).animate({scrollTop: scrolled}, 200, () => {
-            console.log("done");
-        });
+        $(this.queue.current).animate({scrollTop: scrolled}, 200);
     }
 
     shuffleHandler = () => {
@@ -400,6 +399,7 @@ class AudioPlayer extends Component {
             id: this.props.currentPlaylist[index], 
             playlist: this.props.currentPlaylist, 
             play: true,
+            uploads: this.state.playingFromUploads,
             shuffle: this.state.shuffle
         });
     }
@@ -438,6 +438,7 @@ class AudioPlayer extends Component {
             id: this.props.currentPlaylist[index], 
             playlist: this.props.currentPlaylist, 
             play: true,
+            uploads: this.state.playingFromUploads,
             shuffle: this.state.shuffle
         });
     }
@@ -462,7 +463,6 @@ class AudioPlayer extends Component {
     }
 
     onVolumeBarMouseDown = e => {
-        console.log("dowww");
         this.setState({volumeBarMouseDown: true});
         this.volumeChange(e);
     }
@@ -529,48 +529,50 @@ class AudioPlayer extends Component {
 
     render() {
         return (
-            <div className={styles.audioContainer}>
-                <Queue queueRef={this.queue} />
-                <audio className={styles.hidden} type="audio/mp3" ref={this.audio}/>
-                <SongData currentSong={this.state.currentSong} loading={this.props.fetchingSong} uploads={this.state.playingFromUploads} />
-                <div className={styles.audioControls}>
-                    <AudioControls 
-                    onPlay={this.playHandler}
-                    onShuffle={this.shuffleHandler}
-                    onRepeat={this.repeatHandler}
-                    repeat={this.state.repeat}
-                    shuffle={this.state.shuffle}
-                    play={this.state.playing}
-                    next={this.nextSong}
-                    previous={this.previousSong}
-                    loading={this.state.loading}
+            <React.Fragment>
+                <div className={styles.audioContainer}>
+                    <Queue queueRef={this.queue} />
+                    <audio className={styles.hidden} type="audio/mp3" ref={this.audio}/>
+                    <SongData currentSong={this.state.currentSong} loading={this.props.fetchingSong} uploads={this.state.playingFromUploads} />
+                    <div className={styles.audioControls}>
+                        <AudioControls 
+                        onPlay={this.playHandler}
+                        onShuffle={this.shuffleHandler}
+                        onRepeat={this.repeatHandler}
+                        repeat={this.state.repeat}
+                        shuffle={this.state.shuffle}
+                        play={this.state.playing}
+                        next={this.nextSong}
+                        previous={this.previousSong}
+                        loading={this.state.loading}
+                        />
+                        <ProgressBar 
+                        duration={this.state.duration}
+                        currentTime={this.state.currentTime}
+                        remaining={this.state.remaining}
+                        mouseDown={this.onProgressBarMouseDown}
+                        progressBarRef={this.progressBar}
+                        width={this.state.progressBarWidth}
+                        />
+                    </div>
+                    <AudioOptions 
+                    onLike={this.likeHandler} 
+                    onQueue={this.showQueue} 
+                    onVolume={this.onVolumeButtonClick}
+                    volume={this.state.volume}
+                    mute={this.state.mute}
+                    isLiked={this.state.isLiked}
+                    queueButtonRef={this.queueButton}
+                    volumeButtonRef={this.volumeButton}
                     />
-                    <ProgressBar 
-                    duration={this.state.duration}
-                    currentTime={this.state.currentTime}
-                    remaining={this.state.remaining}
-                    mouseDown={this.onProgressBarMouseDown}
-                    progressBarRef={this.progressBar}
-                    width={this.state.progressBarWidth}
+                    <VolumeBar
+                    mouseDown={this.onVolumeBarMouseDown}
+                    containerRef={this.volumeBarContainer}
+                    barRef={this.volumeBar}
+                    height={this.state.volumeBarHeight}
                     />
                 </div>
-                <AudioOptions 
-                onLike={this.likeHandler} 
-                onQueue={this.showQueue} 
-                onVolume={this.onVolumeButtonClick}
-                volume={this.state.volume}
-                mute={this.state.mute}
-                isLiked={this.state.isLiked}
-                queueButtonRef={this.queueButton}
-                volumeButtonRef={this.volumeButton}
-                />
-                <VolumeBar
-                mouseDown={this.onVolumeBarMouseDown}
-                containerRef={this.volumeBarContainer}
-                barRef={this.volumeBar}
-                height={this.state.volumeBarHeight}
-                />
-            </div>
+            </React.Fragment>
         );
     }
 }
@@ -596,5 +598,5 @@ const mapDispatchToProps = dispatch => {
         changeLike: (like) => dispatch({type: "CHANGE_LIKE", like: like}),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AudioPlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(AudioPlayer, axios));
 

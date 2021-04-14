@@ -53,12 +53,16 @@ const Playlists = props => {
             url: 'playlists',
             data: data
         }).then(res => {
-            console.log(res);
             if(res.status === 201) {
-                const newPlaylists = [...playlists];
-                newPlaylists.unshift(res.data.data);
-                setPlaylists(newPlaylists);
-                setOpen(false);
+                if(playlists === null) {
+                    setPlaylists([res.data.data]);
+                }
+                else {
+                    const newPlaylists = [...playlists];
+                    newPlaylists.unshift(res.data.data);
+                    setPlaylists(newPlaylists);
+                    setOpen(false);
+                }
             }
         }).catch(err => console.log(err.response));
     }
@@ -79,7 +83,7 @@ const Playlists = props => {
  
     let content;
     if(!loading && playlists === null) {
-        content = <span className={styles.noUploads}>You don't have playlists, Click Create Playlist</span>
+        content = <span className={styles.noPlaylists}>You don't have playlists, Click Create Playlist</span>
     }
     else if(!loading && playlists){
         content = playlists.map(playlist => {

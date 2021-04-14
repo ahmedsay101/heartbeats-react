@@ -38,7 +38,7 @@ function UploadedSong(props) {
     }];
 
     const optionsClickHandler = () => {
-        setOptionsPosition(calculateOptionsPosition(optionsBtn.current, uploadedOptions.length));
+        setOptionsPosition(calculateOptionsPosition(optionsBtn.current, uploadedOptions.length, true));
         setShowOptions(!showOptions);
     }
     

@@ -10,6 +10,7 @@ const iniState = {
     playingFromUploads: false,
     shuffle: false,
     flashMessage: null,
+    fetchingSongError: null
 }
 
 const reducer = (state = iniState, action) => {
@@ -44,6 +45,11 @@ const reducer = (state = iniState, action) => {
             return {
                 ...state,
                 fetchingSong: action.fetching
+            }
+        case "SET_FETCHING_SONG_ERROR": 
+            return {
+                ...state,
+                fetchingSongError: action.error
             }
         case "CHANGE_LIKE": 
             return {

@@ -19,7 +19,8 @@ const Profile = () => {
         Promise.all(promises).then(res => {
             console.log(res[0]);
             if(res[0].status === 200 && res[1].status === 200 || res[1].status === 204) {
-                setRecentlyPlayed(res[0].data.data.songs);
+                const recentlyPlayedWithoutUploads = res[0].data.data.songs.filter(song => !song.fromUploads);
+                setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));
                 recentSongs = res[0].data.data.songs;
                 if(res[1].status === 204) setArtists(null);
                 if(res[1].status === 200) setArtists(res[1].data.data);

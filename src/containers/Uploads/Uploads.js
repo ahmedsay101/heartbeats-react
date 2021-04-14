@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
 import styles from './Uploads.module.css';
 
 import UploadedSong from '../../components/UploadedSong/UploadedSong';
@@ -90,7 +90,7 @@ const Uploads = props => {
 
     return (
         <React.Fragment>
-        {(flashMsg !== null ? <Flash msg={flashMsg} setMsg={setFlash} /> : null)}
+        {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
         <div className={styles.uploads}>
             <div className={styles.header}>
                 <span className={styles.mainText}>Your Uploads</span>
@@ -112,4 +112,18 @@ const Uploads = props => {
         </React.Fragment>
     );
 }
-export default Uploads;
+
+const mapStateToProps = state => {
+    return {
+        play: state.audioPlaying,
+        currentSong: state.currentSong,
+        currentPlaylist: state.currentPlaylist,
+        playingFromUploads: state.playingFromUploads
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        setPlay: (play) => dispatch({type: "SET_PLAYING", play: play}),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Uploads);
