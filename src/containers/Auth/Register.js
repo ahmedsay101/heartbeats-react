@@ -233,4 +233,4 @@ class Register extends Component {
     }
 }
 
-export default withRouter(ErrorBoundary(Register, axios));
+export default withRouter(ErrorBoundary(Register));

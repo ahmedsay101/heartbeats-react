@@ -3,10 +3,8 @@ import {useHistory} from 'react-router-dom';
 import {isAuthenticated} from '../../commonActions';
 
 const Guard = props => {
-
     const [loading, setLoading] = useState(true);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
-
     const history = useHistory();
 
     useEffect(() => {

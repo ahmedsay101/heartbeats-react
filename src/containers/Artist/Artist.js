@@ -1,18 +1,13 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styles from './Artist.module.css';
 import Slider from '../Slider/Slider';
 import Playlist from '../Playlist/Playlist'
 import Spinner from '../../components/Spinner/Spinner';
-
 import {setNewSong} from '../../store/actions';
-import {isAuthenticated} from '../../commonActions';
-
-import play from '../../assets/play.svg';
-import pause from '../../assets/pause.svg';
 import ArtistHeader from '../../components/ArtistHeader/ArtistHeader';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Artist extends Component {
     state = {
@@ -121,4 +116,4 @@ const mapDispatchToProps = dispatch => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Artist);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(Artist));

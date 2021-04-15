@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
+import axios from '../../axios';
 import {useHistory} from 'react-router-dom';
 import styles from './EditProfile.module.css';
-
 import Button from '../../components/Button/Button';
-
 import { checkValidity, logout } from '../../commonActions';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const ChangePassword = props => {
     const history = useHistory();
@@ -28,8 +27,12 @@ const ChangePassword = props => {
     const [submitting, setSubmitting] = useState(false);
 
     const onSuccess = () => {
-        logout();
-        history.push('/auth');
+        history.push({
+            pathname: '/profile', 
+            state: {
+                comingFrom: '/passwords'
+            } 
+        });
     }
 
     const changeHandler = (event, validation, setState) => {
@@ -96,4 +99,4 @@ const ChangePassword = props => {
     );
 }
 
-export default ChangePassword;
+export default ErrorBoundary(ChangePassword);

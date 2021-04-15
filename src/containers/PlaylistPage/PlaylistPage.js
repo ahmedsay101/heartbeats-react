@@ -1,22 +1,14 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import { connect } from 'react-redux';
 import styles from './PlaylistPage.module.css';
 import Slider from '..//Slider/Slider';
 import Playlist from '../Playlist/Playlist'
 import Spinner from '../../components/Spinner/Spinner';
-import Button from '../../components/Button/Button';
-
 import {setNewSong} from '../../store/actions';
-import {isAuthenticated} from '../../commonActions';
-
-import options from '../../assets/options.svg';
-import play from '../../assets/play.svg';
-import pause from '../../assets/pause.svg';
-import playlist from '../../assets/playlist.svg';
 import PlaylistHeader from '../../components/PlaylistHeader/PlaylistHeader';
 import Flash from '../../components/Flash/Flash';
-
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class PlaylistPage extends Component {
     state = {
@@ -34,7 +26,17 @@ class PlaylistPage extends Component {
     componentDidMount() {
         this.init(this.props.match.params.id);
         window.addEventListener('like', this.onLikeHandler);
+        window.addEventListener('addToPlaylist', this.onNewSong);
     }
+
+    onNewSong = e => {
+        if(e.detail.playlistId === this.state.playlistData.id) {
+            axios({method: 'GET', url: `songs/${e.detail.songId}`}).then(res => {
+                const newSongsArray = [res.data.data, ...this.state.songs];
+                this.setState({songs: newSongsArray});
+            }).catch(err => console.log(err)); 
+        }
+    }   
 
     onLikeHandler = e => {
         if(this.state.songs.map(song => song.id).includes(e.detail.id)) {
@@ -123,7 +125,6 @@ class PlaylistPage extends Component {
         const songIds = this.state.songs.map(song => song.id);
         const newSongIds = songIds.filter(songId => songId != id);
         const data = JSON.stringify({ songIds: newSongIds });
-        console.log(newSongIds);
         axios({
             headers: {
                 'Accept': 'application/json',
@@ -203,4 +204,4 @@ const mapDispatchToProps = dispatch => {
 
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(PlaylistPage));

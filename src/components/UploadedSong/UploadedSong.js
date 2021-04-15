@@ -1,15 +1,13 @@
 import React, {useState, useRef} from 'react';
 import { connect } from 'react-redux';
 import styles from './UploadedSong.module.css';
-
 import Button from '../Button/Button';
 import optionsIcon from '../../assets/options.svg';
 import upload from '../../assets/upload.svg';
-
 import {setNewSong} from '../../store/actions';
 import {calculateOptionsPosition} from '../../commonActions';
-
 import Options from '../Options/Options';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 function UploadedSong(props) {
     const current = props.currentSong.id === props.data.id && props.playingFromUploads;
@@ -18,7 +16,6 @@ function UploadedSong(props) {
     const optionsBtn = useRef(null);
 
     const play = e => {
-        console.log(props.data.id);
         if(e.target.id !== 'notClickable') {
             props.setTrack({
                 id: props.data.id,
@@ -75,4 +72,4 @@ const mapDispatchToProps = dispatch => {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(UploadedSong);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(UploadedSong));

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import axios from '../../axios';
 import styles from './Queue.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 import QueueSong from '../../components/QueueSong/QueueSong';
 import Flash from '../../components/Flash/Flash';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Queue extends Component {
 
@@ -52,7 +53,7 @@ class Queue extends Component {
                     const promises = [];
                     const songsArray = [];
                     props.currentPlaylist.forEach(id => {
-                        const request = axios({ method: "GET", url: props.playingFromUploads ? `users/${localStorage.getItem('userId')}/uploads/${id}` : "songs/" + id});
+                        const request = axios({ method: "GET", url: props.playingFromUploads ? `users/${localStorage.getItem('userId')}/uploads/${id}` : `songs/${id}`});
                         promises.push(request);
                     });
                     Promise.all(promises).then(response => {
@@ -109,6 +110,7 @@ class Queue extends Component {
             content = <Spinner shape="buttonSpinner" />
         }
         else if(this.state.songs.length > 0) {
+            console.log(this.state.songs);
             content = this.state.songs.map(song => (
                 <QueueSong key={Math.random() * 11} data={song} playlist={this.props.currentPlaylist} onDeleteUploaded={this.onDeleteUploaded} parent={this.props.queueRef.current} />
             ));
@@ -140,4 +142,4 @@ const mapDispatchToProps = dispatch => {
         showQueue: (show) => dispatch({type: "SHOW_QUEUE", show: show}),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Queue);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(Queue));

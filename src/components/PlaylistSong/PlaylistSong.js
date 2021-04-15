@@ -9,7 +9,7 @@ import liked from '../../assets/liked.svg';
 import optionsIcon from '../../assets/options.svg';
 
 import {setNewSong, playNext} from '../../store/actions';
-import { changeLike, calculateOptionsPosition } from '../../commonActions';
+import { changeLike, calculateOptionsPosition, authStorageExist } from '../../commonActions';
 import Options from '../Options/Options';
 import Floating from '../../containers/Floating/Floating';
 import AddToPlaylist from '../AddToPlaylist/AddToPlaylist';
@@ -17,7 +17,6 @@ import Flash from '../Flash/Flash';
 
 
 function PlaylistSong(props) {
-    console.log(props.deleteFromPlaylist);
     const current = props.currentSong.id === props.data.id && !props.playingFromUploads;
     const [addToPlaylist, setAddToPlaylist] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
@@ -35,6 +34,10 @@ function PlaylistSong(props) {
     }
 
     const likeHandler = async (songId, isLiked) => {
+        if(!authStorageExist()) {
+            setFlash('Please Login or register to like a song');
+            return;
+        }
         const likePromise = await changeLike(songId, isLiked);
     }
 
@@ -46,6 +49,14 @@ function PlaylistSong(props) {
     }
 
     const playNextHandler = () => {
+        if(props.playingFromUploads) {
+            setFlash("Sorry, Can't play next while you're listening to your uploads playlist");
+            return;
+        }
+        if(current) {
+            setFlash("Already playing");
+            return;
+        }
         props.playNext(props.data.id);
         setFlash("Will Play Next");
         setShowOptions(false);

@@ -66,9 +66,7 @@ function QueueSong(props) {
 
     if(props.playingFromUploads) {
         img = <div className='songImg'><img src={upload} className={styles.uploadIcon} /></div>;
-        buttons = <Button shape="queueOptions" click={optionsClickHandler} forwardedRef={optionsBtn}>
-                    <img src={optionsIcon} className={styles.icon} />
-                </Button>;
+        buttons = <Link className={styles.fromuploads} to='/uploads'>From Uploads</Link>
     }
     else {
         img = <div className={styles.songImg} style={{backgroundImage: "url("+props.data.imgUrl+")"}}></div>;

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import {Link} from 'react-router-dom';
 import styles from './Artists.module.css';
 import Spinner from '../../components/Spinner/Spinner';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Artists extends Component {
     state = {
@@ -51,4 +52,4 @@ class Artists extends Component {
         );
     }
 }
-export default Artists;
+export default ErrorBoundary(Artists);

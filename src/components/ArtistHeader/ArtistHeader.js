@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import { connect } from 'react-redux';
 import styles from './ArtistHeader.module.css';
-
 import checked from '../../assets/checked.svg';
 import playIcon from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import {setNewSong} from '../../store/actions';
-
 import {isAuthenticated} from '../../commonActions';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 const ArtistHeader = props => {
     const [authenticated, setAuthenticated] = useState(null);
@@ -106,4 +105,4 @@ const mapDispatchToProps = dispatch => {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ArtistHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(ArtistHeader));

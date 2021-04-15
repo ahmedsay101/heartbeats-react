@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import styles from './Uploads.module.css';
-
 import UploadedSong from '../../components/UploadedSong/UploadedSong';
-
 import Spinner from '../../components/Spinner/Spinner';
 import Flash from '../../components/Flash/Flash';
 import add from '../../assets/add.svg';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const Uploads = props => {
     const [loading, setLoading] = useState(true);
@@ -18,7 +17,6 @@ const Uploads = props => {
 
     useEffect(() => {
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/uploads`}).then(res => {
-            console.log(res);
             setLoading(false);
             if(res.status === 200) {
                 setSongs(res.data.data);
@@ -27,7 +25,6 @@ const Uploads = props => {
                 setSongs(null);
             }
         }).catch(err => {
-            console.log(err.response);
             setLoading(false);
         });
     }, []);
@@ -44,7 +41,6 @@ const Uploads = props => {
             },
             data: data
         }).then(response => {
-            console.log(response);
             setUploading(false);
             if(songs === null) {
                 setSongs([response.data.data]);
@@ -56,7 +52,6 @@ const Uploads = props => {
             }
         }).catch(err => {
             setUploading(false);
-            console.log(err.response);
         });
     };
 
@@ -126,4 +121,4 @@ const mapDispatchToProps = dispatch => {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play}),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Uploads);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(Uploads));

@@ -146,6 +146,7 @@ class Login extends Component {
     }
 
     submitHandler = (event) => {
+        console.log(this.props);
         event.preventDefault();
         this.setState({loading: true});
         const body = {};
@@ -169,7 +170,12 @@ class Login extends Component {
                 localStorage.setItem('userId', response.data.data.session.userId);
                 localStorage.setItem('accessToken', response.data.data.session.accessToken);
                 console.log(this.props);
-                this.props.history.push(this.props.location.state.comingFrom);
+                if(this.props.location.state.comingFrom) {
+                    this.props.history.push(this.props.location.state.comingFrom);
+                }
+                else {
+                    this.props.history.push("/");
+                }
             }
         }).catch(err => {
             this.setState({loading: false});
@@ -216,4 +222,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(ErrorBoundary(Login, axios));
+export default withRouter(ErrorBoundary(Login));

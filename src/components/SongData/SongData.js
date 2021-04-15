@@ -8,7 +8,7 @@ import upload from '../../assets/upload.svg';
 function SongData(props) {
     let artist, img;
     if(props.uploads) {
-        artist = <span className={styles.AudioPlayerArtistName}>From Uploads</span>;
+        artist = <Link className={styles.AudioPlayerArtistName} to='/uploads'>From Uploads</Link>;
         img = <div className='songImg'><img src={upload} className='upIc'/></div>;
     }
     else {

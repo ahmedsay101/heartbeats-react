@@ -3,15 +3,26 @@ import axios from 'axios';
 import Playlist from '../Playlist/Playlist';
 import Slider from '../Slider/Slider';
 import Spinner from '../../components/Spinner/Spinner';
+import Flash from '../../components/Flash/Flash';
 
-const Profile = () => {
+const Profile = props => {
     let recentSongs;
 
     const [recentlyPlayed, setRecentlyPlayed] = useState(null); 
     const [artists, setArtists] = useState(null); 
     const [loading, setLoading] = useState(true); 
+    const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
+        console.log(props);
+        if(props.location.state) {
+            if(props.location.state.comingFrom === '/profile/edit') {
+                setFlash('Your data has changed');
+            }
+            else if(props.location.state.comingFrom === '/passwords') {
+                setFlash('Your password is successfully reset');
+            }
+        }
         const promises = [
             axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/plays`}),
             axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`})
@@ -69,9 +80,12 @@ const Profile = () => {
                 </React.Fragment>;
     }
     return (
-        <div className={(loading ? 'flexCenter' : '')} style={{minHeight: '200px'}}>
-            {content}
-        </div>
+        <React.Fragment>
+            {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
+            <div className={(loading ? 'flexCenter' : '')} style={{minHeight: '200px'}}>
+                {content}
+            </div>
+        </React.Fragment>
     );
 }
 export default Profile;

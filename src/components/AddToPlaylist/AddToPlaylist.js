@@ -1,15 +1,12 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
+import axios from '../../axios';
 import { connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './AddToPlaylist.module.css';
-
 import Spinner from '../Spinner/Spinner';
 import Flash from '../Flash/Flash';
-
-
 import { isAuthenticated } from '../../commonActions';
-
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 const AddToPlaylist = props => {
     const [playlists, setPlaylists] = useState(null);
@@ -52,7 +49,7 @@ const AddToPlaylist = props => {
                 return;
             }
         }
-        const newPlaylist = playlist.songIds === null ? [props.songId] : [...playlist.songIds, props.songId];
+        const newPlaylist = playlist.songIds === null ? [props.songId] : [props.songId, ...playlist.songIds];
         axios({
             headers: {
                 'Accept': 'application/json',
@@ -65,6 +62,13 @@ const AddToPlaylist = props => {
             console.log(res);
             if(res.status === 200) {
                 setFlashMsg("Done!");
+                const addEvent = new CustomEvent('addToPlaylist', {
+					detail: {
+						songId: props.songId,
+						playlistId: playlist.id
+					}
+				});
+				window.dispatchEvent(addEvent);
                 const newPlaylists = playlists.map(item => {
                     if(item.id == playlist.id) {
                         return {
@@ -127,4 +131,4 @@ const mapDispatchToProps = dispatch => {
         setPlay: (play) => dispatch({type: "SET_PLAY", play: play})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AddToPlaylist);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(AddToPlaylist));

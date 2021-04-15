@@ -1,18 +1,13 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
 import styles from './Album.module.css';
 import Slider from '../Slider/Slider';
 import Playlist from '../Playlist/Playlist'
 import Spinner from '../../components/Spinner/Spinner';
-
 import {setNewSong} from '../../store/actions';
-
-import play from '../../assets/play.svg';
-import pause from '../../assets/pause.svg';
 import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
-
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 class Album extends Component {
     state = {
@@ -132,7 +127,6 @@ const mapDispatchToProps = dispatch => {
     return {
         setTrack: (id, playlist, play) => dispatch(setNewSong(id, playlist, play)),
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play})
-
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Album);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(Album));

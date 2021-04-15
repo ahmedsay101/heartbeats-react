@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import styles from './Likes.module.css';
-
+import axios from '../../axios';
 import Playlist from '../Playlist/Playlist';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const Likes = () => {
     let likesArray;
@@ -45,4 +44,4 @@ const Likes = () => {
         todo: 'PLAY_NEXT'
     }]} /> );
 }
-export default Likes;
+export default ErrorBoundary(Likes);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 import {authStorageExist} from '../commonActions';
 
 export const setNewSong = (play) => {
@@ -46,7 +46,7 @@ export const setNewSong = (play) => {
             }
         })
         .catch(err => {
-            console.log(err.response);
+            console.log(err);
         });
     }
 }
@@ -54,6 +54,13 @@ export const setFetchingSong = (fetching) => {
     return {
         type: "SET_FETCHING_SONG", 
         fetching: fetching
+    }
+}
+
+export const pushError = (err) => {
+    return {
+        type: "SET_ERROR", 
+        error: err,
     }
 }
 
@@ -72,7 +79,7 @@ export const setTrack = (play) => {
 
 export const playNext = (id) => {
     return (dispatch, getState) => {
-        if(getState().currentPlaylist[getState().currentIndex + 1] == id) return;
+        if(getState().playingFromUploads || getState().currentSong.id == id ||getState().currentPlaylist[getState().currentIndex + 1] == id) return;
         const playlist = [...getState().currentPlaylist];
         playlist.splice(getState().currentIndex + 1, 0, id);
 

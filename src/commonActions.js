@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios from './axios';
 import $ from 'jquery';
+import {pushError} from './store/actions';
 
 export const randomNum = (min, max) => {
 	min = Math.ceil(min);
@@ -9,76 +10,41 @@ export const randomNum = (min, max) => {
 
 export const changeLike = (songId, isLiked) => {
 	return new Promise(resolve => {
-		if (authStorageExist()) {
-			const userId = localStorage.getItem("userId");
-			const requestMethod = (isLiked ? "DELETE": "POST");
-			const requestUrl = (requestMethod === "POST" ? "users/"+userId+"/likes": "users/"+userId+"/likes/"+songId);
-			const requestBody = (requestMethod === "POST" ? JSON.stringify({
-				songId: songId
-			}) : "")
-			axios({
-				method: requestMethod,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				url: requestUrl,
-				data: requestBody
-			})
-			.then(res => {
-				if(res.status === 200 || res.status === 201) {
-					const likeEvent = new CustomEvent('like', {
-						detail: {
-							id: songId,
-							like: requestMethod.toLocaleLowerCase() === 'post'
-						}
-					});
-					window.dispatchEvent(likeEvent);
-					resolve({
-						error: false,
-						status: res.status,
-						change: true,
+		const userId = localStorage.getItem("userId");
+		const requestMethod = (isLiked ? "DELETE": "POST");
+		const requestUrl = (requestMethod === "POST" ? "users/"+userId+"/likes": "users/"+userId+"/likes/"+songId);
+		const requestBody = (requestMethod === "POST" ? JSON.stringify({
+			songId: songId
+		}) : "")
+		axios({
+			method: requestMethod,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			url: requestUrl,
+			data: requestBody
+		})
+		.then(res => {
+			console.log(res);
+			if(res.status === 200 || res.status === 201) {
+				const likeEvent = new CustomEvent('like', {
+					detail: {
+						id: songId,
 						like: requestMethod.toLocaleLowerCase() === 'post'
-					});
-				}
-				else if(res.status === 401) {
-					resolve({
-						error: true,
-						status: res.status,
-						msg: 'Please Login Or Register To Like A Song',
-						change: false,
-						like: isLiked
-					});
-				}
-			})
-			.catch(err => { 
-				console.log(err)
-				if(err.response.status === 401) {
-					resolve({
-						error: true,
-						status: err.response.status,
-						msg: 'Please Login Or Register To Like A Song',
-						change: false,
-						like: isLiked
-					});
-				}
+					}
+				});
+				window.dispatchEvent(likeEvent);
 				resolve({
-					error: true,
-					status: err.response.status,
-					msg: 'Something Went Wrong, Please Try Again Later',
-					change: false,
-					like: isLiked
-				})
-			});
-		}
-		else {
-			resolve({
-				error: true,
-				status: 401,
-				msg: 'Please Login Or Register To Like A Song',
-				change: false,
-				like: isLiked
-			});	
-		}
+					error: false,
+					status: res.status,
+					change: true,
+					like: requestMethod.toLocaleLowerCase() === 'post'
+				});
+			}
+		})
+		.catch(err => { 
+			console.log(err)
+		});
 	});
 }
 

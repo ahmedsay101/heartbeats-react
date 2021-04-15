@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import {useHistory} from 'react-router-dom';
 import styles from './EditProfile.module.css';
-
 import Button from '../../components/Button/Button';
-
 import { checkValidity } from '../../commonActions';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const EditProfile = props => {
-    let changed = false;
     const history = useHistory();
 
     const firstNameValidation = {
@@ -44,7 +42,6 @@ const EditProfile = props => {
     }, []);
 
     const changeHandler = (event, validation, setState) => {
-        changed = true;
         setState({
             value: event.target.value,
             error: !checkValidity(event.target.value, validation).isValid,
@@ -54,7 +51,7 @@ const EditProfile = props => {
     }
 
     const submit = () => {
-        if(!firstName.error && !lastName.error && !email.error && changed) {
+        if(!firstName.error && !lastName.error && !email.error ) {
             const jsonData = JSON.stringify({
                 firstName: firstName.value,
                 lastName: lastName.value,
@@ -70,11 +67,17 @@ const EditProfile = props => {
                 url: `users/${localStorage.getItem('userId')}`,
                 data: jsonData
             }).then(res => {
+                console.log(res);
                 setSubmitting(false);
                 if(res.status === 200) {
 					const updateEvent = new CustomEvent('userShouldUpdate');
 					window.dispatchEvent(updateEvent);
-                    history.push('/profile');
+                    history.push({
+                        pathname: '/profile',
+                        state: {
+                            comingFrom: '/profile/edit'
+                        }
+                    });
                 }
             }).catch(err => {
                 setSubmitting(false);
@@ -133,4 +136,4 @@ const EditProfile = props => {
     }
 }
 
-export default EditProfile;
+export default ErrorBoundary(EditProfile);

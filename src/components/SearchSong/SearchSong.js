@@ -1,18 +1,15 @@
 import React, {useState, useRef, useEffect} from 'react';
 import styles from './SearchSong.module.css';
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
-
 import play from "../../assets/dark-play.svg";
 import pause from "../../assets/dark-pause.svg";
 import like from '../../assets/dark-like.svg';
 import liked from '../../assets/dark-liked.svg';
 import optionsIcon from '../../assets/dark-options.svg';
 import Button from '../Button/Button';
-
 import {setNewSong, playNext} from '../../store/actions';
-import { changeLike, calculateOptionsPosition } from '../../commonActions';
+import { changeLike, calculateOptionsPosition, authStorageExist } from '../../commonActions';
 import Options from '../Options/Options';
 import Floating from '../../containers/Floating/Floating';
 import AddToPlaylist from '../AddToPlaylist/AddToPlaylist';
@@ -36,6 +33,10 @@ function SearchSong(props) {
     }, []);
 
     const likeHandler = async (songId, isLiked) => {
+        if(!authStorageExist()) {
+            setFlash('Please login or register to like a song');
+            return;
+        }
         const likePromise = await changeLike(songId, isLiked);
     }
 
@@ -49,6 +50,14 @@ function SearchSong(props) {
     }
 
     const playNextHandler = () => {
+        if(props.playingFromUploads) {
+            setFlash("Sorry, Can't play next while you're listening to your uploads playlist");
+            return;
+        }
+        if(current) {
+            setFlash("Already playing");
+            return;
+        }
         props.playNext(props.songData.id);
         setFlash("Will Play Next");
     }

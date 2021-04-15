@@ -2,13 +2,11 @@ import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styles from './PlaylistHeader.module.css';
-
 import more from '../../assets/more.svg';
 import playIcon from '../../assets/play.svg';
 import pause from '../../assets/pause.svg';
 import playlistDetails from '../../assets/playlistDetails.svg';
 import playlist from '../../assets/playlist.svg';
-
 import { setNewSong } from '../../store/actions';
 import { calculateOptionsPosition, deletePlaylist } from '../../commonActions';
 import Options from '../Options/Options';

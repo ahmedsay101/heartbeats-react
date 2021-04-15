@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './UserStatus.module.css';
 import avatar from '../../assets/default-user.svg';
 import arrowDown from '../../assets/arrowDown.svg';
@@ -8,7 +8,8 @@ import Spinner from '../Spinner/Spinner';
 import {authFailed, authStorageExist, calculateOptionsPosition, logout} from '../../commonActions';
 import Options from '../Options/Options';
 
-function UserStatus(props) {
+const UserStatus = props => {
+    const history = useHistory();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -47,6 +48,26 @@ function UserStatus(props) {
     }, []);
 
     const userOptions = [{
+        text: 'Your profile', 
+        todo: () => history.push('/profile')
+    },
+    {
+        text: 'Edit your information', 
+        todo: () => history.push('/profile/edit')
+    },
+    {
+        text: 'Your playlists', 
+        todo: () => history.push('/playlists')
+    },
+    {
+        text: 'Your likes', 
+        todo: () => history.push('/likes')
+    },
+    {
+        text: 'Your uploads', 
+        todo: () => history.push('/uploads')
+    },
+    {
         text: 'Logout', 
         todo: logout
     }];

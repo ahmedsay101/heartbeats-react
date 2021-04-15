@@ -9,7 +9,6 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import AudioOptions from '../../components/AudioOptions/AudioOptions';
 import VolumeBar from '../../components/VolumeBar/VolumeBar';
 import Queue from '../Queue/Queue';
-
 import { randomNum, changeLike, authStorageExist } from '../../commonActions';
 import { setNewSong } from '../../store/actions';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
@@ -265,6 +264,8 @@ class AudioPlayer extends Component {
                     uploads: false
                 });
             }
+        }).catch(err => {
+            this.setState({loading: false});
         });
     }
 
@@ -473,7 +474,9 @@ class AudioPlayer extends Component {
             volumeBarHeight: vol * $(this.volumeBar.current).height() + "px",
             mute: (vol == 0 ? true : false)
         });
-        this.audio.current.volume = vol;
+        if(this.audio && this.audio.current) {
+            this.audio.current.volume = vol; 
+        }
         localStorage.setItem("volume", vol);
     }
 
@@ -564,6 +567,7 @@ class AudioPlayer extends Component {
                     isLiked={this.state.isLiked}
                     queueButtonRef={this.queueButton}
                     volumeButtonRef={this.volumeButton}
+                    authenticated={authStorageExist}
                     />
                     <VolumeBar
                     mouseDown={this.onVolumeBarMouseDown}
@@ -598,5 +602,5 @@ const mapDispatchToProps = dispatch => {
         changeLike: (like) => dispatch({type: "CHANGE_LIKE", like: like}),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(AudioPlayer, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(AudioPlayer));
 

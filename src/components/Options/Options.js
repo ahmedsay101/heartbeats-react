@@ -23,12 +23,16 @@ const Options = props => {
         });
     }, []);
 
-    let options = null;
+    const clickHandler = todo => {
+        todo();
+        props.destroy();
+    }
 
+    let options = null;
     if(props.options) {
         options = props.options.map(option => {
             return (  
-                <button key={option.text} className={styles.option} onClick={option.todo}>{option.text}</button> 
+                <button key={option.text} className={styles.option} onClick={() => clickHandler(option.todo)}>{option.text}</button> 
             );
         });
     }

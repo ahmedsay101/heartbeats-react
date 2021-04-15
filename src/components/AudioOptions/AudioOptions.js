@@ -26,9 +26,9 @@ function AudioOptions(props) {
                 <Button shape="audioOptions" click={props.onVolume} forwardedRef={props.volumeButtonRef}>
                     {volumeIcon}
                 </Button>
-                <Button shape="audioOptions" click={props.onLike}>
+                {( props.authenticated() ? <Button shape="audioOptions" click={props.onLike}>
                     <img className={styles.optionIcon} src={(props.isLiked ? liked : like)}/>
-                </Button>
+                </Button> : null )}
                 <Button shape="audioOptions" click={props.onQueue} forwardedRef={props.queueButtonRef}>
                     <img className={styles.optionIcon} src={playlist}/>
                 </Button>

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import styles from './Home.module.css';
-
 import Slider from '../Slider/Slider';
 import Spinner from '../../components/Spinner/Spinner';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 class Home extends Component {
@@ -21,7 +21,8 @@ class Home extends Component {
                     loading: false
                 });
             } 
-        });
+        })
+        .catch(err => this.setState({loading: false}));
     }
     render() {
         let playlists = null;
@@ -55,4 +56,4 @@ class Home extends Component {
         );
     }
 }
-export default Home;
+export default ErrorBoundary(Home);
