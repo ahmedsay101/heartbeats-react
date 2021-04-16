@@ -39,3 +39,27 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
+.mobSearchResults {
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: #eee;
+    position: fixed;
+    top: 60px;
+    left: 0px;
+    z-index: 999999;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.mobSearchResults::-webkit-scrollbar {
+    width: 7px;
+}
+.mobSearchResults::-webkit-scrollbar-track {
+    background: #999999;
+}
+.mobSearchResults::-webkit-scrollbar-thumb {
+    background: #777777;
+    border-radius: 5px;
+}
+.mobSearchResults::-webkit-scrollbar-thumb:hover {
+    background: #777777;
+}

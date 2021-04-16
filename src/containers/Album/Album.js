@@ -103,15 +103,13 @@ class Album extends Component {
                     text: 'Play next',
                     todo: 'PLAY_NEXT'
                 }]}/>
-                <Slider itemLength="3" itemType="album" title={`Other Albums By ${this.state.albumData.artistName}`} items={this.state.otherAlbums} /> 
+                <Slider itemType="album" title={`Other Albums By ${this.state.albumData.artistName}`} items={this.state.otherAlbums} /> 
             </React.Fragment>;        
         }
 
         return (
-            <div className={"mainContentContainer"}>
-                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                    {content}
-                </div>
+            <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                {content}
             </div>
         );
     }

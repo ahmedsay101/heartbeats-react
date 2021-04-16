@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import styles from './SearchResults.module.css';
 import SearchSong from '../SearchSong/SearchSong';
 import SearchArtist from '../SearchArtist/SearchArtist';
@@ -6,6 +6,14 @@ import SearchArtist from '../SearchArtist/SearchArtist';
 function SearchResults(props) {
     let searchResults;
     const container = useRef(null);
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setWindowWidth(window.innerWidth);
+        });
+    }, []);
 
     if(props.searchResults.length === 0) {
         searchResults = <div className={"result flexCenter"+ " " + styles.noHover}>No Results Found</div>;
@@ -24,11 +32,19 @@ function SearchResults(props) {
             }
         });
     }
-    return (
-        <div className={styles.searchResults + " " + (!props.shouldResultsAppear ? styles.hide : "")} ref={container}>
-            {searchResults}
-        </div>
 
-    );
+    let content;
+
+    if(windowWidth >= 800) {
+        content = <div className={styles.searchResults + " " + (!props.shouldResultsAppear ? styles.hide : "")} ref={container}>
+                    {searchResults}
+                </div>;
+    }
+    else if (windowWidth < 800) {
+        content = <div className={styles.mobSearchResults} style={{display: props.shouldResultsAppear ? 'flex' : 'none'}}>
+                    {searchResults}
+                </div>;
+    }
+    return (content);
 }
 export default SearchResults;

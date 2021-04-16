@@ -100,7 +100,7 @@ const Uploads = props => {
                     />
                 </div>
             </div>
-            <div className={styles.content}>
+            <div className={styles.content} style={{minWidth: !loading && songs === null ? '200px' : 'auto'}}>
                 {content}
             </div>
         </div>

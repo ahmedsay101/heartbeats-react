@@ -87,7 +87,7 @@ const UserStatus = props => {
         <div className={styles.justFlex}>
             <Link to="/profile" className={`${styles.justFlex} link`}>
             <img src={userData.imgUrl} className={styles.userImg}/>
-            <span className={styles.userText}>{userData.firstName +" "+ userData.lastName}</span>
+            <span className={styles.userText}>{window.innerWidth >= 600 ? userData.firstName+" "+ userData.lastName : userData.firstName.charAt(0)+""+userData.lastName.charAt(0)}</span>
             </Link>
             <button className={styles.imgHolder} ref={optionsBtn} onClick={optionsClickHandler}><img src={arrowDown} className={styles.arrow} /></button>
         </div>

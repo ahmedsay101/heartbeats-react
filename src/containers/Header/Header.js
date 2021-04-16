@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import styles from './Header.module.css';
-
 import SearchBar from '../../components/SearchBar/SearchBar';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import UserStatus from '../../components/UserStatus/UserStatus';
-
+import menu from "../../assets/menu.svg";
 import logo from '../../assets/widelogo.svg';
+import lightSearch from '../../assets/lightSearch.svg';
 
 class Header extends Component {
     constructor(props) {
@@ -18,7 +19,9 @@ class Header extends Component {
     state = {
         searchResults: [],
         shouldResultsAppear: false,
-        searching: false
+        searching: false,
+        mobShow: false,
+        windowWidth: window.innerWidth
     }
 
     componentDidMount() {
@@ -30,6 +33,9 @@ class Header extends Component {
             }
         });
         window.addEventListener('like', this.onLikeHandler);
+        window.addEventListener('resize', () => {
+            this.setState({windowWidth: window.innerWidth});
+        });
     }
 
     onLikeHandler = e => {
@@ -93,7 +99,10 @@ class Header extends Component {
     render() {
         return (
             <div className={styles.header}>
-                <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
+                <div className={styles.logoSec}>
+                    <button className={styles.menuButton} onClick={() => this.props.setShow(!this.props.show)}><img src={menu} className={styles.bars} /></button>
+                    <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
+                </div>
                 <div className={styles.middle}>
                     <div className={styles.glSearch} ref={this.searchContainer}>
 
@@ -101,7 +110,16 @@ class Header extends Component {
                         shouldResultsAppear={this.state.shouldResultsAppear} 
                         searching={this.searching} 
                         keyup={this.onSearch} 
-                        focus={this.resultsAppear}/>
+                        focus={this.resultsAppear}
+                        onCancel={() => this.setState({
+                            shouldResultsAppear: false,
+                            mobShow: false
+                        })}
+                        show={this.state.mobShow} />
+                        {( this.state.windowWidth < 800 ? <div className={styles.searchBtnContainer}>
+                        <button className={styles.mobSearchButton} onClick={() => this.setState({mobShow: true})}>
+                            <img src={lightSearch} className={styles.searchIcon} />
+                        </button></div> : null )}
 
                         <SearchResults shouldResultsAppear={this.state.shouldResultsAppear} searchResults={this.state.searchResults} />
 
@@ -113,4 +131,14 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        show: state.showMenu
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        setShow: (show) => dispatch({type: 'SHOW_MENU', show: show})
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

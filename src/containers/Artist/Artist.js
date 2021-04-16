@@ -81,7 +81,7 @@ class Artist extends Component {
         else {
             content = <React.Fragment>
                 <ArtistHeader artistData={this.state.artistData} songIds={this.state.songIds} albumsLength={this.state.albums.length} />
-                <Slider itemLength="3" itemType="album" title="Albums" items={this.state.albums} /> 
+                <Slider itemType="album" title="Albums" items={this.state.albums} /> 
                 <Playlist title="Popular Songs" songsArray={this.state.songsArray} options={[{
                     text: 'Add to playlist',
                     todo: 'ADD_TO_PLAYLIST'
@@ -94,10 +94,8 @@ class Artist extends Component {
         }
 
         return (
-            <div className={"mainContentContainer"}>
-                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                    {content}
-                </div>
+            <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                {content}
             </div>
         );
     }

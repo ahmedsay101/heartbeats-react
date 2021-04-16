@@ -11,24 +11,42 @@
     justify-content: space-between;
     align-items: center;
 }
-.logoContainer {
+.logoSec {
     width: 240px;
+    height: 100%;
+    padding: 0px 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.logoContainer {
+    width: 120px;
     height: 100%;
     display: flex;
     justify-content: flex-start;
-    padding: 0px 25px;
     align-items: center;
     text-decoration: none;
 }
 .logo {
-    width: 120px;
+    width: auto;
     height: auto;
+    max-width: 100%;
+}
+.menuButton {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+}
+.bars {
+    width: 20px;
+    height: 20px;
+    margin-right: 25px;
 }
 .middle {
     flex: 1;
     height: 100%;
-    margin: 0px 40px;
-    padding: 10px 20px;
+    margin: 0px 20px;
+    padding: 10px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,6 +59,32 @@
    display: flex;
    flex-direction: column;
 }
+.mobSearchButton {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+.mobSearchButton:active {
+    background-color: #999999;
+}
+.mobSearchButton .searchIcon {
+    width: 20px;
+    height: 20px;
+}
+.searchBtnContainer {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 
 
 

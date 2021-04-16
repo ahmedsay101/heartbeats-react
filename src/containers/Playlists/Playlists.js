@@ -102,7 +102,7 @@ const Playlists = props => {
                     <span className={styles.mainText}>Your Playlists</span>
                     <button className={styles.button} onClick={(o) => openCreate(!open)}>Create Playlist</button>
                 </div>
-                <div className={styles.content}>
+                <div className={styles.content} style={{minWidth: !loading && playlists === null ? '200px' : 'auto'}}>
                     {content}
                 </div>
             </div>

@@ -11,7 +11,8 @@ const iniState = {
     shuffle: false,
     flashMessage: null,
     fetchingSongError: null,
-    error: null
+    error: null,
+    showMenu: window.innerWidth >= 1250 ? true : false
 }
 
 const reducer = (state = iniState, action) => {
@@ -70,6 +71,11 @@ const reducer = (state = iniState, action) => {
             return {
                 ...state,
                 error: action.error
+            }
+        case "SHOW_MENU": 
+            return {
+                ...state,
+                showMenu: action.show
             }
         default: 
             return state;

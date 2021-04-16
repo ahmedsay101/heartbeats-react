@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import axios from '../../axios';
+import { connect } from 'react-redux';
 import styles from './Home.module.css';
 import Slider from '../Slider/Slider';
 import Spinner from '../../components/Spinner/Spinner';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
-
 class Home extends Component {
     state = {
         loading: true,
         playlists: [],
-        newAlbums: []
+        newAlbums: [],
     }
     componentDidMount() {
         Promise.all([axios({ method: "GET", url: "playlists"}), axios({ method: "GET", url: "albums"})]).then(response => {
@@ -30,7 +30,7 @@ class Home extends Component {
             const restPlaylists = this.state.playlists.filter((_, i) => i !== 0);
             playlists = restPlaylists.map(playlist => {
                 return (
-                    <Slider key={Math.random()*11} itemLength="5" itemType="song" title={playlist.name} items={playlist.songs} playlist={playlist.songIds} />
+                    <Slider key={Math.random()*11} itemType="song" title={playlist.name} items={playlist.songs} playlist={playlist.songIds} />
                 );
             });
         }
@@ -41,17 +41,15 @@ class Home extends Component {
         }
         else {
             content =<React.Fragment>
-                        <Slider itemLength="5" itemType="song" title={this.state.playlists[0].name} items={this.state.playlists[0].songs} playlist={this.state.playlists[0].songIds}/>
-                        <Slider itemLength="3" itemType="album" title="New Albums" items={this.state.newAlbums}/>
+                        <Slider itemType="song" title={this.state.playlists[0].name} items={this.state.playlists[0].songs} playlist={this.state.playlists[0].songIds}/>
+                        <Slider itemType="album" title="New Albums" items={this.state.newAlbums}/>
                         {playlists}
                     </React.Fragment>
         }
 
         return (
-            <div className={"mainContentContainer"}>
-                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                    {content}
-                </div>
+            <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                {content}
             </div>
         );
     }

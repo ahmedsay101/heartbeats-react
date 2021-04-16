@@ -181,10 +181,8 @@ class PlaylistPage extends Component {
         return (
             <React.Fragment>
                 {(this.state.flashMsg !== null ? <Flash msg={this.state.flashMsg} destroy={() => this.setState({flashMsg: null})} /> : null )}
-                <div className={"mainContentContainer"}>
-                    <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                        {content}
-                    </div>
+                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                    {content}
                 </div>
             </React.Fragment>
         );
