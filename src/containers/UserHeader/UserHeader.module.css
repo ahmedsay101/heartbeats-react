@@ -1,6 +1,6 @@
 .header {
     width: 100%;
-    height: 140px;
+    height: 120px;
     padding: 10px 5px;
     display: flex;
     justify-content: flex-start;
@@ -11,25 +11,20 @@
 .loading {
     justify-content: center;
 }
-.userData {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
 .img {
-    width: 100px;
-    height: 100px;
+    width: 95px;
+    height: 95px;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 50%;
     margin-right: 20px;
 }
 .data {
-    width: auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     padding: 5px;
 }
 .userName {

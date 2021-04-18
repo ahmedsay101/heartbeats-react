@@ -97,3 +97,18 @@
     width: 15px;
     height: 15px;
 }
+
+@media only screen and (max-width: 800px) {
+    .queueContainer {
+        width: 80%;
+        height: 400px;
+        max-height: 80%;
+        background: #313131;
+        border-radius: 4px;
+        overflow-y: auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+    }
+}

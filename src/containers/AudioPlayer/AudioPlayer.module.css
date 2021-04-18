@@ -25,4 +25,33 @@
 .hidden {
     display: none;
 }
-
+.mobAudioPlayer {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    background-color: #383838;
+    position: fixed;
+    z-index: 1005;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+.mobAudioPlayerData {
+    width: 100%;
+    flex: 1;
+    padding: 5px;
+    background-color: #383838;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+.mobPlayIcon {
+    width: 13px;
+    height: 13px;
+}
+.mobOptionsIcon {
+    width: 17px;
+    height: 17px;
+}

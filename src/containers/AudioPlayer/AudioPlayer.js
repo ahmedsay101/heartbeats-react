@@ -9,9 +9,15 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import AudioOptions from '../../components/AudioOptions/AudioOptions';
 import VolumeBar from '../../components/VolumeBar/VolumeBar';
 import Queue from '../Queue/Queue';
-import { randomNum, changeLike, authStorageExist } from '../../commonActions';
+import { randomNum, changeLike, authStorageExist, calculateOptionsPosition } from '../../commonActions';
 import { setNewSong } from '../../store/actions';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import Button from '../../components/Button/Button';
+import Options from '../../components/Options/Options';
+import playIcon from '../../assets/play.svg';
+import pauseIcon from '../../assets/pause.svg';
+import optionsIcon from '../../assets/options.svg';
+import Floating from '../Floating/Floating';
 
 class AudioPlayer extends Component {
     constructor(props) {
@@ -23,6 +29,7 @@ class AudioPlayer extends Component {
         this.volumeButton = React.createRef();
         this.queue = React.createRef();
         this.queueButton = React.createRef();
+        this.optionsBtn = React.createRef();
     }
 
     state = {
@@ -46,7 +53,12 @@ class AudioPlayer extends Component {
         playing: null,
         currentIndex: 0,
         queueShown: false,
-        playingFromUploads: null
+        playingFromUploads: null,
+        mobOptions: false,
+        mobOptionsPosition: null,
+        mobVolumeBar: false,
+        mobQueue: false,
+        windowSize: window.innerWidth
     }
 
     componentDidMount() {
@@ -163,7 +175,7 @@ class AudioPlayer extends Component {
         });
 
         document.addEventListener('mouseover', event => {
-            if(this.volumeBarContainer && this.volumeBarContainer.current && this.volumeButton && this.volumeButton.current) {
+            if(this.volumeBarContainer && this.volumeBarContainer.current && this.volumeButton && this.volumeButton.current && window.innerWidth >= 800) {
                 if(this.volumeBarContainer.current.contains(event.target) || this.volumeButton.current.contains(event.target)) {
                     $(this.volumeBarContainer.current).css({"display": "block"});
                     this.showVolumeBar(localStorage.getItem("volume"));
@@ -208,6 +220,10 @@ class AudioPlayer extends Component {
             if(e.detail.id == this.state.currentSong.id) {
                 this.setState({isLiked: e.detail.like});
             }
+        });
+
+        window.addEventListener('resize', () => {
+            this.setState({windowSize: window.innerWidth});
         });
     }
 
@@ -445,13 +461,15 @@ class AudioPlayer extends Component {
     }
 
     showVolumeBar = () => {
-        const docTop = $(document).scrollTop();
-        const buttonTopDoc = $(this.volumeButton.current).offset().top;
-        const containerHeight = $(this.volumeBarContainer.current).height();
-        const containerTop = buttonTopDoc - docTop - containerHeight;
-        const containerLeft = $(this.volumeButton.current).offset().left;
-        $(this.volumeBarContainer.current).css({"top": containerTop + "px", "left": containerLeft -10 + "px"});
-        this.setVolume(localStorage.getItem("volume"));
+        if(this.volumeButton && this.volumeButton.current && window.innerWidth >= 800) {
+            const docTop = $(document).scrollTop();
+            const buttonTopDoc = $(this.volumeButton.current).offset().top;
+            const containerHeight = $(this.volumeBarContainer.current).height();
+            const containerTop = buttonTopDoc - docTop - containerHeight;
+            const containerLeft = $(this.volumeButton.current).offset().left;
+            $(this.volumeBarContainer.current).css({"top": containerTop + "px", "left": containerLeft -10 + "px"});
+            this.setVolume(localStorage.getItem("volume"));
+        }
     }
 
     onVolumeButtonClick = () => {
@@ -530,9 +548,80 @@ class AudioPlayer extends Component {
         this.changeProgress(e);
     }
 
+    mobOptionsOnClick = () => {
+        this.setState(prevState => ({
+            mobOptionsPosition: calculateOptionsPosition(this.optionsBtn.current, 3, true),
+            mobOptions: !prevState.mobOptions
+        }));
+    }
+
     render() {
-        return (
-            <React.Fragment>
+        if(this.state.windowSize < 800) {
+
+            const mobOptions = [{
+                text: `${this.state.isLiked ? 'Dislike' : 'Like'}`,
+                todo: this.likeHandler
+            },
+            {
+                text: 'Sound',
+                todo: () => this.setState({mobVolumeBar: true})
+            },
+            {
+                text: `Queue`,
+                todo: () => this.setState({mobQueue: true})
+            }]
+
+            return (
+                <div className={styles.mobAudioPlayer}>
+                    {(this.state.mobVolumeBar ? 
+                    <Floating open={this.state.mobVolumeBar} destroy={() => this.setState({mobVolumeBar: false})}>
+                        <VolumeBar
+                        mouseDown={this.onVolumeBarMouseDown}
+                        containerRef={this.volumeBarContainer}
+                        barRef={this.volumeBar}
+                        height={this.state.volumeBarHeight}
+                        />
+                    </Floating> : null)}
+                    {(this.state.mobQueue ? 
+                    <Floating open={this.state.mobQueue} destroy={() => this.setState({mobQueue: false})}>
+                        <Queue 
+                        queueRef={this.queue}
+                        next={this.nextSong}
+                        previous={this.previousSong}
+                        onPlay={this.playHandler}
+                        onShuffle={this.shuffleHandler}
+                        onRepeat={this.repeatHandler}
+                        repeat={this.state.repeat}
+                        shuffle={this.state.shuffle}
+                        play={this.state.playing}
+                        show={true}
+                        />
+                    </Floating> : null)}
+                    {(this.state.mobOptions ? <Options position={this.state.mobOptionsPosition} options={mobOptions} destroy={() => this.setState({mobOptions: false})} /> : null)}
+                    <audio className={styles.hidden} type="audio/mp3" ref={this.audio}/>
+                    <ProgressBar 
+                        duration={this.state.duration}
+                        currentTime={this.state.currentTime}
+                        remaining={this.state.remaining}
+                        mouseDown={this.onProgressBarMouseDown}
+                        progressBarRef={this.progressBar}
+                        width={this.state.progressBarWidth}
+                    />
+                    <div className={styles.mobAudioPlayerData}>
+                        <SongData currentSong={this.state.currentSong} loading={this.props.fetchingSong} uploads={this.state.playingFromUploads} />
+                        <Button shape="play" click={this.playHandler} spinner="buttonSpinner" loading={this.state.loading}>
+                            {(this.state.playing ? <img src={pauseIcon} className={styles.mobPlayIcon} /> :
+                            <img src={playIcon} className={styles.mobPlayIcon} /> )}
+                        </Button>
+                        <Button shape="queueOptions" click={this.mobOptionsOnClick} forwardedRef={this.optionsBtn}>
+                            <img src={optionsIcon} className={styles.mobOptionsIcon} />
+                        </Button>
+                    </div>
+                </div>
+            );
+        }
+        else if (this.state.windowSize >= 800) {
+            return (
                 <div className={styles.audioContainer}>
                     <Queue queueRef={this.queue} />
                     <audio className={styles.hidden} type="audio/mp3" ref={this.audio}/>
@@ -576,8 +665,8 @@ class AudioPlayer extends Component {
                     height={this.state.volumeBarHeight}
                     />
                 </div>
-            </React.Fragment>
-        );
+            );
+        }
     }
 }
 

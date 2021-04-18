@@ -1,10 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useRef} from 'react';
 import styles from './Options.module.css';
-import avatar from '../../assets/default-user.svg';
-import Spinner from '../Spinner/Spinner';
-import {authFailed, authStorageExist} from '../../commonActions';
+import Floating from '../../containers/Floating/Floating';
 
 const Options = props => {
     const container = useRef(null);
@@ -37,11 +33,22 @@ const Options = props => {
         });
     }
 
-    return (
-        <div className={styles.options} ref={container} style={{top: props.position.top + "px", left: props.position.left + "px"}}>
-            {options}
-        </div>
-    );
+    if(window.innerWidth >= 800) {
+        return (
+            <div className={styles.options} ref={container} style={{top: props.position.top + "px", left: props.position.left + "px"}}>
+                {options}
+            </div>
+        );
+    }
+    else if (window.innerWidth < 800) {
+        return (
+            <Floating open={true} destroy={props.destroy}>
+                <div className={styles.options} ref={container} style={{top: props.position.top + "px", left: props.position.left + "px"}}>
+                    {options}
+                </div>
+            </Floating>
+        );
+    }
 }
 
 export default Options;

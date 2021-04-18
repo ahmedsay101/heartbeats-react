@@ -161,6 +161,12 @@ export const checkValidity = (value, rules) => {
 	}
 }
 export const calculateOptionsPosition = (emitter, numOfOptions, fixed = null) => {
+	if(window.innerWidth < 800) {
+		return {
+			top: '50%',
+			left: '50%',
+		}
+	}
 	const optionHeight = 40;
 	const optionWidth = 150;
 	const optionsHeight = numOfOptions * optionHeight;

@@ -29,13 +29,13 @@ const UserHeader = props => {
         content = <Spinner shape='buttonSpinner' />;
     }
     else {
-        content = <div className={styles.userData}>
+        content = <React.Fragment>
                     <div className={styles.img} style={{backgroundImage: "url("+userData.imgUrl}} />
                     <div className={styles.data}>
                         <span className={styles.userName}>{`${userData.firstName} ${userData.lastName}`}</span>
                         <span className={styles.sec}>{`Member since ${userData.joinDate}`}</span>
                     </div>
-                </div>;
+                </React.Fragment>;
     }
     return (
         <div className={styles.header+" "+(loading ? styles.loading: "")}>

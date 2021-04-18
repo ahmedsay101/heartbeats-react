@@ -12,6 +12,9 @@ import guest from "../../assets/guest.svg";
 import resume from "../../assets/resume.svg";
 import logo from '../../assets/widelogo.svg';
 import menu from "../../assets/menu.svg";
+import pen from "../../assets/pen.svg";
+import like from "../../assets/like.svg";
+import profileIcon from "../../assets/profile.svg";
 import { isAuthenticated } from "../../commonActions";
 
 const MainMenu = props => {
@@ -64,51 +67,98 @@ const MainMenu = props => {
         }
     }
 
-    return (
-        <React.Fragment>
-            {( withModal ? <div className={styles.modal} onClick={() => props.setShow(false)} style={{display: props.show ? 'block' : 'none'}} /> : null )}
-            <div className={styles.menu} ref={container}>
-                <div className={styles.header}>
-                    <button className={styles.menuButton} onClick={() => props.setShow(!props.show)}><img src={menu} className={styles.bars} /></button>
-                    <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
+    if(props.type.toLowerCase() === 'user' && authenticated) {
+        return (
+            <React.Fragment>
+                {( withModal ? <div className={styles.modal} onClick={() => props.setShow(false)} style={{display: props.show ? 'block' : 'none'}} /> : null )}
+                <div className={styles.menu} ref={container}>
+                    <div className={styles.header}>
+                            <button className={styles.menuButton} onClick={() => props.setShow(!props.show)}><img src={menu} className={styles.bars} /></button>
+                            <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
+                    </div>
+                    <a href="http://localhost:80/heartbeats/assets/cv.docx" className={styles.menuItem}>
+                        <img src={resume} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>My Resume</span>
+                    </a>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/profile">
+                        <img src={profileIcon} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Your Profile</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/profile/edit">
+                        <img src={pen} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Edit Your Profile</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/passwords">
+                        <img src={pen} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Change Your Password</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/likes">
+                        <img src={like} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Likes</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/Uploads">
+                        <img src={upload} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Uploads</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/playlists">
+                        <img src={playlist} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Playlists</span>
+                    </NavLink>
+                    <div className={styles.footer}>
+                        Music From <a className={styles.footerLink} href="http://bensound.com"> Bensound.com</a>
+                    </div>
                 </div>
-                {(!authenticated ? <NavLink className={styles.menuItem} to={{ 
-                    pathname: '/auth', 
-                    state: { guest: true, comingFrom: '/explore' } 
-                }}>
-                    <img src={guest} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Login as guest</span>
-                </NavLink> : null)}
-                <a href="http://localhost:80/heartbeats/assets/cv.docx" className={styles.menuItem}>
-                    <img src={resume} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>My Resume</span>
-                </a>
-                <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/explore">
-                    <img src={explore} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Explore</span>
-                </NavLink>
-                <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/artists">
-                    <img src={artist} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Artists</span>
-                </NavLink>
-                <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/playlists">
-                    <img src={playlist} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Playlists</span>
-                </NavLink>
-                <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/playlists">
-                    <img src={createPlaylist} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Create playlist</span>
-                </NavLink>
-                <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/uploads">
-                    <img src={upload} className={styles.menuIcon}/>
-                    <span className={styles.menuText}>Upload your songs</span>
-                </NavLink>
-                <div className={styles.footer}>
-                    Music From <a className={styles.footerLink} href="http://bensound.com"> Bensound.com</a>
+            </React.Fragment>
+        );
+    }
+    else {
+
+        return (
+            <React.Fragment>
+                {( withModal ? <div className={styles.modal} onClick={() => props.setShow(false)} style={{display: props.show ? 'block' : 'none'}} /> : null )}
+                <div className={styles.menu} ref={container}>
+                    <div className={styles.header}>
+                        <button className={styles.menuButton} onClick={() => props.setShow(!props.show)}><img src={menu} className={styles.bars} /></button>
+                        <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
+                    </div>
+                    {(!authenticated ? <NavLink className={styles.menuItem} to={{ 
+                        pathname: '/auth', 
+                        state: { guest: true, comingFrom: '/explore' } 
+                    }}>
+                        <img src={guest} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Login as guest</span>
+                    </NavLink> : null)}
+                    <a href="http://localhost:80/heartbeats/assets/cv.docx" className={styles.menuItem}>
+                        <img src={resume} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>My Resume</span>
+                    </a>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/explore">
+                        <img src={explore} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Explore</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/artists">
+                        <img src={artist} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Artists</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/playlists">
+                        <img src={playlist} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Playlists</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/playlists">
+                        <img src={createPlaylist} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Create playlist</span>
+                    </NavLink>
+                    <NavLink className={styles.menuItem} activeStyle={{ backgroundColor: '#555' }} to="/uploads">
+                        <img src={upload} className={styles.menuIcon}/>
+                        <span className={styles.menuText}>Upload your songs</span>
+                    </NavLink>
+                    <div className={styles.footer}>
+                        Music From <a className={styles.footerLink} href="http://bensound.com"> Bensound.com</a>
+                    </div>
                 </div>
-            </div>
-        </React.Fragment>
-    );
+            </React.Fragment>
+        );
+    }
 }
 
 const mapStateToProps = state => {

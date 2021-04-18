@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import MainMenu from '../MainMenu/MainMenu';
 import Home from '../Home/Home';
 import Artists from '../Artists/Artists';
@@ -8,10 +8,16 @@ import Artist from '../Artist/Artist';
 import Album from '../Album/Album';
 import PlaylistPage from '../PlaylistPage/PlaylistPage';
 
-const Public = props => {    
+const Public = props => { 
+    useEffect(() => {
+        if(window.innerWidth < 1250) {
+            props.setShowMenu(false);
+        }
+    }, [props.location.pathname]);   
+
     return (
         <React.Fragment>
-            <MainMenu />
+            <MainMenu type='menu' />
             <div className={"mainContentContainer"} style={{paddingLeft: props.withMenu && window.innerWidth > 1250 ? '240px' : '20px'}}>
                 <Route path="/" exact render={() => (<Redirect to="/explore" />)} />
                 <Route path="/explore" exact component={Home} />

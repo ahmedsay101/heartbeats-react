@@ -22,10 +22,10 @@ function AudioControls(props) {
                 <img src={previous} className={styles.nextPrevIcon} />
             </Button>
 
-            <Button shape="play" click={props.onPlay} spinner="buttonSpinner" loading={props.loading}>
+            {( window.innerWidth >= 800 ? <Button shape="play" click={props.onPlay} spinner="buttonSpinner" loading={props.loading}>
                 {(props.play ? <img src={pause} className={styles.playPauseIcon} /> :
                     <img src={play} className={styles.playPauseIcon} /> )}
-            </Button>
+            </Button> : null )}
 
             <Button shape="next-prev" click={props.next}>
                 <img src={next} className={styles.nextPrevIcon} />

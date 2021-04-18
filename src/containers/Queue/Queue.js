@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import QueueSong from '../../components/QueueSong/QueueSong';
 import Flash from '../../components/Flash/Flash';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import AudioControls from '../../components/AudioControls/AudioControls';
 
 class Queue extends Component {
 
@@ -16,11 +17,15 @@ class Queue extends Component {
         currentSong: {},
         currentIndex: 0,
         show: false,
-        flashMsg: null
+        flashMsg: null,
+        windowSize: window.innerWidth
     }
 
     componentDidMount() {
         this.populate(this.props);
+        window.addEventListener('resize', () => {
+            this.setState({windowSize: window.innerWidth});
+        });
     }
 
     componentWillReceiveProps(props) {
@@ -121,7 +126,20 @@ class Queue extends Component {
                 <div 
                 className={styles.queueContainer+" "+(!this.props.show ? styles.hide : "")+" "+(this.state.loading ? styles.flexCenter : styles.flexStart)} 
                 ref={this.props.queueRef}
-                >{content}</div>
+                >
+                {(this.state.windowSize < 800 ?
+                <AudioControls 
+                onPlay={this.props.onPlay}
+                onShuffle={this.props.onShuffle}
+                onRepeat={this.props.onRepeat}
+                repeat={this.props.repeat}
+                shuffle={this.props.shuffle}
+                play={this.props.play}
+                next={this.props.next}
+                previous={this.props.previous}
+                /> : null)}
+                {content}
+                </div>
             </React.Fragment>
         );
     }
