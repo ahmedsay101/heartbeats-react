@@ -25,7 +25,6 @@ const MainMenu = props => {
     useEffect(() => {
         authenticate(); 
         window.addEventListener('resize', () => {
-            console.log(window.innerWidth);
             if(window.innerWidth < 1250) {
                 props.setShow(false);
                 setWithModal(true);

@@ -111,7 +111,6 @@ class PlaylistPage extends Component {
             
         })
         .catch(err => {
-            console.log(err.response);
             if(err.response.status === 404) {
                 this.props.history.push('/notFound');
             }
@@ -134,7 +133,6 @@ class PlaylistPage extends Component {
             url: `playlists/${this.state.playlistData.id}`,
             data: data
         }).then(res => {
-            console.log(res);
             if(res.status === 200) {
                 this.setState({flashMsg: "A Song is deleted from the playlist!"});
                 const newSongs = this.state.songs.filter(item => item.id != id);

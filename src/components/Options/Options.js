@@ -8,7 +8,9 @@ const Options = props => {
     useEffect(() => {
 
         window.addEventListener('scroll', () => { 
-            props.destroy();
+            if(window.innerWidth > 600) {
+                props.destroy();
+            }
         });
         document.addEventListener('click', e => {
             if(container && container.current) {

@@ -61,3 +61,53 @@
     font-size: 11px;
     font-weight: 500;
 }
+.mobContainer {
+    height: auto;
+    padding: 5px;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+.mobImg {
+    height: 150px;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    margin-bottom: 10px;
+}
+.mobName {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+    .songData {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 0px;
+    }
+    .songName {
+        color: #eee;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 3px 0px;
+    }
+    .artistName {
+        color: #dadada;
+        font-size: 9px;
+        font-weight: 500;
+    }
+    .playIcon {
+        width: 9px; 
+        height: 9px;
+        margin: 0px 7px;
+    }
+}

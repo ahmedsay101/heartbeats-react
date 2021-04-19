@@ -14,7 +14,6 @@ const Profile = props => {
     const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
-        console.log(props);
         if(props.location.state) {
             if(props.location.state.comingFrom === '/profile/edit') {
                 setFlash('Your data has changed');
@@ -28,7 +27,6 @@ const Profile = props => {
             axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`})
         ]
         Promise.all(promises).then(res => {
-            console.log(res[0]);
             if(res[0].status === 200 && res[1].status === 200 || res[1].status === 204) {
                 const recentlyPlayedWithoutUploads = res[0].data.data.songs.filter(song => !song.fromUploads);
                 setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));

@@ -35,7 +35,6 @@ class Slider extends Component {
     }
 
     componentDidMount() {
-        console.log(window.innerWidth);
         if(this.container && this.container.current && this.element && this.element.current) {
             this.calculate();
         }
@@ -58,9 +57,9 @@ class Slider extends Component {
                 }
             }
         });
-        document.addEventListener("mousedown", (e) => this.mouseDownHandler(e));
-        document.addEventListener("mousemove", (e) => this.mouseMove(e));
-        document.addEventListener("mouseup", () => this.mouseUp());
+        document.addEventListener("mousedown touchstart", (e) => this.mouseDownHandler(e));
+        document.addEventListener("mousemove touchmove", (e) => this.mouseMove(e));
+        document.addEventListener("mouseup touchend", () => this.mouseUp());
         window.addEventListener('resize', () => {
             this.calculate();
         });
@@ -80,7 +79,6 @@ class Slider extends Component {
     }
 
     calculate = () => {
-        console.log($(this.container.current).width());
         let numOfItems;
         switch(this.props.itemType.toLowerCase()) {
             case 'song': 
@@ -143,11 +141,9 @@ class Slider extends Component {
 
     moveLeft = () => {
         if(!this.start) return;
-        console.log(this.state.isSlider);
         const currentLeft = parseInt($(this.element.current).css('left'));
         const currentRight = parseInt($(this.element.current).css('right'));
         let movement = this.state.containerWidth;
-        console.log(movement);
 
         if (currentRight > -this.state.containerWidth && currentRight < 0) {
             movement = -currentRight;

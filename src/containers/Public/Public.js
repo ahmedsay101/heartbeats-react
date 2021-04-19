@@ -18,7 +18,7 @@ const Public = props => {
     return (
         <React.Fragment>
             <MainMenu type='menu' />
-            <div className={"mainContentContainer"} style={{paddingLeft: props.withMenu && window.innerWidth > 1250 ? '240px' : '20px'}}>
+            <div className={"mainContentContainer"} style={{paddingLeft: props.withMenu && window.innerWidth > 1250 ? '240px' : window.innerWidth <= 600 ? '0px' : '20px'}}>
                 <Route path="/" exact render={() => (<Redirect to="/explore" />)} />
                 <Route path="/explore" exact component={Home} />
                 <Route path="/artists" exact component={Artists} />

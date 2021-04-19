@@ -114,3 +114,73 @@
 .artistLink:hover {
     text-decoration: underline;
 }
+
+@media only screen and (max-width: 600px) {
+    .img {
+        width: 130px;
+        height: 130px;
+        border-radius: 5px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+    .play {
+        width: 13px;
+        height: 13px;
+        margin: 0px 15px;
+        cursor: pointer;
+    }
+    .options {
+        width: 100%;
+        height: 40px;
+        padding: 10px 5px 5px 5px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .shuffleBtn {
+        width: 100px;
+        height: 100%;
+        display: flex;
+        border-radius: 5px;
+        justify-content: center;
+        align-items: center;
+        color: #eee;
+        font-size: 15px;
+        font-weight: 500;
+        background-color: #ff8080;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    .shuffleBtn:hover {
+        background-color: #e27171;
+    }
+    .cantShuffle {
+        background-color: #c96363;
+        cursor: context-menu;
+    }
+    .cantShuffle:hover {
+        background-color: #c96363;
+        cursor: context-menu;
+    }
+    .optionsBtn {
+        width: 20px;
+        height: 100%;
+        border-radius: 3px;
+        background-color: #dadada;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    .optionsIcon {
+        width: 15px;
+        height: 15px;
+    }
+    .playlistIcon {
+        width: 13px;
+        height: 13px;
+    }
+    
+}

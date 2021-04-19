@@ -146,7 +146,6 @@ class Login extends Component {
     }
 
     submitHandler = (event) => {
-        console.log(this.props);
         event.preventDefault();
         this.setState({loading: true});
         const body = {};
@@ -169,7 +168,6 @@ class Login extends Component {
                 localStorage.setItem('sessId', response.data.data.session.sessId);
                 localStorage.setItem('userId', response.data.data.session.userId);
                 localStorage.setItem('accessToken', response.data.data.session.accessToken);
-                console.log(this.props);
                 if(this.props.location.state.comingFrom) {
                     this.props.history.push(this.props.location.state.comingFrom);
                 }

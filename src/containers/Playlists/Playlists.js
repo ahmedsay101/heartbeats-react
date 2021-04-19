@@ -23,13 +23,11 @@ const Playlists = props => {
             }
         }
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/playlists`}).then(response => {
-            console.log(response);
             setLoading(false);
             if(response.status === 200) {
                 setPlaylists(response.data.data);
             }
         }).catch(err => {
-            console.log(err);
             setLoading(false);
         });
     }, []);
@@ -71,7 +69,12 @@ const Playlists = props => {
         const deletePromise = await deletePlaylist(id);
         if(deletePromise) {
             const newPlaylists = playlists.filter( playlist => playlist.id != id );
-            setPlaylists(newPlaylists);
+            if(newPlaylists.length === 0) {
+                setPlaylists(null);
+            }
+            else {
+                setPlaylists(newPlaylists);
+            }
             setFlash('Your playlist is gone');
         }
     }
@@ -96,11 +99,11 @@ const Playlists = props => {
     return (
         <React.Fragment>
             {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
-            {( open ? <Floating open={open} close={openCreate}><CreatePlaylist submit={submit} loading={loading}/></Floating> : null)}
+            {( open ? <Floating open={open} destroy={() => setOpen(false)}><CreatePlaylist submit={submit} loading={loading} destroy={() => setOpen(false)} /></Floating> : null)}
             <div className={styles.playlists}>
                 <div className={styles.header}>
                     <span className={styles.mainText}>Your Playlists</span>
-                    <button className={styles.button} onClick={(o) => openCreate(!open)}>Create Playlist</button>
+                    <button className={styles.button} onClick={() => setOpen(true)}>Create Playlist</button>
                 </div>
                 <div className={styles.content} style={{minWidth: !loading && playlists === null ? '200px' : 'auto'}}>
                     {content}

@@ -115,7 +115,6 @@ class Queue extends Component {
             content = <Spinner shape="buttonSpinner" />
         }
         else if(this.state.songs.length > 0) {
-            console.log(this.state.songs);
             content = this.state.songs.map(song => (
                 <QueueSong key={Math.random() * 11} data={song} playlist={this.props.currentPlaylist} onDeleteUploaded={this.onDeleteUploaded} parent={this.props.queueRef.current} />
             ));

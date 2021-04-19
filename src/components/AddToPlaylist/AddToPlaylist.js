@@ -31,7 +31,6 @@ const AddToPlaylist = props => {
             })
             .catch(err => {
                 setLoading(false);
-                console.log(err.response);
             });
         }
         else {
@@ -59,7 +58,6 @@ const AddToPlaylist = props => {
             url: `playlists/${playlist.id}`,
             data: JSON.stringify({songIds: newPlaylist})
         }).then(res => {
-            console.log(res);
             if(res.status === 200) {
                 setFlashMsg("Done!");
                 const addEvent = new CustomEvent('addToPlaylist', {

@@ -61,3 +61,26 @@
 .link:hover {
     text-decoration: underline;
 }
+@media only screen and (max-width: 600px) {
+    .mainContainer {
+        width: 100%;
+        min-height: 100vh;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .authContainer {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background-color: #dadada;
+        margin: 0px;
+        padding: 20px;
+        border-radius: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

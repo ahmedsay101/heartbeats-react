@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axiosWithoutError from 'axios';
 import axios from '../../axios';
 import { connect } from 'react-redux';
 import styles from './ArtistHeader.module.css';
@@ -14,8 +15,7 @@ const ArtistHeader = props => {
     const [following, setFollowing] = useState(null);
 
     useEffect(() => {
-        axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`}).then(res => {
-            console.log(res);
+        axiosWithoutError({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`}).then(res => {
             if(res.data.data.map(artist => artist.id).includes(props.artistData.id)) {
                 setFollowing(true);
             }
@@ -51,7 +51,6 @@ const ArtistHeader = props => {
                 url: `users/${localStorage.getItem('userId')}/artists`,
                 data: JSON.stringify({artistId: props.artistData.id})
             }).then(res => {
-                console.log(res);
                 if(res.status === 201) {
                     setFollowing(true);
                 }
@@ -59,7 +58,6 @@ const ArtistHeader = props => {
         }
         else if(following) {
             axios({method: 'DELETE', url: `users/${localStorage.getItem('userId')}/artists/${props.artistData.id}`}).then(res => {
-                console.log(res)
                 if(res.status === 200) {
                     setFollowing(false);
                 }

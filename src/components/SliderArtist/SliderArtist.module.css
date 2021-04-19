@@ -29,3 +29,24 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+@media only screen and (max-width: 600px) {
+    .artistImg {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .artistName {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        color: #eee;
+        font-size: 15px;
+        font-weight: 500;
+    }
+}

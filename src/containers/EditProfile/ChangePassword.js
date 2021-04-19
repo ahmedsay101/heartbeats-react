@@ -59,13 +59,11 @@ const ChangePassword = props => {
                 url: `users/${localStorage.getItem('userId')}`,
                 data: jsonData
             }).then(res => {
-                console.log(res);
                 setSubmitting(false);
                 if(res.status === 200) {
                     onSuccess();
                 }
             }).catch(err => {
-                console.log(err.response);
                 setSubmitting(false);
             });
         }

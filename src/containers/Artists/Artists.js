@@ -23,9 +23,7 @@ class Artists extends Component {
                 });
             }
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(err => console.log(err));
     }
     render() {        
         let content;

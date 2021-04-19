@@ -68,9 +68,7 @@ class Artist extends Component {
                     loading: false
                 });
             }
-        }).catch(err => {
-            console.log(err);
-        });
+        }).catch(err => console.log(err));
     }
 
     render() {

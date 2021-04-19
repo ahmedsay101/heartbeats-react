@@ -49,3 +49,38 @@
     height: 10px;
     background: #212121;
 }
+
+@media only screen and (max-width: 600px) {
+    .playlist {
+        width: 100%;
+        height: auto;
+        padding: 5px;
+        margin: 10px 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    .loadingData {
+        width: 250px;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .loadingImg {
+        width: 40px;
+        height: 40px;
+        background: #212121;
+        border-radius: 3px;
+        margin-right: 10px;
+    }
+    .loadingName {
+        width: 120px;
+        height: 10px;
+        background: #212121;
+    }
+    .loadingArtist {
+        width: 100px;
+        height: 10px;
+        background: #212121;
+    }
+}

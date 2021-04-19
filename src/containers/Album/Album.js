@@ -69,13 +69,9 @@ class Album extends Component {
                         this.setState({otherAlbums: otherAlbums, loading: false});
                     }
                 })
-                .catch(err => {
-                    console.log(err);
-                })
+                .catch(err => console.log(err));
             }
-        }).catch(err => {
-            console.log(err);
-        });
+        }).catch(err => console.log(err));
     }
 
     play = () => {

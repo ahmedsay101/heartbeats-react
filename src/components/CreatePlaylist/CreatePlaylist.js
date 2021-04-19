@@ -27,6 +27,7 @@ const CreatePlaylist = props => {
     const submit = () => {
         if(!name.error) {
             props.submit(name.value);
+            props.destroy();
         }
     }
     return(

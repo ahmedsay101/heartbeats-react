@@ -35,3 +35,16 @@
     height: 100%;
     border-radius: 70px;
 }
+
+@media only screen and (max-width: 600px) {
+    .mainRow {
+        width: 100%;
+        height: auto;
+        margin-bottom: 5px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+    }
+}

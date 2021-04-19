@@ -62,11 +62,15 @@ const Uploads = props => {
             method: 'DELETE',
             url: `users/${localStorage.getItem('userId')}/uploads/${id}`
         }).then(res => {
-            console.log(res);
             if(res.status === 200) {
                 setFlash("Done!");
                 const newSongs = songs.filter(song => song.id != id);
-                setSongs(newSongs);
+                if(newSongs.length === 0) {
+                    setSongs(null);
+                }
+                else {
+                    setSongs(newSongs);
+                }
             }
         }).catch(err => console.log(err.response));
     }

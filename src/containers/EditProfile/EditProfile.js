@@ -67,7 +67,6 @@ const EditProfile = props => {
                 url: `users/${localStorage.getItem('userId')}`,
                 data: jsonData
             }).then(res => {
-                console.log(res);
                 setSubmitting(false);
                 if(res.status === 200) {
 					const updateEvent = new CustomEvent('userShouldUpdate');
@@ -81,7 +80,6 @@ const EditProfile = props => {
                 }
             }).catch(err => {
                 setSubmitting(false);
-                console.log(err.response);
             });
         }
         else {

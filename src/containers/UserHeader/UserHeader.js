@@ -14,13 +14,16 @@ const UserHeader = props => {
             setLoading(false);
         }).catch(err => {
             setLoading(false);
-            console.log(err);
         });
     }
 
     useEffect(() => {
         getData();
         window.addEventListener("userShouldUpdate", getData);
+
+        return () => {
+            window.removeEventListener("userShouldUpdate", getData);
+        }
     }, []);
 
 

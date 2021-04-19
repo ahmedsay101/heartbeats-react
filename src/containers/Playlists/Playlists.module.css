@@ -53,3 +53,47 @@
     font-weight: 500;
     padding: 100px 10px;
 }
+
+@media only screen and (max-width: 600px) {
+    .header {
+        width: 100%;
+        height: auto;
+        padding: 5px 0px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .mainText {
+        font-size: 22px;
+        color: #eee;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+    .icon {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+    }
+    .button {
+        width: 130px;
+        height: 40px;
+        color: #eee;
+        font-size: 13px;
+        font-weight: 500;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        border: 2px solid #eee;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    .noPlaylists {
+        color: #aaa;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 50px 10px;
+    }
+}

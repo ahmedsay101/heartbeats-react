@@ -58,6 +58,7 @@
     .AudioPlayerSongName {
         font-size: 13px;
         font-weight: 400;
+        margin-bottom: 0px;
         color: #eee;
     }
     .AudioPlayerArtistName {

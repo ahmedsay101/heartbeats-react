@@ -52,3 +52,31 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+@media only screen and (max-width: 600px) {
+    .mainText {
+        font-size: 22px;
+        color: #eee;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+    .icon {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+    }
+    .button {
+        width: 130px;
+        height: 40px;
+        color: #eee;
+        font-size: 13px;
+        font-weight: 500;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        border: 2px solid #eee;
+        cursor: pointer;
+    }
+}

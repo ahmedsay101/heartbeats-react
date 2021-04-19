@@ -28,7 +28,10 @@ class Header extends Component {
         document.addEventListener('mousedown', event => {
             if(this.searchContainer && this.searchContainer.current) {
                 if(!this.searchContainer.current.contains(event.target)) {
-                    this.setState({shouldResultsAppear: false});
+                    this.setState({
+                        shouldResultsAppear: false,
+                        mobShow: false
+                    });
                 }
             }
         });
@@ -73,14 +76,12 @@ class Header extends Component {
             url: "search/" + e.target.value,
         })
         .then(response => {
-            console.log(response);
             this.setState({searchResults: response.data.data,
                 shouldResultsAppear: true,
                 searching: false
             });
         })
         .catch(err => {
-            console.log(err);
             if(err.response.status === 404) {
                 this.setState({
                     searchResults: [],
