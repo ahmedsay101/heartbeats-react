@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 
-axios.defaults.baseURL = 'http://3.140.102.246/v1/';
+axios.defaults.baseURL = 'https://cors-everywhere-me.herokuapp.com/http://3.140.102.246/v1/';
 
 axios.interceptors.request.use(config => {
   if (localStorage.getItem("accessToken") !== null) {
