@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://cors-everywhere-me.herokuapp.com/http://3.140.102.246/v1/'
+    baseURL: 'https://heartbeatsproject.online/v1/'
 });
 
 instance.interceptors.request.use(config => {
