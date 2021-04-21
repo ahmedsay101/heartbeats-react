@@ -16,7 +16,7 @@ import AddToPlaylist from '../AddToPlaylist/AddToPlaylist';
 import Flash from '../Flash/Flash';
 
 
-function PlaylistSong(props) {
+const PlaylistSong = props => {
     const current = props.currentSong.id === props.data.id && !props.playingFromUploads;
     const [addToPlaylist, setAddToPlaylist] = useState(false);
     const [showOptions, setShowOptions] = useState(false);

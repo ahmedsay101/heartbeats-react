@@ -43,8 +43,12 @@ const UserStatus = props => {
     }
 
     useEffect(() => {
-        authenticate();
+        let mounted = true;
+        if(mounted) authenticate();
         window.addEventListener("userShouldUpdate", authenticate);
+        return () => {
+            window.removeEventListener("userShouldUpdate", authenticate);
+        }
     }, []);
 
     const userOptions = [{

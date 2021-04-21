@@ -17,19 +17,25 @@ const Playlists = props => {
     const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
+        let mounted = true;
         if(props.location.state) {
-            if(props.location.state.comingFromDeleted) {
+            if(props.location.state.comingFromDeleted && mounted) {
                 setFlash("Your Playlist Is Gone");
             }
         }
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/playlists`}).then(response => {
-            setLoading(false);
-            if(response.status === 200) {
-                setPlaylists(response.data.data);
+            if(mounted) { 
+                setLoading(false);
+                if(response.status === 200 ) {
+                    setPlaylists(response.data.data);
+                }
             }
         }).catch(err => {
-            setLoading(false);
+            if(mounted) setLoading(false);
         });
+        return () => {
+            mounted = false;
+        }
     }, []);
 
     const [open, setOpen] = useState(false);

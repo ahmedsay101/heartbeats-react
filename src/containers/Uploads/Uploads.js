@@ -7,12 +7,14 @@ import Spinner from '../../components/Spinner/Spinner';
 import Flash from '../../components/Flash/Flash';
 import add from '../../assets/add.svg';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import { setNewSong } from '../../store/actions';
 
 const Uploads = props => {
+    const abortController = new AbortController()
+
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [flashMsg, setFlash] = useState(null);
-
     const [songs, setSongs] = useState(null);
 
     useEffect(() => {
@@ -26,7 +28,7 @@ const Uploads = props => {
             }
         }).catch(err => {
             setLoading(false);
-        });
+        });     
     }, []);
 
     const uploadSong = (file) => {
@@ -41,6 +43,7 @@ const Uploads = props => {
             },
             data: data
         }).then(response => {
+            console.log(response);
             setUploading(false);
             if(songs === null) {
                 setSongs([response.data.data]);
@@ -51,6 +54,8 @@ const Uploads = props => {
                 setSongs(newSongs);
             }
         }).catch(err => {
+            console.log(err);
+            console.log(err.response);
             setUploading(false);
         });
     };
@@ -70,6 +75,22 @@ const Uploads = props => {
                 }
                 else {
                     setSongs(newSongs);
+                }
+                if(props.currentSong.id == id && props.playingFromUploads) {
+                    axios({
+                        method: "GET",
+                        url: "songs/random"
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if(response.status === 200) {
+                            props.setTrack({
+                                id: response.data.data.songId, 
+                                playlist: response.data.data.playlist, 
+                                play: true
+                            });
+                        }
+                    }).catch(err => console.log(err.response));
                 }
             }
         }).catch(err => console.log(err.response));
@@ -114,15 +135,14 @@ const Uploads = props => {
 
 const mapStateToProps = state => {
     return {
-        play: state.audioPlaying,
         currentSong: state.currentSong,
-        currentPlaylist: state.currentPlaylist,
         playingFromUploads: state.playingFromUploads
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play}),
+        setTrack: (data) => dispatch(setNewSong(data)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary(Uploads));

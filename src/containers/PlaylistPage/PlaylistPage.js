@@ -29,6 +29,11 @@ class PlaylistPage extends Component {
         window.addEventListener('addToPlaylist', this.onNewSong);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('like', this.onLikeHandler);
+        window.removeEventListener('addToPlaylist', this.onNewSong);
+    }
+
     onNewSong = e => {
         if(e.detail.playlistId === this.state.playlistData.id) {
             axios({method: 'GET', url: `songs/${e.detail.songId}`}).then(res => {

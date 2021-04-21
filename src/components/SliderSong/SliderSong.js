@@ -2,14 +2,12 @@ import React, {useEffect, useState} from 'react';
 import styles from './SliderSong.module.css';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-
 import play from "../../assets/play.svg";
 import pause from "../../assets/pause.svg";
-
 import { setNewSong } from '../../store/actions';
 import Button from '../Button/Button';
 
-function SliderSong(props) {
+const SliderSong = props => {
     const [windowSize, setWindowSize] = useState(window.innerWidth);
 
     useEffect(() => {

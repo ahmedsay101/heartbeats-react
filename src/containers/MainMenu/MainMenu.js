@@ -22,22 +22,28 @@ const MainMenu = props => {
     const [withModal, setWithModal] = useState(window.innerWidth < 1250);
     const container = useRef(null);
 
+    const onResize = () => {
+        if(window.innerWidth < 1250) {
+            props.setShow(false);
+            setWithModal(true);
+        }
+        else {
+            props.setShow(true);
+            setWithModal(false);
+        }
+    }
+
     useEffect(() => {
         authenticate(); 
-        window.addEventListener('resize', () => {
-            if(window.innerWidth < 1250) {
-                props.setShow(false);
-                setWithModal(true);
-            }
-            else {
-                props.setShow(true);
-                setWithModal(false);
-            }
-        });
-        
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            window.removeEventListener('resize', onResize);
+        }
     }, []);
 
     useEffect(() => {
+
         if(container && container.current) {
             if(props.show) {
                 open();
@@ -75,7 +81,7 @@ const MainMenu = props => {
                             <button className={styles.menuButton} onClick={() => props.setShow(!props.show)}><img src={menu} className={styles.bars} /></button>
                             <Link className={styles.logoContainer} to="/"><img src={logo} className={styles.logo} /></Link>
                     </div>
-                    <a href="http://localhost:80/heartbeats/assets/cv.docx" className={styles.menuItem}>
+                    <a href="http://3.140.102.246//heartbeats/assets/ahmed_sayed_resume.pdf" className={styles.menuItem}>
                         <img src={resume} className={styles.menuIcon}/>
                         <span className={styles.menuText}>My Resume</span>
                     </a>
@@ -127,7 +133,7 @@ const MainMenu = props => {
                         <img src={guest} className={styles.menuIcon}/>
                         <span className={styles.menuText}>Login as guest</span>
                     </NavLink> : null)}
-                    <a href="http://localhost:80/heartbeats/assets/cv.docx" className={styles.menuItem}>
+                    <a href="http://3.140.102.246//heartbeats/assets/ahmed_sayed_resume.pdf" className={styles.menuItem}>
                         <img src={resume} className={styles.menuIcon}/>
                         <span className={styles.menuText}>My Resume</span>
                     </a>

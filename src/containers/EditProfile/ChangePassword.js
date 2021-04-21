@@ -63,6 +63,7 @@ const ChangePassword = props => {
                 if(res.status === 200) {
                     onSuccess();
                 }
+            
             }).catch(err => {
                 setSubmitting(false);
             });

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from '../../axios';
+import styles from './Likes.module.css';
 import Playlist from '../Playlist/Playlist';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
@@ -9,14 +10,25 @@ const Likes = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let mounted = true;
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/likes`}).then(res => {
+            if(res.data.data.length === 0) {
+                if(mounted) setLikes(null);
+            }
+            else {
+                if(mounted) setLikes(res.data.data);
+            }
             likesArray = res.data.data;
-            setLikes(res.data.data);
-            setLoading(false);
+            if(mounted) setLoading(false);
             window.addEventListener("like", onLike);
         }).catch(err => {
             console.log(err);
         });
+
+        return () => {
+            mounted = false;
+            window.removeEventListener("like", onLike);
+        } 
     }, []);
 
     const onLike = (e) => {
@@ -30,18 +42,30 @@ const Likes = () => {
         }
         else if(!e.detail.like) {
             const newLikes = likesArray.filter(song => song.id != e.detail.id);
-            setLikes(newLikes);
+            if(newLikes.length === 0) {
+                setLikes(null);
+            }
+            else {
+                setLikes(newLikes);
+            }
             likesArray = newLikes;
         }
     }
-     
-    return ( <Playlist title='Likes' songsArray={likes} loading={loading} options={[{
-        text: 'Add to playlist',
-        todo: 'ADD_TO_PLAYLIST'
-    },
-    {
-        text: 'Play next',
-        todo: 'PLAY_NEXT'
-    }]} /> );
+
+    if(likes === null && !loading) {
+        return (
+            <span className={styles.noLikes}>You haven't liked any songs yet</span>
+        );
+    }
+    else {
+        return ( <Playlist title='Likes' songsArray={likes} loading={loading} options={[{
+            text: 'Add to playlist',
+            todo: 'ADD_TO_PLAYLIST'
+        },
+        {
+            text: 'Play next',
+            todo: 'PLAY_NEXT'
+        }]} /> );
+    }
 }
 export default ErrorBoundary(Likes);

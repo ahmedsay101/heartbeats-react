@@ -2,25 +2,24 @@ import React, {useEffect, useState, useRef} from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import styles from './QueueSong.module.css';
-
 import Button from '../Button/Button'
-
 import like from '../../assets/like.svg';
 import liked from '../../assets/liked.svg';
 import upload from '../../assets/upload.svg';
 import optionsIcon from '../../assets/options.svg';
-
 import {setNewSong} from '../../store/actions';
-import { changeLike, calculateOptionsPosition } from '../../commonActions';
+import { authStorageExist, changeLike, calculateOptionsPosition } from '../../commonActions';
 import Options from '../Options/Options';
 import Floating from '../../containers/Floating/Floating';
 import AddToPlaylist from '../AddToPlaylist/AddToPlaylist';
+import Flash from '../Flash/Flash';
 
-function QueueSong(props) {
+const QueueSong = props => {
     const current = props.currentSong.id === props.data.id;
     const [addToPlaylist, setAddToPlaylist] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const [optionsPosition, setOptionsPosition] = useState(null);
+    const [flashMsg, setFlash] = useState(null);
     const optionsBtn = useRef(null);
 
     useEffect(() => {
@@ -46,6 +45,10 @@ function QueueSong(props) {
     }
 
     const likeHandler = async (songId, isLiked) => {
+        if(!authStorageExist()) {
+            setFlash("Please login or register, so you can like songs");
+            return;
+        }
         const likePromise = await changeLike(songId, isLiked);
     }
 
@@ -82,6 +85,7 @@ function QueueSong(props) {
     
     return (
         <React.Fragment>
+            {(flashMsg !== null ? <Flash msg={flashMsg} destroy={() => setFlash(null)} /> : null)}
             {(addToPlaylist ? <Floating open={addToPlaylist} destroy={() => setAddToPlaylist(false)}><AddToPlaylist songId={props.data.id} destroy={() => setAddToPlaylist(false)}></AddToPlaylist></Floating>: null)}
             {(showOptions ? <Options position={optionsPosition} options={options} destroy={() => setShowOptions(false)} /> : null)}
 

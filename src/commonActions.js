@@ -25,7 +25,6 @@ export const changeLike = (songId, isLiked) => {
 			data: requestBody
 		})
 		.then(res => {
-			console.log(res);
 			if(res.status === 200 || res.status === 201) {
 				const likeEvent = new CustomEvent('like', {
 					detail: {
@@ -42,9 +41,7 @@ export const changeLike = (songId, isLiked) => {
 				});
 			}
 		})
-		.catch(err => { 
-			console.log(err)
-		});
+		.catch(err => console.log(err));
 	});
 }
 
@@ -52,8 +49,6 @@ export const isAuthenticated = async () => {
 	return new Promise(resolve => {
 		if (authStorageExist()) {
 			axios({method: 'GET', url:`sessions/${localStorage.getItem('sessId')}`}).then(res => {
-				console.log(res);
-				console.log(res.data.data + " ** " + localStorage.getItem('userId'));
 				if(res.status === 200 && res.data.data == localStorage.getItem('userId')) { 
 					resolve(true);
 					const updateEvent = new CustomEvent('userShouldUpdate');
@@ -67,7 +62,6 @@ export const isAuthenticated = async () => {
 				}
 			})
 			.catch(err => {
-				console.log(err);
 				authFailed();
 				const updateEvent = new CustomEvent('userShouldUpdate');
 				window.dispatchEvent(updateEvent);
@@ -192,12 +186,10 @@ export const calculateOptionsPosition = (emitter, numOfOptions, fixed = null) =>
 export const deletePlaylist = async(id) => {
 	return new Promise(resolve => {
 		axios({method: 'DELETE', url: `playlists/${id}`}).then(res => {
-			console.log(res);
 			if(res.status === 200) {
 				resolve(true);
 			}
 		}).catch(err => {
-			console.log(err.response)
 			resolve(false);
 		});
 	});

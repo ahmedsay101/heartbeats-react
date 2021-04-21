@@ -31,14 +31,18 @@ const EditProfile = props => {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-
+        let mounted = true;
         axios({method: 'GET', url: `users/${localStorage.getItem('userId')}`}).then(res => {
-            setFirstName({value: res.data.data.firstName, error: false, errorMsg:''});
-            setLastName({value: res.data.data.lastName, error: false, errorMsg:''});
-            setEmail({value: res.data.data.email, error: false, errorMsg:''});
-            setLoading(false);
+            if(mounted) {
+                setFirstName({value: res.data.data.firstName, error: false, errorMsg:''});
+                setLastName({value: res.data.data.lastName, error: false, errorMsg:''});
+                setEmail({value: res.data.data.email, error: false, errorMsg:''});
+                setLoading(false);
+            }
         }).catch(err => console.log(err));
-
+        return () => {
+            mounted = false;
+        }
     }, []);
 
     const changeHandler = (event, validation, setState) => {

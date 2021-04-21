@@ -42,10 +42,8 @@ class Artists extends Component {
         }
 
         return (
-            <div className={"mainContentContainer"}>
-                <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
-                    <div className={styles.mainContainer+" "+(this.state.loading ? styles.loading : "")}>{content}</div>
-                </div>
+            <div className={"contentContainer"+" "+(this.state.loading ? styles.loading : "")}>
+                <div className={styles.mainContainer+" "+(this.state.loading ? styles.loading : "")}>{content}</div>
             </div>
         );
     }

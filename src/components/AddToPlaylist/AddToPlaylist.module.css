@@ -102,3 +102,14 @@
     font-weight: 400;
     padding: 0px 5px;
 }
+.noPlaylists {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    color: #aaa;
+    font-size: 15px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -6,10 +6,13 @@ function Flash(props) {
     const [shouldShow, setShow] = useState(true);
 
     useEffect(() => {
+        let mounted = true;
         setTimeout(() => {
-            setShow(false);
-            setTimeout(() => {props.destroy()}, 700); 
+            if(mounted) setShow(false);
         }, 2000);
+        return () => {
+            mounted = false;
+        }
     }, []);
     
 

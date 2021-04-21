@@ -24,6 +24,10 @@ class Artist extends Component {
         window.addEventListener('like', this.onLikeHandler);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('like', this.onLikeHandler);
+    }
+
     onLikeHandler = e => {
         if(this.state.songsArray.map(song => song.id).includes(e.detail.id)) {
             const newSongs = this.state.songsArray.map(song => {

@@ -23,9 +23,11 @@ class Queue extends Component {
 
     componentDidMount() {
         this.populate(this.props);
-        window.addEventListener('resize', () => {
-            this.setState({windowSize: window.innerWidth});
-        });
+        window.addEventListener('resize', this.onResize);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize);
     }
 
     componentWillReceiveProps(props) {
@@ -37,6 +39,10 @@ class Queue extends Component {
             this.populate(props);
         }
         this.populate(props);
+    }
+
+    onResize = () => {
+        this.setState({windowSize: window.innerWidth});
     }
 
     onDeleteUploaded = id => {

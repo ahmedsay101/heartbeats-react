@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axiosWithoutError from 'axios';
 import axios from '../../axios';
 import { connect} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,27 +16,39 @@ const AddToPlaylist = props => {
     const [flashMsg, setFlashMsg] = useState(null);
 
     useEffect(() => {
-        init();
+        let source = axiosWithoutError.CancelToken.source();
+        init(source);
+
+        return () => {
+            source.cancel();
+        }
     }, []);
 
-    const init = async() => {
+    const init = async (src) => {
 
         const authenticated = await isAuthenticated();
         if(authenticated) {
-            setUserLoggedIn(true);
-            axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/playlists`}).then(res => {
+            axiosWithoutError({
+                method: 'GET', 
+                url: `users/${localStorage.getItem('userId')}/playlists`,
+                cancelToken: src.token
+            }).then(res => {
+                setUserLoggedIn(true);
                 setLoading(false);
                 if(res.status === 200) {
-                    setPlaylists(res.data.data);
+                    if(res.data.data.length === 0) {
+                        setPlaylists(null);
+                    }
+                    else {
+                        setPlaylists(res.data.data);
+                    }
                 }
-            })
-            .catch(err => {
-                setLoading(false);
-            });
+            }).catch(err => setLoading(false));
+    
         }
-        else {
+        else {    
             setUserLoggedIn(false);
-            setLoading(false);
+            setLoading(false); 
         }
     
     }
@@ -56,7 +69,7 @@ const AddToPlaylist = props => {
             },
             method: 'PATCH', 
             url: `playlists/${playlist.id}`,
-            data: JSON.stringify({songIds: newPlaylist})
+            data: JSON.stringify({songIds: newPlaylist}),
         }).then(res => {
             if(res.status === 200) {
                 setFlashMsg("Done!");
@@ -87,6 +100,9 @@ const AddToPlaylist = props => {
     let content;
     if(loading) {
         content = <Spinner shape='buttonSpinner' />;
+    }
+    else if (!loading && playlists === null) {
+        content = <span className={styles.noPlaylists}>You don't have playlists</span>;
     }
     else if (!loading && playlists !== null && userLoggedIn){
         content = playlists.map(playlist => {

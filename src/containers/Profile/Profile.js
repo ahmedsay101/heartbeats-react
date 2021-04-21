@@ -14,12 +14,14 @@ const Profile = props => {
     const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
+        let mounted = true;
+
         if(props.location.state) {
             if(props.location.state.comingFrom === '/profile/edit') {
-                setFlash('Your data has changed');
+                if(mounted) setFlash('Your data has changed');
             }
             else if(props.location.state.comingFrom === '/passwords') {
-                setFlash('Your password is successfully reset');
+                if(mounted) setFlash('Your password is successfully reset');
             }
         }
         const promises = [
@@ -29,33 +31,43 @@ const Profile = props => {
         Promise.all(promises).then(res => {
             if(res[0].status === 200 && res[1].status === 200 || res[1].status === 204) {
                 const recentlyPlayedWithoutUploads = res[0].data.data.songs.filter(song => !song.fromUploads);
-                setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));
+                if(mounted) setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));
                 recentSongs = res[0].data.data.songs;
-                if(res[1].status === 204) setArtists(null);
-                if(res[1].status === 200) setArtists(res[1].data.data);
-                setLoading(false);
+                if(res[1].status === 204 && mounted) setArtists(null);
+                if(res[1].status === 200 && mounted) setArtists(res[1].data.data);
+                if(mounted) setLoading(false);
                 window.addEventListener('like', onLikeHandler);
             }
         }).catch(err => {
             console.log(err.response);
         });
 
+        return () => {
+            mounted = false;
+            window.removeEventListener('like', onLikeHandler);
+        }
     }, []);
 
     const onLikeHandler = e => {
-        if(recentSongs.map(song => song.id).includes(e.detail.id)) {
-            const newSongs = recentSongs.map(song => {
-                if(song.id == e.detail.id) {
+        const recentSongsWithoutUploads = recentSongs.filter(song => !song.fromUploads);
+        const recentIds = recentSongsWithoutUploads.map(item => item.song.id);
+
+        if(recentIds.includes(e.detail.id)) {
+            const newSongs = recentSongsWithoutUploads.map(item => {
+                if(item.song.id == e.detail.id) {
                     return {
-                        ...song,
-                        isLiked: e.detail.like
+                        ...item,
+                        song: {
+                            ...item.song,
+                            isLiked: e.detail.like
+                        }
                     }
                 }
                 else {
-                    return song;
+                    return item;
                 }
             });
-            setRecentlyPlayed(newSongs);
+            setRecentlyPlayed(newSongs.map(song => song.song));
             recentSongs = newSongs;
         }
     }

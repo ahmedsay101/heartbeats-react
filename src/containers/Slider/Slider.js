@@ -22,6 +22,7 @@ class Slider extends Component {
         this.start = true;
         this.animationSpeed = 250;
         this.mouseDown = false;
+        this.mounted = true;
     }
 
     state = {
@@ -35,34 +36,24 @@ class Slider extends Component {
     }
 
     componentDidMount() {
+        this.mounted = true;
         if(this.container && this.container.current && this.element && this.element.current) {
             this.calculate();
         }
-        document.addEventListener("mouseover", (e) => {
-            if(window.innerWidth < 800) return;
-            if(this.container && this.container.current && this.nextButton && this.nextButton.current && this.backButton && this.backButton.current) {
-                if(this.container.current.contains(e.target) || this.nextButton.current.contains(e.target) || this.backButton.current.contains(e.target)) {
-                    [this.nextButton.current, this.backButton.current].forEach(el => {
-                        if(this.state.isSlider) {
-                            $(el).css({"display": "flex"});
-                        }
-                    });
-                }
-                else {
-                    [this.nextButton.current, this.backButton.current].forEach(el => {
-                        if(this.state.isSlider) {
-                            $(el).css({"display": "none"});
-                        }
-                    });
-                }
-            }
-        });
-        document.addEventListener("mousedown touchstart", (e) => this.mouseDownHandler(e));
-        document.addEventListener("mousemove touchmove", (e) => this.mouseMove(e));
-        document.addEventListener("mouseup touchend", () => this.mouseUp());
-        window.addEventListener('resize', () => {
-            this.calculate();
-        });
+        document.addEventListener("mouseover", this.onMouseOver);
+        document.addEventListener("mousedown touchstart", this.mouseDownHandler);
+        document.addEventListener("mousemove touchmove", this.mouseMove);
+        document.addEventListener("mouseup touchend", this.mouseUp);
+        window.addEventListener('resize', this.calculate); 
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+        document.removeEventListener("mouseover", this.onMouseOver);
+        document.removeEventListener("mousedown touchstart", this.mouseDownHandler);
+        document.removeEventListener("mousemove touchmove", this.mouseMove);
+        document.removeEventListener("mouseup touchend", this.mouseUp);
+        window.removeEventListener('resize', this.calculate);
     }
 
     componentWillReceiveProps(props) {
@@ -137,6 +128,26 @@ class Slider extends Component {
             itemHeight: $(this.element.current).find(">:first-child").outerHeight(),
             isSlider: ($(this.element.current).children().length * $(this.container.current).width() / numOfItems) > $(this.container.current).width()
         });
+    }
+
+    onMouseOver = e => {
+        if(window.innerWidth < 800) return;
+        if(this.container && this.container.current && this.nextButton && this.nextButton.current && this.backButton && this.backButton.current) {
+            if(this.container.current.contains(e.target) || this.nextButton.current.contains(e.target) || this.backButton.current.contains(e.target)) {
+                [this.nextButton.current, this.backButton.current].forEach(el => {
+                    if(this.state.isSlider) {
+                        $(el).css({"display": "flex"});
+                    }
+                });
+            }
+            else {
+                [this.nextButton.current, this.backButton.current].forEach(el => {
+                    if(this.state.isSlider) {
+                        $(el).css({"display": "none"});
+                    }
+                });
+            }
+        }
     }
 
     moveLeft = () => {

@@ -2,18 +2,13 @@ import React, {useState, useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './UserPlaylist.module.css';
-
 import Button from '../Button/Button';
 import Options from '../Options/Options';
 import Confirmation from '../Confirmation/Confirmation';
 import Floating from '../../containers/Floating/Floating';
-
 import optionsIcon from '../../assets/options.svg';
-import playlist from '../../assets/playlist.svg';
-
 import {setNewSong} from '../../store/actions';
 import {calculateOptionsPosition} from '../../commonActions';
-import axios from 'axios';
 
 const UserPlaylist = props => {
     const history = useHistory();
@@ -85,4 +80,4 @@ const mapDispatchToProps = dispatch => {
         setPlay: (play) => dispatch({type: "SET_PLAYING", play: play})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(UserPlaylist));
+export default connect(mapStateToProps, mapDispatchToProps)(UserPlaylist);

@@ -60,14 +60,14 @@ class Login extends Component {
                             ...this.state.form.email,
                             attrs: {
                                 ...this.state.form.email.attrs, 
-                                value: 'ahmedsay@gmail.com'
+                                value: 'guest@heartbeats.com'
                             }
                         },
                         password: {
                             ...this.state.form.password,
                             attrs: {
                                 ...this.state.form.password.attrs, 
-                                value: '0100000000aA'
+                                value: '123456789'
                             }
                         }
                     }
