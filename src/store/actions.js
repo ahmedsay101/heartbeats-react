@@ -30,7 +30,10 @@ export const setNewSong = (play) => {
                     method: 'POST', 
                     url: `users/${localStorage.getItem('userId')}/plays`,
                     data: JSON.stringify({id: play.id, uploads: play.hasOwnProperty('uploads') ? play.uploads : false})
-                }).catch(err => console.log(err));
+                }).then(res => {
+                    console.log(res);
+                })
+                .catch(err => console.log(err));
             
                 if(differentPlaylist) {
                     axios({
@@ -41,7 +44,11 @@ export const setNewSong = (play) => {
                         method: 'PATCH', 
                         url: `users/${localStorage.getItem('userId')}`,
                         data: JSON.stringify({lastPlaylist: play.playlist})
-                    }).catch(err => console.log(err));
+                    })
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => console.log(err));
                 }
             }
         })

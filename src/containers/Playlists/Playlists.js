@@ -57,6 +57,7 @@ const Playlists = props => {
             url: 'playlists',
             data: data
         }).then(res => {
+            console.log(res);
             if(res.status === 201) {
                 if(playlists === null) {
                     setPlaylists([res.data.data]);

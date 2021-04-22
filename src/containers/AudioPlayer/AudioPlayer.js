@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-import axios from '../../axios';
+import axios from 'axios';
 import styles from './AudioPlayer.module.css';
 import SongData from '../../components/SongData/SongData';
 import AudioControls from '../../components/AudioControls/AudioControls';
@@ -45,7 +45,7 @@ class AudioPlayer extends Component {
         fetchingSong: true,
         newTime: 0,
         lastPlayed: [], 
-        volume: (localStorage.getItem("volume") !== null ? localStorage.getItem("volume") : 0.7),
+        volume: (localStorage.getItem("volume") !== null ? localStorage.getItem("volume") : window.innerWidth <=600 ? 1 : 0.8),
         mute: (parseFloat(localStorage.getItem("volume")) === 0 ? true : false),
         started: false,
         currentSong: {},
@@ -84,7 +84,9 @@ class AudioPlayer extends Component {
                 if(this.state.playing) {
                     this.play();
                 }
+
                 this.setVolume(this.state.volume);
+
                 this.setState({
                     loading: false,
                     duration: this.formatTime(this.getDuration()),
@@ -387,6 +389,7 @@ class AudioPlayer extends Component {
 
     likeHandler = async () => {
         if(this.state.playingFromUploads) return;
+        if(!authStorageExist()) return;
         const likePromise = await changeLike(this.state.currentSong.id, this.state.isLiked);
     }
 
@@ -558,10 +561,7 @@ class AudioPlayer extends Component {
     render() {
         if(this.state.windowSize < 800) {
 
-            const mobOptions = [{
-                text: `${this.state.isLiked ? 'Dislike' : 'Like'}`,
-                todo: this.likeHandler
-            },
+            let mobOptions = [
             {
                 text: 'Sound',
                 todo: () => this.setState({mobVolumeBar: true})
@@ -570,6 +570,13 @@ class AudioPlayer extends Component {
                 text: `Queue`,
                 todo: () => this.setState({mobQueue: true})
             }]
+
+            if(authStorageExist()) {
+                mobOptions = [{
+                    text: `${this.state.isLiked ? 'Dislike' : 'Like'}`,
+                    todo: this.likeHandler
+                }, ...mobOptions]
+            }
 
             return (
                 <div className={styles.mobAudioPlayer}>

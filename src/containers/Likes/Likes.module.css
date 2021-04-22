@@ -11,9 +11,9 @@
 @media only screen and (max-width: 600px) {
     .noLikes {
         width: 100%;
-        height: 70px;
+        height: 100px;
         color: #aaa;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 500;
         display: flex;
         justify-content: center;

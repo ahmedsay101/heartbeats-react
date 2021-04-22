@@ -14,14 +14,13 @@ const Profile = props => {
     const [flashMsg, setFlash] = useState(null);
 
     useEffect(() => {
-        let mounted = true;
 
         if(props.location.state) {
             if(props.location.state.comingFrom === '/profile/edit') {
-                if(mounted) setFlash('Your data has changed');
+                setFlash('Your data has changed');
             }
             else if(props.location.state.comingFrom === '/passwords') {
-                if(mounted) setFlash('Your password is successfully reset');
+                setFlash('Your password is successfully reset');
             }
         }
         const promises = [
@@ -29,21 +28,21 @@ const Profile = props => {
             axios({method: 'GET', url: `users/${localStorage.getItem('userId')}/artists`})
         ]
         Promise.all(promises).then(res => {
+            console.log(res);
             if(res[0].status === 200 && res[1].status === 200 || res[1].status === 204) {
                 const recentlyPlayedWithoutUploads = res[0].data.data.songs.filter(song => !song.fromUploads);
-                if(mounted) setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));
+                setRecentlyPlayed(recentlyPlayedWithoutUploads.map(song => song.song));
                 recentSongs = res[0].data.data.songs;
-                if(res[1].status === 204 && mounted) setArtists(null);
-                if(res[1].status === 200 && mounted) setArtists(res[1].data.data);
-                if(mounted) setLoading(false);
+                if(res[1].status === 204) setArtists(null);
+                if(res[1].status === 200) setArtists(res[1].data.data);
+                setLoading(false);
                 window.addEventListener('like', onLikeHandler);
             }
         }).catch(err => {
-            console.log(err.response);
+            console.log(err);
         });
 
         return () => {
-            mounted = false;
             window.removeEventListener('like', onLikeHandler);
         }
     }, []);

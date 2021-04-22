@@ -41,18 +41,18 @@ class Slider extends Component {
             this.calculate();
         }
         document.addEventListener("mouseover", this.onMouseOver);
-        document.addEventListener("mousedown touchstart", this.mouseDownHandler);
-        document.addEventListener("mousemove touchmove", this.mouseMove);
-        document.addEventListener("mouseup touchend", this.mouseUp);
+        document.addEventListener("mousedown", this.mouseDownHandler);
+        document.addEventListener("mousemove", this.mouseMove);
+        document.addEventListener("mouseup", this.mouseUp);
         window.addEventListener('resize', this.calculate); 
     }
 
     componentWillUnmount() {
         this.mounted = false;
         document.removeEventListener("mouseover", this.onMouseOver);
-        document.removeEventListener("mousedown touchstart", this.mouseDownHandler);
-        document.removeEventListener("mousemove touchmove", this.mouseMove);
-        document.removeEventListener("mouseup touchend", this.mouseUp);
+        document.removeEventListener("mousedown", this.mouseDownHandler);
+        document.removeEventListener("mousemove", this.mouseMove);
+        document.removeEventListener("mouseup", this.mouseUp);
         window.removeEventListener('resize', this.calculate);
     }
 

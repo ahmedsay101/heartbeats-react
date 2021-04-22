@@ -48,3 +48,15 @@
         position: relative;
     }
 }
+@media only screen and (max-width: 800px) {
+    .sliderContainer {
+        width: 100%;
+        position: relative;
+        overflow-x: auto;
+        -ms-overflow-style: none; 
+        scrollbar-width: none;
+    }
+    .sliderContainer::-webkit-scrollbar {
+        display: none;
+    }
+}
