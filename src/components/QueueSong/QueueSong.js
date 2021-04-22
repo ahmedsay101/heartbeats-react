@@ -92,7 +92,9 @@ const QueueSong = props => {
             <div className={styles.song} onClick={play}>
                 <div className={styles.songData}>
                     {img}
-                    <span className={styles.songName+" "+(current ? styles.playing : "")}>{props.data.name}</span>
+                    <span className={styles.songName+" "+(current ? styles.playing : "")} title={props.data.name}>
+                        {props.data.name}
+                    </span>
                 </div>
                 <Link to={`/artist/${props.data.artistId}`} className={styles.artist}>{props.data.artistName}</Link>
                 <div className={styles.options}>

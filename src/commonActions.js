@@ -1,4 +1,5 @@
 import axios from './axios';
+import noErrorAxios from 'axios';
 import $ from 'jquery';
 import {pushError} from './store/actions';
 
@@ -48,7 +49,7 @@ export const changeLike = (songId, isLiked) => {
 export const isAuthenticated = async () => {
 	return new Promise(resolve => {
 		if (authStorageExist()) {
-			axios({method: 'GET', url:`sessions/${localStorage.getItem('sessId')}`}).then(res => {
+			noErrorAxios({method: 'GET', url:`sessions/${localStorage.getItem('sessId')}`}).then(res => {
 				if(res.status === 200 && res.data.data == localStorage.getItem('userId')) { 
 					resolve(true);
 					const updateEvent = new CustomEvent('userShouldUpdate');

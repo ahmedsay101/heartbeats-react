@@ -19,8 +19,8 @@
     align-items: center;
 }
 .songImg {
-    width: 40px;
-    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 3px;
     margin-right: 10px;
     background-repeat: no-repeat;
@@ -28,6 +28,9 @@
 }
 .songName {
     flex: 1;
+    white-space: nowrap; 
+    overflow:hidden;
+    text-overflow: ellipsis;
     color: #eee;
     font-size: 14px;
     font-weight: 500;

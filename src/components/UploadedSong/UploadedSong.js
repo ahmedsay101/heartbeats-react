@@ -45,7 +45,7 @@ function UploadedSong(props) {
             <div className={styles.song} onClick={play}>
                 <div className={styles.songData}>
                     <div className={styles.songImg}><img src={upload} className={styles.up} /></div>
-                    <span className={styles.songName+" "+(current ? styles.playing : "")}>{props.data.name}</span>
+                    <span className={styles.songName+" "+(current ? styles.playing : "")} title={props.data.name}>{props.data.name}</span>
                 </div>
                 <div className={styles.options}>
                     <Button id='notClickable' shape="queueOptions" click={optionsClickHandler} forwardedRef={optionsBtn}>

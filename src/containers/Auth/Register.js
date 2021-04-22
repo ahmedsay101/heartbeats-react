@@ -165,6 +165,8 @@ class Register extends Component {
                 body[el] = this.state.form[el].attrs.value;
             }
             const jsonData = JSON.stringify(body); 
+
+            console.log(jsonData);
             axios({
                 headers: {
                     'Accept': 'application/json',
@@ -175,6 +177,7 @@ class Register extends Component {
                 data: jsonData
             })
             .then(response => {
+                console.log(response);
                 if(response.status === 201) {
                     this.setState({loading: false});
                     localStorage.setItem('sessId', response.data.data.session.sessId);
@@ -184,6 +187,7 @@ class Register extends Component {
                 }
             })
             .catch(err => {
+                console.log(err);
                 this.setState({loading: false});
             });
         }
